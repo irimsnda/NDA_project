@@ -1,0 +1,177 @@
+
+
+<div class="row" style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+  
+      <div class="col-lg-3">
+          <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+              Clinical Trial Identification Number: </label>
+      </div>
+      <div class="col-lg-2">
+          <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;"> <i> {{tracking_no}}</i></label>
+      </div>
+</div>
+
+<div class="row  div-nopadding" >
+  <!-- [navBarLocation] = 'navBarLocation' [navBarLayout] = 'navBarLayout' -->
+  <wizard [navigationMode]='strict'  navBarLayout ="large-filled-symbols" [navBarLocation]='navBarLocation'  class="col-lg-12 div-nopadding">
+    <wizard-step  navigationSymbol="1"  stepTitle="Trial Details"  class="small">
+      <div class="col-lg-12">
+        <app-trial-details [countries]="countries"  [regions]="regions" [districts]="districts" [application_id]="application_id" [ctrRegistrydetailsfrm]="ctrRegistrydetailsfrm"></app-trial-details>
+      </div>
+      <div class="col-lg-12 div-nopadding">
+        <button (click)="onClinicalDashboard()" class="btn btn-info pull-left" style="margin:5px;"
+        type="button"><i class="fa fa-dashboard"></i>
+        &nbsp; Dashboard</button>
+        <button class="btn btn-success" [disabled]="is_readonly" type="button" (click)="onSaveClinicalTrialRegistryApp()">Save Clinical Trial &nbsp;<i class="fa fa-save"></i></button>
+        <button class="btn btn-success" type="button"   [disabled]="!application_code" nextStep>Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+      
+    </wizard-step>
+    <wizard-step  navigationSymbol=".2"  stepTitle="Secondary Id(s)"  class="big" >
+    
+      <div class="col-lg-12">
+        <app-secondary-identifiers [ctrSecondaryDetailsfrm]="ctrSecondaryDetailsfrm" [application_id] ="application_id"></app-secondary-identifiers>
+      </div>
+      
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep><i class="fa fa-angle-double-left"></i>Go to previous step&nbsp;</button>
+        <button class="btn btn-success"   [disabled]="!ctrSecondaryDetailsfrm.valid" type="button" (click)="onSaveSecondaryIdentifiers()">Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+      
+    </wizard-step>
+    <wizard-step  navigationSymbol="3"  stepTitle="Study Design ">
+      <div class="col-lg-12">
+        <app-study-design [application_id] ="application_id" [ctrStudyDesingdetailsfrm]="ctrStudyDesingdetailsfrm"></app-study-design>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep><i class="fa fa-angle-double-left"></i>Go to previous step&nbsp;</button>
+        <button class="btn btn-success" type="button" [disabled]="!ctrStudyDesingdetailsfrm.valid" (click)="onSaveStudyDesign()">Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+    <wizard-step  navigationSymbol="4"  stepTitle="Interventions">
+      <div class="col-lg-12">
+        <app-interventions [application_id] ="application_id" [interventionsFrm]="interventionsFrm"></app-interventions>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" type="button" nextStep>Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+    <wizard-step  navigationSymbol="5"  stepTitle="Eligibility Criteria">
+      <div class="col-lg-12">
+        <app-eligibility-criteria [application_id] ="application_id" [ctrEligibilityCriteriaFrm]="ctrEligibilityCriteriaFrm" ></app-eligibility-criteria>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" type="button" [disabled]="!ctrEligibilityCriteriaFrm.valid" (click)="onSaveEligibilityCriteria()">Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+
+    <wizard-step  navigationSymbol="6"  stepTitle="Outcomes">
+      <div class="col-lg-12">
+        <app-outcomes [application_id] ="application_id" [outcomesFrm]="outcomesFrm"></app-outcomes>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" type="button" nextStep>Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+    <wizard-step  navigationSymbol="7"  stepTitle="Recruitment Centre ">
+      <div class="col-lg-12">
+        <app-recruitment-centres [application_id] ="application_id" [recruitmentCenterFrm]="recruitmentCenterFrm"></app-recruitment-centres>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" type="button" nextStep>Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+    <wizard-step  navigationSymbol="8"  stepTitle="Ethics Approval ">
+      <div class="col-lg-12">
+        <app-ethics-approval [application_id] ="application_id" [ethicsApprovalFrm]="ethicsApprovalFrm"></app-ethics-approval>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" type="button" nextStep>Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+    <wizard-step  navigationSymbol="9"  stepTitle="Funding Sources  ">
+      <div class="col-lg-12">
+        <app-funding-sources [application_id] ="application_id" [fundingSourceFrm]="fundingSourceFrm"></app-funding-sources>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" type="button" [disabled]="!fundingSourceFrm.valid" (click)="onSavefundingSourceFrm()">Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+    <wizard-step  navigationSymbol="10"  stepTitle="Sponsors">
+      <div class="col-lg-12">
+        <app-sponsors [application_id] ="application_id" [sponsorInvestigatorFrm]="sponsorInvestigatorFrm"  [clinicalSponsorsFrm]="clinicalSponsorsFrm"></app-sponsors>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" type="button" nextStep>Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+    <wizard-step   navigationSymbol="11"  stepTitle="Collaborators">
+      <div class="col-lg-12">
+        <app-collaborators [application_id] ="application_id" [collaboratorsFrm]="collaboratorsFrm"></app-collaborators>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" type="button"  [disabled]="!collaboratorsFrm.valid" (click)="onSaveCollaboratorsFrm()">Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+    <wizard-step   navigationSymbol="12"  stepTitle="Contact people">
+      <div class="col-lg-12">
+        <app-contact-persons [application_id] ="application_id" [contactPersonFrm]="contactPersonFrm"></app-contact-persons>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" type="button" nextStep>Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+    <wizard-step  navigationSymbol="13"  stepTitle="Clinical Trial Documentation/Reports ">
+     
+      <div class=" wizard-content">
+        <app-clinicaltriareg-documents [application_id] ="application_id" #documentComponent [section_id] ="doc_section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-clinicaltriareg-documents>
+      </div>
+    
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" type="button" nextStep>Next Step &nbsp;<i class="fa fa-angle-double-right"></i></button>
+      </div>
+    </wizard-step>
+    <wizard-step  navigationSymbol="Submission"  stepTitle="Submission ">
+      <div class="col-lg-12">
+            <form [formGroup]="onApplicationSubmissionFrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onClinicalApplicationSubmit()">
+              <div class="col-lg-12">
+                  <b><h4>Declaration</h4></b>
+                  <p> I the undersigned has/have submitted all requested and required documentation,
+                      and have disclosed all information which may influence the approval of this
+                      application.</p>
+                      <p> I hereby declare that all information contained in, or referenced by, this application
+                      is complete and accurate and is not false or misleading.</p>
+                      <p> I agree to ensure that if the above said clinical trial is approved, it will be conducted
+                      according to the submitted protocol and all applicable legal, ethical and regulatory</p>
+                      requirements.
+              </div>
+             
+              <div class="col-lg-12">
+                <b> <h4>Submission Comments(Optional)</h4></b>
+                  <dx-text-area formControlName="submission_comments" placeholder="Enter Comments(optional)"></dx-text-area>
+              </div>
+              <div class="col-lg-12">
+                <dx-check-box text="Agree to the Declaration" [readOnly]="is_readonly"   [value]="undefined" (onValueChanged)="submissionsTermscheckbox($event)">
+                </dx-check-box>
+              </div>
+    </form>
+      </div>
+      <div class="col-lg-12">
+        <button class="btn btn-success" type="button" previousStep>Go to previous step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+        <button class="btn btn-success" *ngIf="!is_readonly" [disabled]="!termscheckbox"  (click)="onClinicalApplicationSubmit()">Finish</button>
+      </div>
+      
+    </wizard-step>
+    
+  </wizard>
+</div>

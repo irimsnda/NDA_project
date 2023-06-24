@@ -1,0 +1,11 @@
+{
+    "name": "ImportExportApp",
+    "alias": "importexportapp",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ImportExportApp\\Providers\\ImportExportAppServiceProvider"
+    ],
+    "files": []
+}

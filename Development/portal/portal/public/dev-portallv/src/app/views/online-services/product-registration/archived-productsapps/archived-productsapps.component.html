@@ -1,0 +1,100 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Archived/Dismissed Product Registration Application</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item active"><a routerLink="online-services/app-dashboard">Dashboard</a></li>
+        <li class="breadcrumb-item active">Product Application</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-12  no-padding">
+  <dx-data-grid class="table row-border hover div-backwhite" (onToolbarPreparing)="onProductsesappsToolbarPreparing($event)" [columnHidingEnabled]="true" [dataSource]="dtProductApplicationData"
+  [showBorders]="true" [allowColumnResizing]="true" keyExpr="id">
+  <dxo-filter-row [visible]="false"></dxo-filter-row>
+  <dxo-load-panel [enabled]="true">
+  </dxo-load-panel>
+  <dxo-paging [enabled]="true">
+  </dxo-paging>
+  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20,50,100]" [showNavigationButtons]="true" [showInfo]="true"
+    infoText="Page #{0}. Total: {1} ({2} items)">
+  </dxo-pager>
+  <dxo-search-panel [visible]="true">
+  </dxo-search-panel>
+  <dxo-export [enabled]="true" fileName="ProductApplications" [allowExportSelectedData]="true"></dxo-export>
+
+  <dxo-selection mode="single"></dxo-selection>
+  <dxi-column [width]=100 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+    cellTemplate="cellTemplate">
+    <div *dxTemplate="let d of 'cellTemplate'">
+      <dx-menu [items]="d.data.contextMenu" displayExpr="text" orientation="horizontal" [hideSubmenuOnMouseLeave]="false"
+        (onItemClick)="prodApplicationActionColClick($event,d)" submenuDirection="rightToTop">
+      </dx-menu>
+    </div>
+  </dxi-column>
+  <dxi-column  dataField="tracking_no"></dxi-column>
+  <dxi-column  [groupIndex]="1" dataField="status"></dxi-column>
+
+  <dxi-column  dataField="reference_no"></dxi-column>
+  <dxi-column dataField="applicant_name"></dxi-column>
+  <dxi-column  dataField="section"></dxi-column>
+  <dxi-column  dataField="brand_name"></dxi-column>
+  <dxi-column  [groupIndex]="0" dataField="application_type"></dxi-column>
+  <dxi-column dataField="classification"></dxi-column>
+  <dxi-column  dataField="common_name"></dxi-column>
+  <dxi-column  [allowFiltering]="false" dataField="date_added"></dxi-column>
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+</dx-data-grid>
+
+
+  </div>
+
+  
+<dx-popup class="popup" [width]="500" [height]="450" [showTitle]="true" title="Preview Product Details"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewProductsDetails">
+<div *dxTemplate="let data of 'content'" style="background:#fff;">
+  <form role="form" class="col-lg-12" enctype="multipart/form-data" role="form" [formGroup]="frmPreviewProductsDetails">
+    <div class="row">
+        <div class="col-lg-12">
+          <label class="control-label">Tracking No</label>
+          <dx-text-box formControlName="tracking_no" readOnly=true [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Trade/Proprietary Name/</label>
+          <dx-text-box formControlName="brand_name" placeholder="Enter Brand Name" readOnly=true [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12 ">
+          <label for="ti" class="control-label">Classification</label>
+
+          <dx-text-box formControlName="classification" readOnly=true  placeholder="Classification" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+      
+        <div class="col-lg-12">
+          <label class="control-label">Application Type</label>
+
+          <dx-text-box formControlName="application_type" readOnly=true  placeholder="" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Current Status</label>
+
+          <dx-text-box formControlName="status" readOnly=true  [showClearButton]="true">
+          </dx-text-box>
+        </div>
+  </div>
+  </form>
+</div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="1050" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+      <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+  </div>
+</dx-popup>

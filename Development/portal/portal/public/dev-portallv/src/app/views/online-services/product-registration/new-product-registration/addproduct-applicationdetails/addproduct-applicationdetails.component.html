@@ -1,0 +1,277 @@
+
+        <div class="col-lg-12">
+          <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+            Tracking No: <i> {{tracking_no}}</i> </label>
+        </div>
+        <wizard navBarLayout ="large-filled-symbols" [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+          <wizard-step navigationSymbol="Step 1"  stepTitle="Product Application Details" class="wizardStep-height" *ngIf="status_id != 8">
+            <div *ngIf="prodclass_category_id == 5 || prodclass_category_id == 9 
+            || prodclass_category_id == 13 || prodclass_category_id == 14  || prodclass_category_id == 18">
+
+              <app-food-productsdetails  
+                [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                [assessmentProcedureData] ="assessmentProcedureData"  
+                [classificationData] ="classificationData"  
+                [commonNamesData] ="commonNamesData"  
+                [siUnitsData] ="siUnitsData"  
+                [distributionCategoryData] ="distributionCategoryData"  
+                [productFormData] ="productFormData" 
+                [methodOfUseData] ="methodOfUseData"
+                [tabaccoFlavourData] = "tabaccoFlavourData"  
+                [intendedEndUserData] ="intendedEndUserData"  
+                [productSubCategoryData] ="productSubCategoryData"  
+                [productSpecialCategoryData] ="productSpecialCategoryData"
+                [devicesTypeData] ="devicesTypeData" 
+                [storageConditionData] ="storageConditionData" 
+                [dosageFormsData] ="dosageFormsData" 
+                [routeOfAdministrationData] ="routeOfAdministrationData"
+                [productCategoryData] ="productCategoryData" 
+                [durationDescData] ="durationDescData"
+                [productTypeData] ="productTypeData" 
+                [confirmDataParam] ="confirmDataParam" 
+                [payingCurrencyData] ="payingCurrencyData" 
+                [fastTrackOptionsData] ="fastTrackOptionsData" 
+                (productTypeEvent)="product_origin_id=$event"
+                [zonesData] ="zonesData" [section_id] ="section_id"  [atc_code_id] ="atc_code_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"   [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+              </app-food-productsdetails>
+            </div>
+          
+              <div *ngIf="prodclass_category_id == 1 || prodclass_category_id == 8
+              || prodclass_category_id == 11 || prodclass_category_id == 12">
+              <app-drugs-productsdetails  
+                [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                [assessmentProcedureData] ="assessmentProcedureData"  
+                [classificationData] ="classificationData"  
+                [commonNamesData] ="commonNamesData"  
+                [siUnitsData] ="siUnitsData"  
+                [distributionCategoryData] ="distributionCategoryData"  
+                [productFormData] ="productFormData" 
+                [methodOfUseData] ="methodOfUseData"  
+                [intendedEndUserData] ="intendedEndUserData"  
+                [productSubCategoryData] ="productSubCategoryData"  
+                [productSpecialCategoryData] ="productSpecialCategoryData"
+                [devicesTypeData] ="devicesTypeData" 
+                [storageConditionData] ="storageConditionData" 
+                [gmdnCategoryData] ="gmdnCategoryData"
+                [dosageFormsData] ="dosageFormsData" 
+                [routeOfAdministrationData] ="routeOfAdministrationData"
+                [reasonForClassificationData] ="reasonForClassificationData"
+                [productCategoryData] ="productCategoryData" 
+                [durationDescData] ="durationDescData"
+                [productTypeData] ="productTypeData" 
+                [confirmDataParam] ="confirmDataParam" 
+                [confirmDataParamAll] ="confirmDataParamAll"
+                [payingCurrencyData] ="payingCurrencyData" 
+                [fastTrackOptionsData] ="fastTrackOptionsData" 
+                [isReadOnlyTraderasLtr] ="isReadOnlyTraderasLtr" 
+                [prodclass_category_id] ="prodclass_category_id" 
+                [isReadOnlyTraderasLtr] ="isReadOnlyTraderasLtr" 
+                (productTypeEvent)="product_origin_id=$event"
+                [targetSpeciesData]="targetSpeciesData"
+                [zonesData] ="zonesData" [section_id] ="section_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id" [atc_code_id] ="atc_code_id"  [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+              </app-drugs-productsdetails>
+              </div>
+              <div *ngIf="prodclass_category_id == 2 || prodclass_category_id == 10 || prodclass_category_id == 15  || prodclass_category_id == 16   || prodclass_category_id == 17">
+                <app-cosmetics-productsdetails  
+                  [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                  [assessmentProcedureData] ="assessmentProcedureData"  
+                  [classificationData] ="classificationData"  
+                  [commonNamesData] ="commonNamesData"  
+                  [siUnitsData] ="siUnitsData"  
+                  [distributionCategoryData] ="distributionCategoryData"  
+                  [productFormData] ="productFormData" 
+                  [methodOfUseData] ="methodOfUseData"  
+                  [productAppliedData] = "productAppliedData"
+                  [pestCideData] ="pestCideData"
+                  [whoHazardClassData] = "whoHazardClassData"
+                  [formulationData] ="formulationData"
+                  [intendedEndUserData] ="intendedEndUserData"  
+                  [productSubCategoryData] ="productSubCategoryData"  
+                  [productSpecialCategoryData] ="productSpecialCategoryData"
+                  [devicesTypeData] ="devicesTypeData" 
+                  [storageConditionData] ="storageConditionData" 
+                  [dosageFormsData] ="dosageFormsData" 
+                  [routeOfAdministrationData] ="routeOfAdministrationData"
+                  [productCategoryData] ="productCategoryData" 
+                  [durationDescData] ="durationDescData"
+                  [productTypeData] ="productTypeData" 
+                  [confirmDataParam] ="confirmDataParam" 
+                  [payingCurrencyData] ="payingCurrencyData" 
+                  [fastTrackOptionsData] ="fastTrackOptionsData" 
+                  (productTypeEvent)="product_origin_id=$event"
+                  [zonesData] ="zonesData" [section_id] ="section_id"  [atc_code_id] ="atc_code_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"   [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+                </app-cosmetics-productsdetails>
+              </div>
+              <div *ngIf="prodclass_category_id == 4">
+                <app-medicaldevices-productsdetails  
+                  [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                  [assessmentProcedureData] ="assessmentProcedureData"  
+                  [classificationData] ="classificationData"  
+                  [commonNamesData] ="commonNamesData"  
+                  [siUnitsData] ="siUnitsData"  
+                  [distributionCategoryData] ="distributionCategoryData"  
+                  [productFormData] ="productFormData" 
+                  [methodOfUseData] ="methodOfUseData"  
+                  [intendedEndUserData] ="intendedEndUserData"  
+                  [productSubCategoryData] ="productSubCategoryData"  
+                  [productSpecialCategoryData] ="productSpecialCategoryData"
+                  [devicesTypeData] ="devicesTypeData" 
+                  [storageConditionData] ="storageConditionData" 
+                  [dosageFormsData] ="dosageFormsData" 
+                  [routeOfAdministrationData] ="routeOfAdministrationData"
+                  [productCategoryData] ="productCategoryData" 
+                  [durationDescData] ="durationDescData"
+                  [productTypeData] ="productTypeData" 
+                  [confirmDataParam] ="confirmDataParam" 
+                  [payingCurrencyData] ="payingCurrencyData" 
+                  [fastTrackOptionsData] ="fastTrackOptionsData" 
+                  [gmdnCategoryData] ="gmdnCategoryData" 
+                  [isReadOnlyTraderasLtr] ="isReadOnlyTraderasLtr" 
+                  [prodclass_category_id] ="prodclass_category_id" 
+                  (productTypeEvent)="product_origin_id=$event"
+                  [zonesData] ="zonesData" [section_id] ="section_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"   [atc_code_id] ="atc_code_id"  [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+                </app-medicaldevices-productsdetails>
+              </div>
+              <div class="col-lg-12 div-footer">
+                 
+                  <button class="btn btn-primary pull-right" style="margin:5px;"  [disabled]="!product_id" 
+                  nextStep type="button"><i class="fa fa-angle-double-right"></i>
+                    &nbsp;Next Product Application Details</button>
+                    <dx-button
+                      text="Save product Application && Next Step"
+                      type="default"
+                      icon="fa fa-save"
+                      [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                      (onClick)="onSaveAddNewProductApplication()">
+                  </dx-button>
+                  <button type="button" class="btn btn-primary" (click)="onFUncCloseGroupApplicatinWindow()">Close<i class="fa fa-angle-double-right"></i>
+                  </button>
+              </div>
+        </wizard-step>
+        <wizard-step navigationSymbol="Step 2"  stepTitle="Product Other Details" class="wizardStep-height"  *ngIf="status_id != 8" >
+            <div class="col-lg-12 wizard-content " *ngIf="prodclass_category_id == 5
+            || prodclass_category_id == 9 || prodclass_category_id == 13 
+            || prodclass_category_id == 14  || prodclass_category_id == 18">
+                    <app-food-dataproducts
+                      [productIngredientsdetailsfrm] ="productIngredientsdetailsfrm"  
+                      [productNutrientsdetailsfrm] ="productNutrientsdetailsfrm"  
+                      [productapimanufacturingSiteFrm] ="productapimanufacturingSiteFrm"  
+                      [productmanufacturingSiteFrm] ="productmanufacturingSiteFrm"  
+                      [manufacturingSiteFrm] ="manufacturingSiteFrm"  
+                      [productPackagingdetailsfrm] ="productPackagingdetailsfrm"  
+                      [drugsingredientsData] ="drugsingredientsData" 
+                      [drugsPackagingData] ="drugsPackagingData" 
+                      [productManufacturersData] ="productManufacturersData" 
+                      [manufacturersSiteData] ="manufacturersSiteData" 
+                      [tradergmpInspectionData] ="tradergmpInspectionData" 
+                      [apiManufacturersData] ="apiManufacturersData" 
+                      [productgmpInspectionData] ="productgmpInspectionData" 
+                      [product_id] ="product_id" [section_id] ="section_id"  [isReadOnly] ="isReadOnly" [module_id] ="module_id" [status_id] ="status_id"  [product_origin_id] ="product_origin_id"  [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+                  </app-food-dataproducts>
+              </div>
+            <div class="col-lg-12 wizard-content " *ngIf="prodclass_category_id == 1
+            || prodclass_category_id == 8 || prodclass_category_id == 11 
+            || prodclass_category_id == 12">
+                <app-drugs-dataproducts  
+                [productIngredientsdetailsfrm] ="productIngredientsdetailsfrm"  
+                [productNutrientsdetailsfrm] ="productNutrientsdetailsfrm"  
+                [productapimanufacturingSiteFrm] ="productapimanufacturingSiteFrm"  
+                [productmanufacturingSiteFrm] ="productmanufacturingSiteFrm"  
+                [manufacturingSiteFrm] ="manufacturingSiteFrm"  
+                [productPackagingdetailsfrm] ="productPackagingdetailsfrm"  
+                [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                [drugsingredientsData] ="drugsingredientsData" 
+                [drugsPackagingData] ="drugsPackagingData" 
+                [productManufacturersData] ="productManufacturersData" 
+                [manufacturersSiteData] ="manufacturersSiteData" 
+                [tradergmpInspectionData] ="tradergmpInspectionData" 
+                [productIngredientsModal] = "productIngredientsModal"
+                [apiManufacturersData] ="apiManufacturersData" 
+                [productgmpInspectionData] ="productgmpInspectionData" 
+                [product_id] ="product_id" [section_id] ="section_id"    [isReadOnly] ="isReadOnly" [status_id] ="status_id"  [product_origin_id] ="product_origin_id"   [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+                </app-drugs-dataproducts>
+              </div>
+              <div class="col-lg-12 wizard-content " *ngIf="prodclass_category_id == 2 || prodclass_category_id == 10 || prodclass_category_id == 15  || prodclass_category_id == 16   || prodclass_category_id == 17">
+                <app-cosmetics-dataproducts 
+                  [productIngredientsdetailsfrm] ="productIngredientsdetailsfrm"  
+                  [productNutrientsdetailsfrm] ="productNutrientsdetailsfrm"  
+                  [productapimanufacturingSiteFrm] ="productapimanufacturingSiteFrm"
+                  [productmanufacturingSiteFrm] ="productmanufacturingSiteFrm"  
+                  [manufacturingSiteFrm] ="manufacturingSiteFrm"  
+                  [productPackagingdetailsfrm] ="productPackagingdetailsfrm"  
+                  [drugsingredientsData] ="drugsingredientsData" 
+                  [drugsPackagingData] ="drugsPackagingData" 
+                  [productManufacturersData] ="productManufacturersData" 
+                  [manufacturersSiteData] ="manufacturersSiteData" 
+                  [tradergmpInspectionData] ="tradergmpInspectionData" 
+                  [apiManufacturersData] ="apiManufacturersData" 
+                  [productgmpInspectionData] ="productgmpInspectionData" 
+                  [product_id] ="product_id"  [section_id] ="section_id"  [product_origin_id] ="product_origin_id" [module_id] ="module_id"  [module_id] ="module_id" [status_id] ="status_id" [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+                  </app-cosmetics-dataproducts>
+              </div>
+              <div class="col-lg-12 wizard-content " *ngIf="prodclass_category_id == 4">
+                <app-medicaldevice-dataproducts 
+                    [productIngredientsdetailsfrm] ="productIngredientsdetailsfrm"  
+                    [productGeneraldetailsfrm] ="productGeneraldetailsfrm" 
+                    [productNutrientsdetailsfrm] ="productNutrientsdetailsfrm"  
+                    [productapimanufacturingSiteFrm] ="productapimanufacturingSiteFrm"
+                    [productmanufacturingSiteFrm] ="productmanufacturingSiteFrm"  
+                    [manufacturingSiteFrm] ="manufacturingSiteFrm"  
+                    [productPackagingdetailsfrm] ="productPackagingdetailsfrm"  
+                    [drugsingredientsData] ="drugsingredientsData" 
+                    [drugsPackagingData] ="drugsPackagingData" 
+                    [productManufacturersData] ="productManufacturersData" 
+                    [manufacturersSiteData] ="manufacturersSiteData" 
+                    [tradergmpInspectionData] ="tradergmpInspectionData" 
+                    [apiManufacturersData] ="apiManufacturersData" 
+                    [productgmpInspectionData] ="productgmpInspectionData" 
+                    [product_id] ="product_id" [section_id] ="section_id"  [isReadOnly] ="isReadOnly" [module_id] ="module_id" [status_id] ="status_id"  [product_origin_id] ="product_origin_id"  [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+                </app-medicaldevice-dataproducts>
+              </div>
+              <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+
+                
+                  <button type="button"   class="btn btn-primary  pull-right" nextStep>Next&nbsp;<i class="fa fa-angle-double-right"></i></button>
+                  <button type="button"   class="btn btn-primary  pull-right" previousStep>Previous Step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+              </div>
+        </wizard-step>
+        <wizard-step navigationSymbol="Step 3"  stepTitle="Documents/Dossier Documents" class="wizardStep-height"  *ngIf="status_id != 8" >
+          <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+           
+            <button type="button" class="btn btn-primary   pull-right" nextStep>Next Product Label(S)<i class="fa fa-angle-double-right"></i></button>
+            <button type="button"   class="btn btn-primary  pull-right" previousStep>Previous Step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+          </div>
+          <div class="col-lg-12 wizard-content">
+              <app-application-documents [prodclass_category_id] ="prodclass_category_id" [query_ref_id] ="query_ref_id" [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+              </app-application-documents>
+            </div>
+            <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+           
+            <button type="button" class="btn btn-primary   pull-right" nextStep>Next Product Label(S)<i class="fa fa-angle-double-right"></i></button>
+            <button type="button"   class="btn btn-primary  pull-right" previousStep>Previous Step&nbsp;<i class="fa fa-angle-double-left"></i></button>
+            </div>
+
+      </wizard-step>
+      <wizard-step stepTitle="Product Mock-Ups/Labels/Art work"    navigationSymbol="Step 4"  class="wizardStep-height">
+                      
+          <div class="wizard-divtop">
+              <button type="button" class="btn btn-primary  pull-right" style="margin:5px;" previousStep><i
+                class="fa fa-angle-double-left"></i>Go
+                to previous
+                step</button>
+                <button type="button" class="btn btn-primary pull-right" (click)="onFUncCloseGroupApplicatinWindow()">Close(Application List) <i class="fa fa-angle-double-right"></i></button>
+
+            </div>
+        <div class="row wizard-content">
+          <app-products-imagesdocuments [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-products-imagesdocuments>
+
+        </div>
+        <div class="wizard-divbottom" style="border-top: 1px solid #ccc; min-height: 100px !important;">
+            <button type="button" class="btn btn-primary pull-left" previousStep>&nbsp;<i
+                class="fa fa-angle-double-left"></i>Previous
+                Dossier Submission</button>
+                <button type="button" class="btn btn-primary" (click)="onFUncCloseGroupApplicatinWindow()">Close(Application List) <i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+
+      </wizard>

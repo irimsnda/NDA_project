@@ -1,0 +1,30 @@
+<div class="col-lg-12">
+  
+
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="ctrSecondaryDetailsfrm">
+
+  <div class="row wizard-content">
+    <div class="col-lg-12">
+      
+        Is Secondary Id applicable for this trial?
+        <dx-select-box [dataSource]="confirmationData"  valueExpr="id" displayExpr="name"     [readOnly]="is_readonly" 
+          [searchEnabled]="true" placeholder=" Is Secondary Id applicable for this trial?" (onSelectionChanged)="onIsSecondaryIDSelect($event)" formControlName="is_secondaryid_applicable">
+        </dx-select-box>
+    </div>
+<div class="col-lg-12" *ngIf="is_secondary_id">
+      <label>Secondary ID: If applicable please enter any additional identifying numbers assigned by other issuing authorities. For example Sponsor-issued trial/protocol number, unique id numbers issued by other trial registers, ID's issued by regulatory authorities or ethics committees. </label>
+      </div>
+    
+    <div class="col-lg-12" *ngIf="is_secondary_id">
+      <label class="control-label">Secondary IDs </label>
+      <dx-text-box formControlName="secondary_id"  [readOnly]="is_readonly"  placeholder="Secondary Id" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-12" *ngIf="is_secondary_id">
+      <label class="control-label">Issuing Authority/ Trial register</label>
+      <dx-text-box formControlName="issuing_authority"  [readOnly]="is_readonly"  placeholder="Issuing Authority" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+ 
+</div>
+</form>

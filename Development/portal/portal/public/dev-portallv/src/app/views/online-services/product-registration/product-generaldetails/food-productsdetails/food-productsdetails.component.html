@@ -1,0 +1,256 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="productGeneraldetailsfrm" >
+  <div class="row wizard-content div-nopadding">
+    <div class="col-lg-4">
+      <label>Product Type</label>
+
+        <dx-select-box [readOnly]="true" [dataSource]="sectionsData" valueExpr="id" displayExpr="name" placeholder="Select Product Type"  [searchEnabled]="true" formControlName="section_id">
+        </dx-select-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Brand Name/Trade Name</label>
+      <dx-text-box formControlName="brand_name" placeholder="Enter Brand Name" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-4 ">
+      <label for="ti" class="control-label">Classification</label>
+
+      <dx-select-box [dataSource]="classificationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Select Classification" formControlName="classification_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4 input-group">
+      <div class="col-lg-10">
+       <label for="ti" class="control-label">Common Name(Optional)</label>
+
+       <dx-select-box [dataSource]="commonNamesData"  valueExpr="id" displayExpr="name" [searchEnabled]="true"
+         placeholder="Select Common name"   formControlName="common_name_id">
+       </dx-select-box>
+      </div>
+
+       <div class="col-lg-2">
+         <dx-button
+             text="Add "
+             type="success"
+             icon="fa fa-plus"
+             [elementAttr]="{  class: 'pull-left' }"
+             (onClick)="onAddNewCommonNameDetails()">
+         </dx-button>
+       </div>
+     </div>
+
+    <div class="col-lg-4">
+      <label class="control-label">Product Category</label>
+
+      <dx-select-box [dataSource]="productCategoryData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        (onSelectionChanged)="onProductCategoryCboSelect($event)" placeholder=" Product Category"
+        formControlName="product_category_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Product Sub Category</label>
+
+      <dx-select-box [dataSource]="productSubCategoryData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder=" Sub-Product Category" formControlName="product_subcategory_id">
+      </dx-select-box>
+    </div>
+    
+    <div class="col-lg-4">
+      <label class="control-label">Recommended storage conditions before opening</label>
+      <dx-text-box formControlName="storage_condition" [showClearButton]="true">
+      </dx-text-box>
+      
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Product Forms</label>
+
+      <dx-select-box [dataSource]="productFormData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Product Form" formControlName="product_form_id">
+      </dx-select-box>
+    </div>
+     
+    <div class="col-lg-4">
+      <label class="control-label">Intended End User</label>
+      <dx-select-box [dataSource]="intendedEndUserData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Intended End User" formControlName="intended_enduser_id">
+      </dx-select-box>
+    </div>
+    <!--
+    <div class="col-lg-12">
+      <label class="control-label">State any other conditions or contraindications</label>
+
+      <dx-text-area [height]="60" formControlName="contraindication"  placeholder="Enter contraindications">
+      </dx-text-area>
+    </div>
+  -->
+        <div class="col-lg-4" *ngIf="section_id == 8">
+          <label class="control-label">Nicotine Content</label>
+            <dx-text-box formControlName="nicotine_content" placeholder="Enter Nicotine Content" [showClearButton]="true">
+            </dx-text-box>
+        </div>
+        <div class="col-lg-4"  *ngIf="section_id == 8">
+          <label class="control-label">Tar Content</label>
+            <dx-text-box formControlName="tar_content" placeholder="Enter Tar Content" [showClearButton]="true">
+            </dx-text-box>
+        </div>
+
+        <div class="col-lg-4 "  *ngIf="section_id == 8">
+          <label for="ti" class="control-label">Tobacco Flavour</label>
+
+            <dx-select-box [dataSource]="tabaccoFlavourData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+              placeholder="Select Flavour" formControlName="tobacco_flavour_id">
+            </dx-select-box>
+        </div>      
+        
+    <div class="col-lg-4">
+      <label class="control-label">Shelf life (month)</label>
+      <dx-number-box formControlName="shelf_life" placeholder="shelf_life" [showClearButton]="true">
+      </dx-number-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Product Manufacturing Country</label>
+
+      <dx-select-box [dataSource]="countriesData"  valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Product Manufacturing Country" (onSelectionChanged)="onManufacturingCountryChange($event)" formControlName="manufacturing_country_id">
+      </dx-select-box>
+  </div>
+    <div class="col-lg-4">
+        <label class="control-label">Product Origin</label>
+
+        <dx-select-box [dataSource]="productTypeData" [readOnly]="readOnlyOrigin" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Product Origin" formControlName="product_origin_id">
+        </dx-select-box>
+    </div>
+    <div class="col-lg-6" *ngIf="has_otherregistration_selection">
+        <label class="control-label">Food products manufactured within East African Countries with registration or certification(Upload proof of registration/certification of Document Section) </label>
+
+        <dx-select-box [dataSource]="confirmDataParam" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="is manufactured within East African Countries" formControlName="is_manufactureredin_eastafrica">
+        </dx-select-box>
+    </div>
+    <div class="col-lg-12">
+      <label class="control-label">Instructions Of Use</label>
+
+      <dx-text-area [height]="60" formControlName="instructions_of_use"  placeholder="Instructions of Use">
+      </dx-text-area>
+    </div>
+    
+    <div class="col-lg-12">
+      <label class="control-label">rief description of the physical characteristics of the food (form, colour etc.)</label>
+
+      <dx-text-area [height]="60" formControlName="physical_description"  placeholder="Physical description">
+      </dx-text-area>
+    </div>
+  
+    <div class="col-lg-12">
+      <label class="control-label">Statutory Warning </label>
+      <dx-text-box formControlName="warnings" placeholder="Statutory Warning" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+      
+
+    <div class="col-lg-4">
+      <label class="control-label">Customer As Local Technical Representative(Rwanda Trader)</label>
+
+      <dx-select-box [dataSource]="confirmDataParam" (onValueChanged)="onTraderasLocalAgentChange($event)" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+       placeholder="Trader as Local Technical Representative" formControlName="trader_aslocal_agent">
+      </dx-select-box>
+      
+    </div>
+  <div class="col-lg-4  input-group">
+      <div class="col-lg-10">
+        <label class="control-label">Local Technical Responsible Person</label>
+        <dx-text-box  formControlName="local_agent_name" 
+         readOnly=true [showClearButton]="true">
+
+        </dx-text-box>
+        <input type="hidden" name="local_agent_id" formControlName="local_agent_id" />
+        
+        <input type="hidden" name="sub_module_id" formControlName="sub_module_id" />
+                    <input type="hidden" name="product_id" value={{product_id}} formControlName="product_id" />
+                    <input type="hidden" name="reg_product_id" value={{reg_product_id}} formControlName="reg_product_id" />
+                    <input type="hidden" name="prodclass_category_id"  formControlName="prodclass_category_id" />
+
+        <input type="hidden" name="tra_product_id" value={{tra_product_id}} formControlName="tra_product_id" />
+      </div>
+      <div class="col-lg-2">
+        <button type="button" (click)="funcSearchRegistrantDetails(1)" [disabled]="isReadOnlyTraderasLtr"
+          class="btn btn-primary  pull-right" style="margin-top:25px  !important;"><i class="fa fa-search"></i>Search
+          LTR</button>
+      </div>
+    </div>
+    
+    <div class="col-lg-4">
+      <input type="hidden" name="sub_module_id" formControlName="sub_module_id" />
+      <input type="hidden" name="product_id" value={{product_id}} formControlName="product_id" />
+    </div>
+    </div>
+</form>
+
+
+<!-- Registrant Details -->
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="{{trader_title}}"
+ [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isRegistrantDetailsWinshow">
+ <div *dxTemplate="let data of 'content'">
+ 
+   <dx-data-grid class="table row-border hover" [dataSource]="traderAccountsDetailsData" keyExpr="id">
+     <dxo-filter-row [visible]="false"></dxo-filter-row>
+     <dxo-search-panel [visible]="true">
+     </dxo-search-panel>
+     <dxo-paging [enabled]="true">
+     </dxo-paging>
+     <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+     </dxo-pager>
+     <dxo-export [enabled]="true" fileName="traderFile" [allowExportSelectedData]="true"></dxo-export>
+
+     <dxo-selection mode="multiple"></dxo-selection>
+     <dxo-group-panel [visible]="true"></dxo-group-panel>
+     <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+     cellTemplate="cellTemplate">
+     <div *dxTemplate="let data of 'cellTemplate'">
+       <dx-button text="Select" (click)="funcSelectTraderDetails(data)"
+        type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+      </dx-button>
+     </div>
+   </dxi-column>
+     <dxi-column dataField="trader_no"></dxi-column>
+     <dxi-column dataField="trader_name"></dxi-column>
+     <dxi-column dataField="country"></dxi-column>
+     <dxi-column dataField="region"></dxi-column>
+     <dxi-column dataField="physical_address"></dxi-column>
+     <dxi-column dataField="postal_address"></dxi-column>
+     <dxi-column dataField="email_address"></dxi-column>
+
+    
+   </dx-data-grid>
+ </div>
+ </dx-popup>
+ <dx-popup class="popup"  [width]="funcpopWidth(30)" [height]="450" [showTitle]="true" title="Generic Name Details" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="addproductGenericNamesModal">
+  
+  <div *dxTemplate="let data of 'content'" >
+        <form [formGroup]="addproductGenericNamesFrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveNewGenericName()">
+            <div class="col-lg-12">
+              <label class="control-label">Generic Name</label>
+              <dx-text-box formControlName="name" placeholder="name" [showClearButton]="true">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-12">
+              <label class="control-label">Description</label>
+              <dx-text-area formControlName="description" placeholder="description" >
+              </dx-text-area>
+            </div>
+           
+            <input type='hidden' value='{{section_id}}' formControlName="section_id"/>
+            <input type='hidden' value = 'par_common_names' formControlName="tablename"/>
+
+            <div class="col-lg-12">
+                <dx-button
+                    text="Add Generic Name"
+                    type="success"
+                    icon="fa fa-plus"
+                    [elementAttr]="{  class: 'pull-left' }"
+                    (onClick)="onSaveNewGenericName()">
+                </dx-button>
+              </div>
+          </form>
+  </div>
+</dx-popup>

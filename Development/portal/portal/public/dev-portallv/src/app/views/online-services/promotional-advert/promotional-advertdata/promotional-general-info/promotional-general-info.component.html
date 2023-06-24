@@ -1,0 +1,308 @@
+<form role="form" enctype="multipart/form-data" role="form" 
+[formGroup]="promotionalappGeneraldetailsfrm">
+
+
+<fieldset class="row scheduler-border">
+  <legend>{{process_title}} Details</legend>
+  
+  <div class="col-lg-4">
+    <label class="control-label">Type of Advertisement</label>
+    <dx-select-box [dataSource]="typeOfAdvertisementData" [readOnly] = true
+    (onSelectionChanged) = "onHasExhibitionMeeting($event)"   valueExpr="id" displayExpr="name" [searchEnabled]="true"  [readOnly]= "isReadOnly" 
+      placeholder="Select Type of Advert" formControlName="advertisement_type_id">
+    </dx-select-box>
+  </div>
+  <div class="col-lg-4">
+      <label>Product category</label>
+      <dx-select-box 
+        [dataSource]="sectionsData" valueExpr="id" displayExpr="name"
+        placeholder="Advertisement Products Types"  (onValueChanged)="onAdvertisementProductsCboSelect($event)"   [searchEnabled]="true" formControlName="section_id">
+      </dx-select-box>
+    </div>
+    
+    <div class="col-lg-4">
+      <label class="control-label">Channel of Advertisement</label>
+      <dx-tag-box
+          [items]="promotionalChannelsDta"
+          formControlName="advertisement_channel_id"
+          placeholder="Channel of Advertisement"
+          valueExpr="id" [readOnly]="is_readonly" 
+          [showSelectionControls]="true"
+          [searchEnabled]="true"
+          applyValueMode="useButtons"
+          displayExpr="name">
+      </dx-tag-box>
+    </div>
+    <div class="col-lg-12">
+      <label class="control-label">Other Channel of Advertisement(Optional)
+      </label>
+     <dx-text-area formControlName="otheradvertisement_channel" 
+        placeholder="Other Channel of Advertisement">
+      </dx-text-area>
+    </div>
+    <div class="col-lg-12" *ngIf="isHasExhibitionMeeting">
+      <label class="control-label">Type of meetings
+      </label>
+        <dx-tag-box
+            [items]="advertisementMeetingTypesDta"
+            formControlName="meeting_types_id"
+            placeholder="Type of meetings"
+            valueExpr="id" [readOnly]="is_readonly" 
+            [showSelectionControls]="true"
+            [searchEnabled]="true"
+            applyValueMode="useButtons"
+            displayExpr="name">
+        </dx-tag-box>
+    </div>
+    <div class="col-lg-12" *ngIf="isHasExhibitionMeeting">
+      <label class="control-label">Other Type of meetings
+      </label>
+     <dx-text-area formControlName="other_promotion_meetingtype" 
+        placeholder="Other Type of Meeting(please specify)" 
+        >
+      </dx-text-area>
+    </div>
+    <div class="col-lg-4" *ngIf="isHasExhibitionMeeting">
+      <label class="control-label">Name of premises where event is to be held
+      </label>
+     <dx-text-box formControlName="venue_of_exhibition" 
+        placeholder=" Venue/Location of Advertisement or Exhibition" 
+        [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-12" *ngIf="isHasExhibitionMeeting">
+      <label class="control-label">Plot No./ Street/ Municipal/ Town/ City/ Region
+      </label>
+     <dx-text-area formControlName="physicaladdress_of_exhibition" 
+        placeholder="Physical Location of the Promotion Meeting" 
+   >
+      </dx-text-area>
+    </div>
+    <div class="col-lg-4" *ngIf="isHasExhibitionMeeting">
+        <label class="control-label">Start Date of the Event
+        </label>
+        <dx-date-box class="form-control" formControlName="exhibition_start_date" 
+         placeholder=" Start Date"
+          [showClearButton]="true">
+        </dx-date-box>
+    </div>
+      <div class="col-lg-4" *ngIf="isHasExhibitionMeeting">
+        <label class="control-label">End Date of the Event
+        </label>
+        <dx-date-box class="form-control" formControlName="exhibition_end_date" 
+         placeholder=" End Date" 
+          [showClearButton]="true">
+        </dx-date-box>
+      </div>
+      <div class="col-lg-12" *ngIf="isHasExhibitionMeeting">
+        <label class="control-label">Other Information(Room Name / Area / Location)
+        </label>
+       <dx-text-area formControlName="promotionameeting_other_information" 
+          placeholder="Other Information(Room Name / Area / Location)" 
+          >
+        </dx-text-area>
+      </div>
+      <div class="col-lg-4" *ngIf="isHasExhibitionMeeting">
+        <label class="control-label">Name of person / company responsible for event
+        </label>
+       <dx-text-box formControlName="events_responsible_person" 
+          placeholder="Name of person / company responsible for event"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4" *ngIf="isHasExhibitionMeeting">
+        <label class="control-label">Responsible Person/Company Physical Address
+        </label>
+       <dx-text-box formControlName="responsible_persons_physicaladdress" 
+          placeholder="Responsible Person/Company Physical Address" 
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4" *ngIf="isHasExhibitionMeeting">
+        <label class="control-label">Responsible Person/Company Contacts(Telephone Number & Email (if applicable))
+        </label>
+       <dx-text-box formControlName="responsible_persons_contacts" 
+          placeholder="Responsible Person/Company Contacts"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+
+      <div class="col-lg-12" *ngIf="!isHasExhibitionMeeting">
+        <label class="control-label">Type of material
+        </label>
+        <dx-tag-box
+            [items]="promotionalChannelsDta"
+            formControlName="promotions_material_id"
+            placeholder="Type of Advertisements Material"
+            valueExpr="id" [readOnly]="is_readonly" 
+            [showSelectionControls]="true"
+            [searchEnabled]="true"
+            applyValueMode="useButtons"
+            displayExpr="name">
+        </dx-tag-box>
+      </div>
+      <div class="col-lg-12" *ngIf="!isHasExhibitionMeeting">
+        <label class="control-label">Other Type of Material(please specify)
+        </label>
+       <dx-text-area formControlName="other_promotion_materialtypes" 
+          placeholder="Other Type of Material(please specify)" 
+     >
+        </dx-text-area>
+      </div>
+    <div class="col-lg-12">
+      <label class="control-label">Description Promotion(Activities)</label>
+      <dx-text-area formControlName="description_of_advert"  
+        [readOnly]="is_readonly"  placeholder="Brief summary describing the Advertisement or Exhibition" >
+      </dx-text-area>
+    </div>
+
+
+  <div class="col-lg-4">
+    <label class="control-label">Applicant As Sponsor</label>
+    <dx-select-box [dataSource]="confirmDataParam" 
+      valueExpr="flag" displayExpr="name" [searchEnabled]="true" placeholder="Applicant As Name of Sponsor" (onSelectionChanged) = "OnSelectSponsorOption($event)"   formControlName="applicant_as_sponsor">
+    </dx-select-box>
+  </div>
+  <div class="col-lg-4 row">
+    <div class="col-lg-10">
+      <label class="control-label">Sponsor Name</label>
+        <dx-text-box formControlName="sponsor_name" [readOnly]="true" 
+          [showClearButton]="true">
+        </dx-text-box>
+          <input type="hidden" name="sponsor_id" formControlName="sponsor_id" />
+          <input type="hidden" name="sub_module_id" formControlName="sub_module_id" />
+    </div>
+    <div class="col-lg-2">
+      <button type="button" (click)="onLoadPersonnelDetails()" 
+        [disabled]="sponsor_optionDisabled"
+        class="btn btn-primary" style="margin-top:27px  !important;"><i class="fa fa-search"></i>Search
+      </button>
+    </div>
+  </div>
+ 
+  <div class="col-lg-4">
+    <input type="hidden" name="module_id" formControlName="module_id" />
+    <input type="hidden" name="application_code" formControlName="application_code" />
+    <input type="hidden" name="registered_promotionalapp_id" formControlName="registered_promotionalapp_id" />
+  
+    <input type="hidden"  value={{application_id}} formControlName="application_id" />
+  </div>
+</fieldset>
+
+</form>
+
+<dx-popup class="popup" [width]="1000"  [height]="'auto'" 
+  [showTitle]="true" title="Personnel"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPromotionalPersonnelWinShow">
+  <div *dxTemplate="let data of 'content'">
+    <dx-data-grid class="table row-border hover" 
+      (onToolbarPreparing)="onPromotionalPersonnelPreparing($event)"
+      [dataSource]="promotionalPersonnelData" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="manufacturingFile" 
+        [allowExportSelectedData]="true">
+      </dxo-export>
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column [width]="140" caption="Action" name="command-editing" 
+      [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+        <a (click)="funcSelectSponsorInvestigator(data)"  class="action-btn"><i class="fa fa-edit"></i>Select</a>&nbsp;
+      </div>
+    </dxi-column>
+      <dxi-column dataField="name"></dxi-column>
+      <dxi-column dataField="country"></dxi-column>
+      <dxi-column dataField="region"></dxi-column>
+      <dxi-column dataField="district"></dxi-column>
+      <dxi-column dataField="physical_address"></dxi-column>
+      <dxi-column dataField="postal_address"></dxi-column>
+      <dxi-column dataField="email_address"></dxi-column>
+     
+    </dx-data-grid>
+  </div>
+</dx-popup>
+<dx-popup class="popup" [width]="1000" [height]="'auto'" 
+  [showTitle]="true" title="{{promotional_personneltitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPromotionalPersonnelAddWinShow">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-lg-12">
+      <form enctype="multipart/form-data" role="form" 
+        [formGroup]="promotional_materialspersonnelFrm"
+        (ngSubmit)="onSavePromotionalPersonnel()">
+        <div class="row">
+          <div class="col-xs-12 col-md-6 col-lg-4 col-xl-6">
+            <label class="control-label">Name</label>
+            <dx-text-box formControlName="name">
+            </dx-text-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 col-xl-6">
+            <label class="control-label">Country</label>
+            <dx-select-box [dataSource]="countries" valueExpr="id" 
+              displayExpr="name" placeholder="Select Country"
+              (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+            </dx-select-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 col-xl-6">
+            <label for="ti" class="control-label">Region/City</label>
+            <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"
+              (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+            </dx-select-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 col-xl-6">
+            <label for="ti" class="control-label">District(Optional)</label>
+            <dx-select-box [dataSource]="districts" valueExpr="id" 
+              placeholder="Select District" displayExpr="name"
+              [searchEnabled]="true" formControlName="district_id">
+            </dx-select-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 col-xl-6">
+            <label for="ti" class="control-label">Email Address</label>
+            <dx-text-box formControlName="email" placeholder="Email Address">
+            </dx-text-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 col-xl-6">
+            <label for="ti" class="control-label">Postal Address</label>
+            <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+            </dx-text-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 col-xl-6">
+            <label for="ti" class="control-label">Telephone No</label>
+
+            <dx-text-box formControlName="telephone" placeholder="Telephone No">
+            </dx-text-box>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 col-xl-6">
+            <label class="control-label col-lg-12">Mobile No</label>
+
+            <dx-text-box formControlName="mobile_no" placeholder="Mobile No">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-12">
+            <label class="control-label">Physical Address</label>
+            <dx-text-area [height]="60" 
+              formControlName="physical_address" placeholder="Physical Address">
+            </dx-text-area>
+          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 col-xl-6 ">
+            <label for="ti" class="control-label col-lg-12">TIN No(Tanzanian)</label>
+            <dx-number-box [value]="20" disabled formControlName="tin_no" 
+              placeholder="TIN NO">
+            </dx-number-box>
+          </div>
+          <div class="col-lg-12 btn-margin-5">
+            <br />
+            <button type="submit" (submit)="onSavePromotionalPersonnel()" [disabled]="!promotional_materialspersonnelFrm.valid"
+              class="btn btn-primary"><i class="fa fa-user"></i> Save {{consignee_sendertitle}} Details</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</dx-popup>

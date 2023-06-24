@@ -1,0 +1,545 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="gmpapplicationGeneraldetailsfrm" >
+  <div class="row wizard-content">
+    <fieldset class="col-lg-12 row">
+      <legend  class="contentfieldset">Manufacturer Details</legend>
+        <div class="col-lg-4">
+          <label>Facility Location</label>
+            <dx-select-box [dataSource]="gmpLocationData" [readOnly]="manufacturingSiteLocationSet"  
+              valueExpr="id"  displayExpr="name" placeholder="Select Facility Location" [value]="gmp_type_id" [searchEnabled]="true"
+              formControlName="gmp_type_id">
+            </dx-select-box>
+        </div>
+        <div class="col-lg-4"  *ngIf="sub_module_id == 5">
+          <label>GMP Assessment Procedure</label>
+            <dx-select-box [dataSource]="assessmentProcedureData"  
+              (onSelectionChanged)="onAssessmentCboSelect($event)"  valueExpr="id" displayExpr="name" [searchEnabled]="true"
+                placeholder="Select Inspection Procedure" formControlName="assessment_type_id">
+            </dx-select-box>
+        </div>
+        <div class="col-lg-12" *ngIf="hasCountriesSelection">
+          <label class="control-label">Countries Selection(Submit for Registration) </label>
+            <dx-tag-box
+              [items]="gmpAssessmentCountriesDta"
+              formControlName="gmpassessment_countries_ids"
+              placeholder="Countries Selection(Submit for Registration)"
+              valueExpr="id" [readOnly]="is_readonly" 
+              [showSelectionControls]="true"
+              applyValueMode="useButtons"
+              displayExpr="name">
+            </dx-tag-box>
+        </div>
+        <div class="col-lg-4 row input-group ">
+          <div class="col-lg-8">
+            <label class="control-label">Name of Manufacturing Facility</label>
+              <dx-text-box [readOnly]="manufacturingSiteLocationSet" 
+                formControlName="manufacturer_name"
+                placeholder="Manufacturer Name" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4 no-padding"  *ngIf="sub_module_id == 5">
+            <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left'}" 
+              style="margin-top:25px  !important;"  text="Search Manufacturing Details"  
+              type="default" (onClick)="onSearchManufacturingSite()">
+              <i class="fa fa-search"></i>Search/Add Manufacturing Facility
+            </dx-button>
+          </div>  
+        </div>
+        <div class="col-lg-4">
+          <label class="control-label">Country</label>
+            <dx-select-box [readOnly]="manufacturingSiteLocationSet" 
+              [dataSource]="countries" valueExpr="id"
+              displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)"
+              [searchEnabled]="true" formControlName="country_id">
+              </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Region/City</label>
+            <dx-select-box [readOnly]="manufacturingSiteLocationSet" 
+              [dataSource]="regions" valueExpr="id"
+              displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" 
+              [searchEnabled]="true"
+              formControlName="region_id">
+            </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">District(Optional)</label>
+            <dx-select-box [readOnly]="manufacturingSiteLocationSet" 
+              [dataSource]="districts" valueExpr="id"
+              placeholder="Select District" displayExpr="name" [searchEnabled]="true" formControlName="district_id">
+            </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Email Address</label>
+            <dx-text-box  formControlName="email" 
+              placeholder="Email Address"
+              [showClearButton]="true">
+            </dx-text-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Postal Address</label>
+            <dx-text-box  formControlName="postal_address" 
+              placeholder="Postal Address"
+              [showClearButton]="true">
+            </dx-text-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Telephone No</label>
+            <dx-text-box formControlName="telephone" placeholder="Telephone No" [showClearButton]="true">
+            </dx-text-box>
+        </div>
+        <div class="col-lg-4">
+          <label class="control-label">Physical Address</label>
+            <dx-text-area [height]="60" 
+              [readOnly]="manufacturingSiteLocationSet" formControlName="physical_address" placeholder="Physical Address">
+            </dx-text-area>
+        </div>
+        <div class="col-lg-4" *ngIf="section_id == 4">
+          <label>Medical Device Type</label>
+            <dx-select-box [dataSource]="devicesTypeData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+              placeholder="Select Devices Types" formControlName="device_type_id">
+            </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label>Business Operation</label>
+            <dx-select-box (onValueChanged)="onBusinesTypeCboSelect($event)" [dataSource]="businessTypesData" valueExpr="id" displayExpr="name" placeholder="Select Business Types" [searchEnabled]="true" formControlName="business_type_id">
+            </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Certificate/Permit Issue Place</label>
+            <dx-select-box [dataSource]="zoneData" valueExpr="id" placeholder="Certificate/Permit Issue Place"
+              displayExpr="name" [searchEnabled]="true" formControlName="zone_id">
+            </dx-select-box>
+        </div>
+        <div class="col-lg48 row">
+          <label class="control-label col-lg-12">Geo-Location</label>
+            <div class="col-lg-6">
+              <dx-text-box formControlName="latitude" placeholder="Latitude" [showClearButton]="true">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-6">
+              <dx-text-box formControlName="longitude" placeholder="Longitude" [showClearButton]="true">
+              </dx-text-box>
+            </div>
+        </div>
+        <div class="col-lg-4" style="margin:1px;">
+          <dx-text-box [readOnly]=true formControlName="premise_reg_no" 
+            placeholder="Premises Registration No(Domestic)"
+            [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-4">
+          <label class="control-label">Trader As Local Technical Representative</label>
+            <dx-select-box  [dataSource]="confirmDataParam" valueExpr="flag" 
+              displayExpr="name" [searchEnabled]="true"
+              readOnly=true  placeholder="Trader as Local Agent" formControlName="trader_aslocal_agent">
+            </dx-select-box>    
+        </div>
+        <div class="col-lg-4 input-group">
+          <div class="col-lg-8">
+            <label class="control-label">Local  Technical Representative</label>
+              <dx-text-box  formControlName="local_agent_name" readOnly=true [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4">
+            <dx-button [disabled]="isReadOnlyTraderasLtr" 
+              [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search"  type="default" (onClick)="funcSearchRegistrantDetails(1)">
+              <i class="fa fa-search"></i>Search Local Agent
+              </dx-button>
+          </div>
+        </div>
+        <div class="col-lg-12">
+          <input type="hidden" value={{sub_module_id}} formControlName="gmpsub_module_id" />
+          <input type="hidden" value={{module_id}} formControlName="gmpmodule_id" />
+          <input type="hidden"  formControlName="man_site_id" />
+          <input type="hidden"  formControlName="ltr_id" />
+          <input type="hidden" name="local_agent_id" formControlName="local_agent_id" />
+          <input type="hidden"  formControlName="premise_id" />
+          <input type="hidden"  formControlName="registered_id" />
+        </div>
+      </fieldset>
+      <fieldset class="col-lg-12 row">
+        <legend  class="contentfieldset">Contact Person</legend>
+         <div class="col-lg-4">
+          <label class="control-label">Trader As Application Contact Person</label>
+            <dx-select-box (onValueChanged)="onTraderasContactpersnChange($event)"  
+              [dataSource]="confirmDataParam" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+              placeholder="trader as Contact Person" formControlName="applicant_contact_person">
+            </dx-select-box>
+          </div>   
+          <div class="col-lg-4 input-group">
+            <div class="col-lg-8">
+              <label class="control-label">Application Contact Person</label>
+                <dx-text-box  formControlName="contact_person" readOnly=true [showClearButton]="true">
+                </dx-text-box>
+                  <input type="hidden" readOnly=true name="contact_person_id" formControlName="contact_person_id" />
+            </div>
+            <div class="col-lg-4">
+              <dx-button [disabled]="isReadOnlyTraderasContactPerson" 
+                [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search Contact Person"  type="default" (onClick)="onPersonnelSearchDetails(1)">
+               <i class="fa fa-search"></i>Search
+              </dx-button>
+            </div> 
+          </div>
+      </fieldset>
+       <fieldset class="col-lg-12 row">
+        <legend  class="contentfieldset">Billing Address</legend>
+         <div class="col-lg-4">
+            <label class="control-label">The Billing should be done by the Applicant</label>
+            <dx-select-box (onValueChanged)="onTraderasContactpersnChange($event)"  
+              [dataSource]="confirmDataParam" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+              placeholder="trader as Contact Person" formControlName="applicant_contact_person">
+            </dx-select-box>
+          </div>   
+          <div class="col-lg-4 input-group">
+            <div class="col-lg-8">
+              <label class="control-label">Billing Person</label>
+                <dx-text-box  formControlName="contact_person" readOnly=true [showClearButton]="true">
+                </dx-text-box>
+                  <input type="hidden" readOnly=true name="contact_person_id" formControlName="contact_person_id" />
+            </div>
+            <div class="col-lg-4">
+              <dx-button [disabled]="isReadOnlyTraderasContactPerson" 
+                [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search Contact Person"  type="default" (onClick)="onPersonnelSearchDetails(1)">
+               <i class="fa fa-search"></i>Search
+              </dx-button>
+            </div> 
+          </div>
+      </fieldset>
+    </div>
+ </form>
+
+<dx-popup class="popup" height="550"  [width]="funcpopWidth(80)" [showTitle]="true" title="Manufacturing Site Personnel" [dragEnabled]="false" [closeOnOutsideClick]="false"
+[(visible)]="isPersonnelPopupVisible">
+
+<div *dxTemplate="let data of 'content'" class="row">
+  <dx-data-grid [dataSource]="personnel_informationData" height=500 (onToolbarPreparing)="onPremisesPerGridToolbar($event)"
+    [showBorders]="true"><dxi-column [width]="60" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+    cellTemplate="cellTemplate">
+    <div *dxTemplate="let data of 'cellTemplate'">
+      <a style="cursor: pointer;" class="action-btn" (click)="funcSelectPremisePersonnel(data)"><i class="fa fa-edit"></i>Select
+        Personnel</a>&nbsp;
+    </div>
+  </dxi-column>
+    <dxi-column dataField="name"></dxi-column>
+
+    <dxi-column dataField="postal_address"></dxi-column>
+    <dxi-column dataField="telephone_no"></dxi-column>
+    <dxi-column dataField="email_address"></dxi-column>
+
+    
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="dtpremDocumentsUploadData" [allowExportSelectedData]="true"></dxo-export>
+
+  </dx-data-grid>
+</div>
+</dx-popup>
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(60)" [height]="'auto'" [showTitle]="true" title="Manufacturing Site Personnel Information"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isaddNewPremisesPersonnelDetails">
+<div *dxTemplate="let data of 'content'">
+<div class="col-lg-12">
+  <form enctype="multipart/form-data" role="form" [formGroup]="newPremisesPersonnelDetailsFrm"
+    (ngSubmit)="onSaveNewPremisesPersonnelDetails()">
+
+    <div class="row">
+
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+
+        <label class="control-label">Name</label>
+        <dx-text-box formControlName="name">
+        </dx-text-box>
+
+      </div>
+     
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+        <label for="ti" class="control-label">Email Address</label>
+        <dx-text-box formControlName="email_address" placeholder="Email Address">
+        </dx-text-box>
+      </div>
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+        <label for="ti" class="control-label">Postal Address</label>
+        <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+        </dx-text-box>
+      </div>
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+        <label for="ti" class="control-label">Telephone No</label>
+
+        <dx-text-box formControlName="telephone_no" placeholder="Telephone No">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-12 btn-margin-5">
+        <br />
+        <button type="submit" (submit)="onSaveNewPremisesPersonnelDetails()" [disabled]="!newPremisesPersonnelDetailsFrm.valid"
+          class="btn btn-primary"><i class="fa fa-user"></i> Save Personnel Details</button>
+      </div>
+    </div>
+  </form>
+</div>
+</div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="1000" [height]="500" [showTitle]="true" title="{{trader_title}}"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isRegistrantDetailsWinshow">
+<div *dxTemplate="let data of 'content'">
+
+  <dx-data-grid class="table row-border hover"  [height]="450"   [remoteOperations]='true'  [dataSource]="traderAccountsDetailsData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="traderFile" [allowExportSelectedData]="true"></dxo-export>
+
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+        <a (click)="funcSelectTraderDetails(data)" class="action-btn"><i class="fa fa-edit"></i>Select</a>&nbsp;
+      </div>
+    </dxi-column>
+    <dxi-column dataField="trader_no"></dxi-column>
+    <dxi-column dataField="trader_name"></dxi-column>
+    <dxi-column dataField="country"></dxi-column>
+    <dxi-column dataField="region"></dxi-column>
+    <dxi-column dataField="physical_address"></dxi-column>
+    <dxi-column dataField="postal_address"></dxi-column>
+    <dxi-column dataField="email_address"></dxi-column>
+
+    
+  </dx-data-grid>
+</div>
+</dx-popup>
+
+<!-- Registrant Details -->
+
+  
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="Registered Premises" [dragEnabled]="false"
+    [closeOnOutsideClick]="true" [(visible)]="ispremisesSearchWinVisible">
+    <div *dxTemplate="let data of 'content'" class="row">
+      <dx-data-grid [dataSource]="registered_premisesData"
+        [showBorders]="true">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxi-column [width]="60" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let data of 'cellTemplate'">
+          <a style="cursor: pointer;" class="action-btn" (click)="funcSelectPremiseDetails(data)"><i class="fa fa-edit"></i>Select
+            Premises</a>&nbsp;
+        </div>
+      </dxi-column>
+        <dxi-column dataField="name"></dxi-column>
+        <dxi-column dataField="premise_reg_no"></dxi-column>
+        <dxi-column dataField="permit_no"></dxi-column>
+        <dxi-column dataField="physical_address"></dxi-column>
+        <dxi-column dataField="postal_address"></dxi-column>
+        <dxi-column dataField="region_name"></dxi-column>
+  
+        
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="registeredPremises" [allowExportSelectedData]="true"></dxo-export>
+  
+      </dx-data-grid>
+  
+    </div>
+  </dx-popup>
+  
+  
+  
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Manufactur Details"
+    [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isManufacturerPopupVisible">
+    <div *dxTemplate="let data of 'content'">
+          <dx-data-grid class="table row-border hover" [remoteOperations]='true'  [allowColumnResizing]="true"  [columnHidingEnabled]="true" 
+                    [dataSource]="manufacturersSiteData" (onToolbarPreparing)="onManDetailPreparing($event)" keyExpr="id">
+                    <dxo-filter-row [visible]="false"></dxo-filter-row>
+                    <dxo-search-panel [visible]="true">
+                    </dxo-search-panel>
+                    <dxo-paging [enabled]="true">
+                    </dxo-paging>
+                    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                    </dxo-pager>
+                    <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+                    
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                      cellTemplate="cellTemplate">
+                      <div *dxTemplate="let data of 'cellTemplate'">
+                        <a (click)="funcSelectManufacturer(data)" class="action-btn"><i class="fa fa-edit"></i>Select Manufacturer Site</a>&nbsp;
+                      </div>
+                    </dxi-column>
+                    <dxi-column [groupIndex]="1" dataField="manufacturer_name"></dxi-column>
+                    <dxi-column dataField="manufacturing_site_name"></dxi-column>
+                    <dxi-column dataField="country"></dxi-column>
+                    <dxi-column dataField="region"></dxi-column>
+                    <dxi-column dataField="district"></dxi-column>
+                    <dxi-column dataField="physical_address"></dxi-column>
+                    <dxi-column dataField="postal_address"></dxi-column>
+                    <dxi-column dataField="email_address"></dxi-column>
+                    
+          </dx-data-grid>
+      </div>
+  </dx-popup>
+
+  <dx-popup class="popup" [width]="funcpopWidth(80)" [height]="auto" [showTitle]="true" title="New Manufacturer" [dragEnabled]="false" [closeOnOutsideClick]="" [(visible)]="isAddNewManufacturingSite">
+
+    <div *dxTemplate="let data of 'content'" class="row">
+      <dx-scroll-view class="col-lg-12 row">
+        <div class="col-lg-12 row">
+            <form enctype="multipart/form-data" role="form" class="row" [formGroup]="manufacturerFrm" (ngSubmit)="onAddManufacturerDetails()">
+              
+                <div class="col-lg-4 row input-group ">
+                  <div class="col-lg-8 no-padding">
+                        <label class="control-label">Manufacturer Name</label>
+                        <dx-text-box formControlName="name"
+                          placeholder="Manufacturer Name" [showClearButton]="true">
+                        </dx-text-box>
+                    </div>
+                    <div class="col-lg-4 no-padding"  *ngIf="sub_module_id == 5">
+                        <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search Manufacturing Details"  type="default" (onClick)="onSearchManufacturer()">
+                            <i class="fa fa-search"></i>Search Details
+                        </dx-button>
+                      </div>
+                </div>
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                  <label class="control-label">Manufacturer Country</label>
+
+                  <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+                  </dx-select-box>
+              </div>
+              
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4  input-group">
+                  <div class="col-lg-8 no-padding">
+                      <label for="ti" class="control-label">Manufacturer Region/City</label>
+
+                      <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"[searchEnabled]="true" formControlName="region_id">
+                      </dx-select-box>
+                  </div>
+                  <div class="col-lg-4 no-padding">
+                      <dx-button
+                      text="Add"
+                      type="success"
+                      icon="fa fa-plus"
+                      [elementAttr]="{  class: 'pull-left' }"
+                      (onClick)="OnAddNewManufacturerReionDetails()">
+                  </dx-button>
+                  </div>
+
+              </div>
+             
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                  <label for="ti" class="control-label"> Manufacturer Email Address</label>
+                  <dx-text-box formControlName="email_address" placeholder="Email Address">
+                  </dx-text-box>
+              </div>
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                  <label for="ti" class="control-label">Manufacturer Postal Address</label>
+                  <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+                  </dx-text-box>
+              </div>
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                <input type="hidden"/>
+              </div>
+                <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+
+                  <label class="control-label"> Site Name</label>
+                  <dx-text-box formControlName="mansite_name">
+                  </dx-text-box>
+
+              </div>
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                  <label class="control-label">Country</label>
+
+                  <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="mansitecountry_id">
+                  </dx-select-box>
+              </div>
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4 ">
+                <label for="ti" class="control-label">Region/City</label>
+
+                <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="mansiteregion_id">
+                </dx-select-box>
+
+              </div>
+             
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                  <label for="ti" class="control-label">Email Address</label>
+                  <dx-text-box formControlName="mansiteemail_address" placeholder="Email Address">
+                  </dx-text-box>
+              </div>
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                  <label for="ti" class="control-label">Postal Address</label>
+                  <dx-text-box formControlName="mansitepostal_address" placeholder="Postal Address">
+                  </dx-text-box>
+              </div>
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                  <label for="ti" class="control-label">Telephone No</label>
+
+                  <dx-text-box formControlName="mansitetelephone_no" placeholder="Telephone No">
+                  </dx-text-box>
+              </div>
+              <div class="col-lg-12">
+                  <label class="control-label">Physical Address</label>
+
+                  <dx-text-area [height]="60" formControlName="mansitephysical_address" placeholder="Physical Address">
+                  </dx-text-area>
+              </div>
+              <div class="col-xs-12 col-md-4 col-lg-4 col-xl-4">
+                  <label class="control-label">Contact Person</label>
+                  <dx-text-box formControlName="contact_person" placeholder="Contact Person">
+                  </dx-text-box>
+              </div>
+                <div class="row">
+                  <input type="hidden" name="manufacturer_id" />
+                    <div class="col-lg-12 btn-margin-5">
+                        <br />
+                        <button type="submit" (submit)="onAddManufacturerDetails()" [disabled]="!manufacturerFrm.valid" class="btn btn-primary"><i
+                          class="fa fa-user"></i> Save Manufacturer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </dx-scroll-view>
+    </div>
+  </dx-popup>
+
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="Manufacturer(s) Information" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isproductManufacturerModalShow">
+
+    <div *dxTemplate="let data of 'content'" class="row">
+  
+        <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false"  [height]="420"  [remoteOperations]='true'  [dataSource]="manufacturersData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+          
+            <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+                <div *dxTemplate="let data of 'cellTemplate'">
+                    <a (click)="funcSelectManData(data)" class="action-btn"><i class="fa fa-edit"></i>Select Manufacturer</a>&nbsp;
+                </div>
+            </dxi-column>
+            <dxi-column dataField="manufacturer_name"></dxi-column>
+            <dxi-column dataField="country"></dxi-column>
+            <dxi-column dataField="region"></dxi-column>
+            <dxi-column dataField="district"></dxi-column>
+            <dxi-column dataField="physical_address"></dxi-column>
+            <dxi-column dataField="postal_address"></dxi-column>
+            <dxi-column dataField="email_address"></dxi-column>
+            <dxo-paging [pageSize]="50"></dxo-paging>
+        </dx-data-grid>
+  
+    </div>
+  </dx-popup>

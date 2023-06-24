@@ -1,0 +1,11 @@
+{
+    "name": "Tradermanagement",
+    "alias": "tradermanagement",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Tradermanagement\\Providers\\TradermanagementServiceProvider"
+    ],
+    "files": []
+}

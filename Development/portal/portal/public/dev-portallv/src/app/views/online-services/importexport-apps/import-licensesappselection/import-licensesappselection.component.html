@@ -1,0 +1,153 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Import License Application Process</h1>
+      <ol class="breadcrumb float-right">
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+
+<form enctype="multipart/form-data" style="margin:0.5px" class="row div-whiteback " role="form" [formGroup]="applicationSelectionfrm"
+  (ngSubmit)="onApplicationSelection()">
+  <div class="col-lg-12" style="margin-bottom: 30px;">
+    <h6 class="main-title">Guideline on Initialisation of Import License Application</h6>
+  <ul>
+    <li>
+      <span>Option 1: Select the Select Import License Application Type and specific Category or the products to be imported or exported and then click start Application.Note this option is only on Registered(Register of approved products is accessible using the View Registered Products).</span>
+    </li>
+    <li>
+      Option 2: Initialisation of Import License on approved Visa application. This option supports the issuance of import licences on Non-Registered or Authorised products.
+    </li>
+  </ul>
+    <br/>
+  </div>
+  <div class="col-lg-6 apptype-selection bg-light text-dark">
+          <h3 class='apptype-selection'>Select Application Type</h3>
+        <dx-select-box [dataSource]="applicationTypeData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Import/Export Visa Type" 
+          formControlName="sub_module_id">
+          <div *dxTemplate="let name of 'item'">
+            <p>{{name.name}} </p>
+        </div>
+      </dx-select-box>
+       
+</div>
+<div class="col-lg-6 apptype-selection bg-light text-dark">
+
+        <h3 class='apptype-selection'>Select Product Category/Type</h3>
+  
+        <dx-select-box [dataSource]="sectionsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Product Types/Category" 
+          formControlName="section_id">
+          <div *dxTemplate="let name of 'item'">
+            <div>{{name.name}} Products Category/Type</div>
+        </div>
+      </dx-select-box>
+</div>
+  <div class="col-lg-12 ">
+   
+    <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left' }"   icon="fa fa-arrow-right"  icon="fa fa-dashboard" text="Return Back to Import License Dashboard" 
+    type="default" (onClick)="onApplicationBackToDashboard('importlicense-dashboard')">
+    
+    </dx-button> 
+    <dx-button  [elementAttr]="{ class: 'btn btn-primary  pull-left' }"  icon="fa fa-eye"  text="View Registered/Authorised Products" 
+            type="default" (onClick)="funcViewRegisteredProducts()">
+          </dx-button>
+    <dx-button  [elementAttr]="{ class: 'btn btn-primary  pull-left' }"  icon="fa fa-arrow-right"  text="Initiate Import License Application" 
+    [disabled]="!applicationSelectionfrm.valid" 
+      type="success" (onClick)="onApplicationSelection()">
+    </dx-button>
+  </div>
+</form>
+
+  <div class="row div-backwhite no-padding">
+    <h1 class="main-title float-left">List of your Approved Visa Applications</h1>
+    <div class="col-lg-12  no-padding">
+      <dx-data-grid class=" row-border hover "  [showRowLines] = "true"  [allowColumnResizing]="false" [columnHidingEnabled]="true"
+      [dataSource]="dtImportExpApplicationData" [showBorders]="true"
+      (onToolbarPreparing)="onImportappsToolbarPreparing($event)" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-load-panel [enabled]="true">
+      </dxo-load-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true"
+        [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-export [enabled]="true" fileName="ImportExport" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="single"></dxo-selection>
+      
+      <dxi-column [width]=125  caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'" class="btn-cursor">
+          <a (click)="funcInitiateLicenseApplication(data)" class="action-btn"><i class="fa fa-edit btn-cursor"></i>Initiate Licence Request</a>&nbsp;
+        </div>
+    </dxi-column>
+      <dxi-column dataField="tracking_no"></dxi-column>
+
+      <dxi-column dataField="reference_no"></dxi-column>
+      <dxi-column [width] = 90 [groupIndex]="2" caption="Permit Type" dataField="importexport_permittype"></dxi-column>
+      
+      <dxi-column [groupIndex]="0" dataField="application_type" ></dxi-column>
+      <dxi-column [width] = 100  dataField="permit_reason" caption="Reason for Importation/Exportation"></dxi-column>
+      <dxi-column [width] = 100  dataField="port_name" caption="Port of Entry/Exit"></dxi-column>
+      
+      <dxi-column  [width] = 100  dataField="proforma_invoice_no"></dxi-column>
+      <dxi-column dataField="proforma_invoice_date"></dxi-column>
+      <dxi-column dataField="sender_receiver" caption="Sender/Receiver"></dxi-column>
+      
+      <dxi-column dataField="premises_name" caption="Premises Name"></dxi-column>
+      <dxi-column [width] = 100  [allowFiltering]="false" dataField="date_added"></dxi-column>
+      <dxi-column [groupIndex]="2" dataField="status_name"></dxi-column>
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid>
+
+
+
+      </div>
+  </div>
+  </div>
+
+  
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Permits Products" [dragEnabled]="false"
+[closeOnOutsideClick]="false" [(visible)]="isPermitproductsPopupVisible">
+<div *dxTemplate="let data of 'content'">
+  <div class="row">
+    <div class="col-lg-12 no-padding">
+      <dx-data-grid [dataSource]="registeredProductsData" [height]="500" [remoteOperations]='true'
+        [showBorders]="true">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxo-export [enabled]="true" fileName="Registetered Products" [allowExportSelectedData]="true"></dxo-export>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxi-column dataField="registrant" caption="Market Authorisation Holder"></dxi-column>
+        <dxi-column dataField="localtechnical_representative" caption="Local Technical Represenatative"></dxi-column>
+
+        <dxi-column [groupIndex]="1"  dataField="section_name" caption="Product Category"></dxi-column>
+        <dxi-column dataField="brand_name" caption="Brand Name/Device Name"></dxi-column>
+        <dxi-column dataField="certificate_no"></dxi-column>
+        <dxi-column dataField="common_name" caption="Common Name/INN Name/API"></dxi-column>
+        <dxi-column dataField="retention_status"></dxi-column>
+        <dxi-column dataField="validity_status"></dxi-column>
+       
+      <dxo-paging [pageSize]="25"></dxo-paging> 
+        <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+
+      </dx-data-grid>
+    </div>
+    
+  </div>
+</div>
+</dx-popup>

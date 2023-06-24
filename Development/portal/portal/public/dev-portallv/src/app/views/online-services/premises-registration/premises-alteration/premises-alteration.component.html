@@ -1,0 +1,523 @@
+<div class="row">
+    <div class="col-xl-12">
+      <div class="breadcrumb-holder">
+        <h1 class="main-title float-left">Process: {{process_title}}</h1>
+        <ol class="breadcrumb float-right">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item active">Premises Application</li>
+        </ol>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+  <div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+      <div class="row">
+          <div class="col-lg-3">
+              <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">   Tracking No: <i> {{tracking_no}}</i>   </label>
+          </div>
+          <div class="col-lg-2">
+              <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application Status:<i> {{status_name}}</i> </label>
+          </div>
+          
+        </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-lg-12">
+      <wizard  style="background: #fff !important; height: 100% !important;">
+          <wizard-step *ngIf="status_id === 17 || status_id === 6" stepTitle="Queries" class="wizardStep-height">
+            
+            <div class="col-lg-12 wizard-content">
+              <app-application-queries [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-queries>
+              </div>
+              <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                  <button (click)="onPremisesDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                    class="fa fa-dashboard"></i>
+                  &nbsp; Dashboard</button>
+                <button type="button" class="btn btn-primary" nextStep>Next(Query Responses) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+              </div>
+          </wizard-step>
+        <wizard-step stepTitle="Premises Application Details" class="wizardStep-height">
+            <app-premises-generaldetails  [premisesGeneraldetailsfrm] ="premisesGeneraldetailsfrm"  
+            [sectionsData] ="sectionsData"  
+            [premisesTypeData] ="premisesTypeData"  
+            [countries] ="countries"  
+            [regions] ="regions"  
+            [districts] ="districts"  
+            [businessTypesData] ="businessTypesData" 
+            [businessScaleData] ="businessScaleData"  
+            [businessCategoryData] ="businessCategoryData"  
+            [zoneData] ="zoneData"  
+            [confirmDataParam] ="confirmDataParam"
+            [sub_module_id] ="sub_module_id" 
+            [module_id] ="module_id" 
+            [application_code] ="application_code"
+            [tra_premise_id] ="tra_premise_id" 
+            [registered_id] ="registered_id"
+            [isReadOnlyTraderasContact] ="isReadOnlyTraderasContact" 
+            [premisesGeneraldetailsfrm] ="premisesGeneraldetailsfrm" 
+            [payingCurrencyData] ="payingCurrencyData" 
+            [fastTrackOptionsData] ="fastTrackOptionsData" 
+            [newPremisesPersonnelDetailsFrm] ="newPremisesPersonnelDetailsFrm" 
+
+            
+            (businessTypeEvent)="business_type_id=$event"
+
+            [is_readonly] ="is_readonly" >
+
+            </app-premises-generaldetails>
+
+            <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+              <button (click)="onPremisesDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                  class="fa fa-dashboard"></i>
+                &nbsp; Dashboard</button>
+            
+              <button type="submit" (click)="onSavePremisesApplication()" 
+                class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Ammendements Request</button>
+            </div>
+        
+        </wizard-step>
+       
+          <wizard-step stepTitle="Ammendements/Variation Request" class="wizardStep-height">
+            <div class="row wizard-content">
+                <app-application-variation-details [section_id] ="section_id"  [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+        
+                </app-application-variation-details>
+  
+            </div>
+            <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+              <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Previous
+                Premises Documents</button>
+                <button type="button" class="btn btn-primary" (click)="funcValidateApplicationVariationDetails(2)">Next Application Submission &nbsp;<i class="fa fa-angle-double-right"></i></button>
+              </div>
+        </wizard-step>  
+          <wizard-step stepTitle="Documents" class="wizardStep-height">
+            <div class=" wizard-content">
+                <app-application-documents [section_id]="section_id" [module_id]="module_id" [status_id]="status_id" [sub_module_id]="sub_module_id" [application_code]="application_code"></app-application-documents>
+            </div>
+            <div class="wizard-divbottom">
+                <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Previous
+        Premises Documents</button>
+
+                <button *ngIf="status_id === 6" type="button" (click)="onShowInitalQueriesWin()" class="btn btn-primary"><i class="fa fa-question-circle"></i>Query & Query Response</button>
+
+                <button *ngIf="status_id === 17" type="button" (click)="onShowInitalQueriesWin()" class="btn btn-primary"><i class="fa fa-question-circle"></i>Query & Query Response</button>
+
+                <button type="button" class="btn btn-primary" (click)="funcValidatePremDocumentsUpload(3+initWizardPanel)">Next Application Submission<i class="fa fa-angle-double-right"></i></button>
+
+            </div>
+
+        </wizard-step>
+        <wizard-step stepTitle="Completion & Submission">
+          <div class="row wizard-content">
+            
+              <div class="col-lg-12">
+                  <b><h4>Declaration</h4></b>
+                  <ul>
+                      <li *ngFor="let guide of terms_conditions;">
+                          <p>{{guide.no}} {{guide.term_conditiondetails}}</p>
+                      </li>
+                  </ul>
+              </div>
+              <div class="col-lg-12">
+                 <b> <h4>Submission Comments(Optional)</h4></b>
+                  <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+              </div>
+            <div class="col-lg-12">
+                <dx-check-box
+                    text="Agree to the Terms & Conditions"
+                    [value]="undefined"
+                    (onValueChanged)="newPremTermscheckbox($event)">
+                </dx-check-box>
+              </div>
+          </div>
+          <div class="wizard-divbottom">
+            <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+            <app-invoice-appgeneration  [onApplicationSubmissionFrm] ="onApplicationSubmissionFrm" [module_id] ="module_id"  [status_id] ="status_id" [application_code]="application_code" [app_routing]="app_routing"></app-invoice-appgeneration>
+            <button class="btn btn-primary" type="button" [disabled]="!checkPremisesSubmission" (click)="onPremisesApplicationSubmit()">Submit Premises
+              Application</button>
+          </div>
+        </wizard-step>
+      </wizard>
+    </div>
+  </div>
+  <!-- modal structure-->
+  
+   <!-- modal ammenements request structure-->
+   <dx-popup class="popup"  [width]="funcpopWidth(50)" [height]="300" [showTitle]="true" title="Premises Ammendments Requests Information"
+   [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPremisesAmmendementPopup">
+   <div *dxTemplate="let data of 'content'">
+     <form role="form" class="col-lg-12" enctype="multipart/form-data" role="form" [formGroup]="premisesAmmendmentsrequestFrm"
+       (ngSubmit)="onSavePremisesAmmendmentsRequest()">
+       <div class="col-lg-12">
+         <label>Ammendment Section/Part</label>
+         <dx-select-box  [items]="ammendementSectionData" valueExpr="id"
+           displayExpr="name" placeholder="Select Ammendement Section" [searchEnabled]="true" formControlName="part_id">
+         </dx-select-box>
+ 
+       </div>
+       <div class="col-lg-12">
+         <label>Remarks</label>
+         <dx-text-box formControlName="remarks" placeholder="Remarks" [showClearButton]="true">
+          </dx-text-box>
+         <input type="hidden" formControlName="id" />
+       </div>
+       <div class="col-lg-12">
+         <dx-button text="Save Business details" [disabled]="!premisesAmmendmentsrequestFrm.valid" (onClick)="onSavePremisesAmmendmentsRequest()"
+           type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+         </dx-button>
+       </div>
+     </form>
+   </div>
+ </dx-popup>
+  <dx-popup class="popup"  [showTitle]="true" title="Premises Personnel" [dragEnabled]="false" [closeOnOutsideClick]="false"
+    [(visible)]="isBusinessPersonnelPopupVisible">
+  
+    <div *dxTemplate="let data of 'content'" class="row">
+      <div class="col-lg-12">
+        <wizard style="background: #fff !important; height: 100% !important;">
+          <wizard-step stepTitle="Personnel Information" class="wizardStep-height">
+            <form role="form" enctype="multipart/form-data" role="form" [formGroup]="personnelDetailsfrm" (ngSubmit)="onSavePersonnelDetails()">
+  
+              <div class="row wizard-contentwin">
+                <div class="col-lg-6">
+                  <div class="row">
+                    <div class="col-lg-9">
+                      <label class="control-label">Name</label>
+                      <dx-text-box formControlName="name" placeholder="Personnel Name" [showClearButton]="true">
+                      </dx-text-box>
+                    </div>
+                    <div class="col-lg-3">
+                      <dx-button text="Search" type="success" icon="search" (click)="onPersonnelSearchDetails()"
+                        [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+  
+                      </dx-button>
+                    </div>
+                  </div>
+  
+                </div>
+                <div class="col-lg-6">
+                  <label class="control-label">Postal Address</label>
+                  <dx-text-box formControlName="postal_address" placeholder="Postal Addess" [showClearButton]="true">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-6">
+                  <label class="control-label">Telephone No</label>
+                  <dx-text-box formControlName="telephone_no" placeholder="Telephone" [showClearButton]="true">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-6">
+                  <label class="control-label">Email Address</label>
+                  <dx-text-box formControlName="email_address" placeholder="Email" [showClearButton]="true">
+                  </dx-text-box>
+                </div>
+  
+                <div class="col-lg-12">
+  
+                  <input type="hidden" formControlName="personnel_id" />
+                </div>
+              </div>
+              <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+  
+                <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!personnel_id" nextStep type="button">
+                  Next Personnel Qualifications &nbsp;<i class="fa fa-angle-double-right"></i></button>
+  
+                <button type="submit" (submit)="onSavePersonnelDetails()" [disabled]="!personnelDetailsfrm.valid" class="btn btn-primary  pull-right"
+                  style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Personnel
+                </button>
+              </div>
+            </form>
+          </wizard-step>
+          <wizard-step stepTitle="Personnel Qualifications" class="wizardStep-height">
+            <div class="row wizard-contentwin">
+              <div class="col-lg-4">
+                <div class="col-lg-12">
+                  <form role="form" class="col-lg-12" enctype="multipart/form-data" role="form" [formGroup]="personnelQualificationFrm"
+                    class="row" (ngSubmit)="onSavePersonnelQualification()">
+  
+                    <div class="col-lg-12">
+                      <label>Institution</label>
+                      <dx-text-box formControlName="institution">
+                      </dx-text-box>
+                    </div>
+                    <div class="col-lg-12">
+                      <label>Registration No</label>
+                      <dx-text-box formControlName="registration_no">
+                      </dx-text-box>
+                    </div>
+                    <div class="col-lg-12">
+                      <dx-select-box [dataSource]="qualificationsData" valueExpr="id" placeholder="Qualification"
+                        displayExpr="name" [searchEnabled]="true" formControlName="qualification_id">
+                      </dx-select-box>
+                    </div>
+                    <div class="col-lg-12">
+                      <dx-select-box [dataSource]="studyFieldsData" valueExpr="id" placeholder="Study Field" displayExpr="name"
+                        [searchEnabled]="true" formControlName="study_field_id">
+                      </dx-select-box>
+                    </div>
+  
+                    <div class="col-lg-12">
+                      <input type="hidden" formControlName="personnel_id">
+                      <input type="hidden" formControlName="id" />
+                    </div>
+                    <div class="col-lg-12">
+                      <dx-button text="Save Personnel Details" [disabled]="!personnelQualificationFrm.valid" (onClick)="onSavePersonnelQualification()"
+                        type="success" class="btn" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                      </dx-button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <dx-data-grid [dataSource]="personnel_QualificationData" (onToolbarPreparing)="onPersQualificationGridToolbar($event)"
+                  [showBorders]="true">
+                  <dxi-column dataField="personnel_name"></dxi-column>
+                  <dxi-column dataField="registration_no"></dxi-column>
+                  <dxi-column dataField="institution"></dxi-column>
+  
+                  <dxi-column dataField="qualifications"></dxi-column>
+                  <dxi-column dataField="study_field"></dxi-column>
+  
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                  <dxo-paging [enabled]="true">
+                  </dxo-paging>
+                  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                  </dxo-pager>
+                  <dxo-export [enabled]="true" fileName="dtpremQualifacationsData" [allowExportSelectedData]="true"></dxo-export>
+  
+                </dx-data-grid>
+              </div>
+            </div>
+            <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+              <button type="button" class="btn btn-primary" previousStep>&nbsp;<i class="fa fa-angle-double-left"></i>Go
+                to
+                Personnel Information</button>
+              <button type="button" class="btn btn-primary" nextStep>Go to Premises Personel Documents &nbsp;<i class="fa fa-angle-double-right"></i></button>
+            </div>
+          </wizard-step>
+          <wizard-step stepTitle=" Personnel Qualification Documents">
+            <div class="row wizard-contentwin">
+              <wizard-step stepTitle=" Personnel Qualification Documents">
+                <div class="row wizard-contentwin">
+                   <div class="col-lg-3">
+                      <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="premisesPersonnelDocumentUploadfrm"
+                      (ngSubmit)="onpersonnelpremisesDocumentUpload()">
+                      <div class="col-lg-12">
+                        <label>Personnel Qualification(s)</label>
+                        <dx-select-box [dataSource]="personnel_QualificationData" 
+                          valueExpr="id" placeholder="Personnel Qualification"
+                          
+                          displayExpr="study_field" [searchEnabled]="true" formControlName="personnel_qualification_id">
+                          <div *dxTemplate="let data of 'item'">
+                              <div class="custom-item">
+                                  {{data.qualifications}} {{data.study_field}}
+                                  
+                              </div>
+                          </div>
+                        </dx-select-box>
+                      </div>
+                     
+                      <div class="col-lg-12">
+                        <label>File Upload</label>
+                        <input type="file" (change)="onNonStrctureFileChange($event)" placeholder="Upload  Document"/>
+                      </div>
+                      <div class="col-lg-12">
+                        <label>Description</label>
+                        <dx-text-area [height]="60" formControlName="description"  placeholder="Description"
+                          [(value)]="value">
+                        </dx-text-area>
+                      </div>
+                      <input type="hidden" formControlName="id"/>
+                      <input type="hidden" formControlName="node_ref" />
+                      <input type="hidden" formControlName="personnel_id">
+                      
+                      <div class="col-lg-12">
+                        <dx-button text="Upload Document" [disabled]="!premisesPersonnelDocumentUploadfrm.valid" (onClick)="onpersonnelpremisesDocumentUpload()"
+                          type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                        </dx-button>
+                      </div>
+                    </form>
+      
+                   </div>
+                   <div class="col-lg-9">
+                      <dx-data-grid class="table row-border hover" [dataSource]="premPersonnelDocumentsUploadData" keyExpr="id"  >
+                          <dxo-filter-row [visible]="true"></dxo-filter-row>
+              
+                          <dxo-paging [enabled]="true">
+                          </dxo-paging>
+                          <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                          </dxo-pager>
+                          <dxo-export [enabled]="true" fileName="premPersonnelDocumentsUploadData" [allowExportSelectedData]="true"></dxo-export>
+              
+                          <dxo-selection mode="multiple"></dxo-selection>
+                          <dxo-group-panel [visible]="true"></dxo-group-panel>
+              
+                          <dxi-column [width]="60" dataField="sn"></dxi-column>
+                          <dxi-column [width]="80" dataField="is_mandatory"></dxi-column>
+                         <!--<dxi-column dataField="document_requirement"></dxi-column>--> 
+                          <dxi-column [groupIndex]="0"  dataField="document_type"></dxi-column>
+                          <dxi-column dataField="file_name"></dxi-column>
+                          <dxi-column dataField="initial_file_name"></dxi-column>
+                          
+                          <dxi-column dataField="uploaded_by"></dxi-column>
+                          <dxi-column dataField="uploaded_on"></dxi-column>
+                          <dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                            cellTemplate="cellTemplate">
+                              <div *dxTemplate="let data of 'cellTemplate'">
+                                  
+                                <dx-menu (onItemClick)="premDocumentsActionColClick($event,data)"  [items]="nonstructreddocumentMenuItems"></dx-menu>
+                                
+                              </div>
+                          </dxi-column>
+                          
+                          <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+                        </dx-data-grid>
+                   </div>
+      
+                </div>
+                <div class="wizard-divbottom">
+                  <button type="button" class="btn btn-primary" previousStep>&nbsp;<i class="fa fa-angle-double-left"></i>Go
+                    to
+                    Premises Personel Details</button>
+                  <button type="button" class="btn btn-primary" nextStep>Go to Premises Documents<i class="fa fa-angle-double-right"></i></button>
+                </div>
+              </wizard-step>
+  
+            </div>
+            <div class="wizard-divbottom">
+              <button type="button" class="btn btn-primary" previousStep>&nbsp;<i class="fa fa-angle-double-left"></i>Go
+                to
+                Premises Personel Details</button>
+              <button type="button" class="btn btn-primary" nextStep>Go to Premises Documents<i class="fa fa-angle-double-right"></i></button>
+            </div>
+          </wizard-step>
+          <wizard-step stepTitle="Premises Personnel Details">
+            <div class="row wizard-contentwin">
+              <form role="form" enctype="multipart/form-data" role="form" [formGroup]="premisesPersonnelDetailsfrm" class="col-lg-12"
+                (ngSubmit)="onSavePremisesPersonnelDetails()">
+                <div class="row">
+                  <div class="col-lg-6">
+                      <label>Personnel Qualification(s)</label>
+                    <dx-select-box [dataSource]="personnel_QualificationData" valueExpr="id" placeholder="Personnel Qualification"
+                      displayExpr="study_field" [searchEnabled]="true" formControlName="personnel_qualification_id">
+                    </dx-select-box>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>Personnel Position</label>
+                  <dx-select-box [dataSource]="personnelPositionData" valueExpr="id" placeholder="Personnel Position"
+                    displayExpr="name" [searchEnabled]="true" formControlName="position_id">
+                  </dx-select-box>
+                </div>
+                  <div class="col-lg-6">
+                    <label>Start Date</label>
+                    <dx-date-box formControlName="start_date">
+                    </dx-date-box>
+                  </div>
+                  <div class="col-lg-6">
+                    <label>End Date</label>
+                    <dx-date-box formControlName="end_date">
+                    </dx-date-box>
+                  </div>
+  
+                  <div class="col-lg-12">
+                    <input type="hidden" formControlName="personnel_id">
+                    <input type="hidden" formControlName="id" />
+                  </div>
+                </div>
+  
+              
+              </form>
+              <div class="wizard-divbottom">
+                <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+  
+                <dx-button text="Save Personnel Details" [disabled]="!premisesPersonnelDetailsfrm.valid" (onClick)="onSavePremisesPersonnelDetails()"
+                  type="success" class="btn" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                </dx-button>
+              </div>
+            </div>
+  
+          </wizard-step>
+        </wizard>
+  
+      </div>
+  
+    </div>
+  </dx-popup>
+  
+  <dx-popup class="popup" [showTitle]="true" title="Premises Personnel" [dragEnabled]="false" [closeOnOutsideClick]="true"
+    [(visible)]="isPersonnelPopupVisible">
+  
+    <div *dxTemplate="let data of 'content'" class="row">
+      <dx-data-grid [dataSource]="personnel_informationData" (onToolbarPreparing)="onPremisesPerGridToolbar($event)"
+        [showBorders]="true">
+        <dxi-column dataField="name"></dxi-column>
+  
+        <dxi-column dataField="postal_address"></dxi-column>
+        <dxi-column dataField="telephone_no"></dxi-column>
+        <dxi-column dataField="email_address"></dxi-column>
+  
+        <dxi-column [width]="60" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+          cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+            <a style="cursor: pointer;" (click)="funcSelectPremisePersonnel(data)"><i class="fa fa-edit"></i>Select
+              Personnel</a>&nbsp;
+          </div>
+        </dxi-column>
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="dtpremDocumentsUploadData" [allowExportSelectedData]="true"></dxo-export>
+  
+      </dx-data-grid>
+    </div>
+  </dx-popup>
+  <ng-http-loader spinner="sk-wave"></ng-http-loader>
+  
+  <dx-popup class="popup" [width]="500" [height]="450" [showTitle]="true" title="Premises Personnel" [dragEnabled]="false"
+    [closeOnOutsideClick]="true" [(visible)]="isperssonelAddPopupVisible">
+    <div *dxTemplate="let data of 'content'" class="row">
+  
+  
+    </div>
+  
+  </dx-popup>
+
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="Registered Premises" [dragEnabled]="false"
+    [closeOnOutsideClick]="true" [(visible)]="ispremisesSearchWinVisible">
+    <div *dxTemplate="let data of 'content'" class="row">
+        <dx-data-grid [dataSource]="registered_premisesData" (onToolbarPreparing)="onPremisesPerGridToolbar($event)"
+        [showBorders]="true"> 
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel 
+          [visible]="true" 
+        >
+      </dxo-search-panel>
+        
+        <dxi-column dataField="name"></dxi-column>
+  
+        <dxi-column dataField="premise_reg_no"></dxi-column>
+        <dxi-column dataField="permit_no"></dxi-column>
+        <dxi-column dataField="physical_address"></dxi-column>
+        <dxi-column dataField="postal_address"></dxi-column>
+        <dxi-column dataField="region_name"></dxi-column>
+  
+        <dxi-column [width]="60" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+          cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+            <a style="cursor: pointer;" (click)="funcSelectPremiseDetails(data)"><i class="fa fa-edit"></i>Select
+              Premises</a>&nbsp;
+          </div>
+        </dxi-column>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="registeredPremises" [allowExportSelectedData]="true"></dxo-export>
+  
+      </dx-data-grid>
+
+    </div>
+  </dx-popup>

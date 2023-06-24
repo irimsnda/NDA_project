@@ -1,0 +1,95 @@
+
+<div class="row" style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+  <div class="col-xl-12">
+    <b>  <h3 class="float-left">My Trial Registry</h3></b>
+   
+  </div>
+</div>
+<div class="row">
+    <dx-data-grid class="table row-border hover registrydash-grid" [dataSource]="dtClinicalTrialRegistryData" (onToolbarPreparing)="onClinicalTrialToolbarPreparing($event)" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="clinicalTrialApplicationData" [allowExportSelectedData]="true"></dxo-export>
+    
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column dataField="tracking_no" caption="Identification No"></dxi-column>
+      <dxi-column dataField="study_title"></dxi-column>
+      <dxi-column dataField="trial_design"></dxi-column>
+      <dxi-column dataField="clinical_study_phase"></dxi-column>
+      <dxi-column dataField="acronym"></dxi-column>
+      <dxi-column dataField="purpose_of_trial"></dxi-column>
+      <dxi-column dataField="completion_date"></dxi-column>
+      <dxi-column dataField="recruitment_status"></dxi-column>
+      <dxi-column dataField="publication_url"></dxi-column>
+      <dxi-column  [groupIndex]="0" dataField="application_status"></dxi-column>
+      <dxi-column [width]=150 caption="Other Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+      <div *dxTemplate="let d of 'cellTemplate'">
+          <dx-button type="default" *ngIf="d.data.clinical_registrystatus_id ==5" (onClick)="onPreviewClinicalTriaQueries(d.data)">
+            <i class="fa fa-edit"></i>View Query
+        </dx-button>
+    
+      </div>
+    </dxi-column>
+      <dxi-column [width]=150 caption="Other Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let d of 'cellTemplate'">
+          <dx-button type="default" (onClick)="onEditClinicalTriaRegistry(d.data,false)">
+            <i class="fa fa-edit"></i>Edit Trial
+        </dx-button>
+        <dx-button type="default" (onClick)="onPreviewlinicalTriaRegistry(d.data,true)">
+          <i class="fa fa-export"></i>Preview Trial
+      </dx-button>
+        <dx-button type="default" *ngIf="d.data.clinical_registrystatus_id ==5" (onClick)="onPreviewClinicalTriaRegistry(d.data)">
+          <i class="fa fa-edit"></i>Query Response
+       </dx-button>
+      
+        </div>
+      </dxi-column>
+    </dx-data-grid>
+
+</div>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="700" [showTitle]="true" title="Raised Queries"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isInitalQueryResponseFrmVisible">
+      <div *dxTemplate="let data of 'content'">
+           <dx-scroll-view>
+              <dx-data-grid class="table row-border hover row" [columnHidingEnabled]="false" [dataSource]="applicationPreckingQueriesData" (onToolbarPreparing)="onAppQueryPreparing($event)"
+              [showBorders]="true">
+              <dxo-filter-row [visible]="false"></dxo-filter-row>
+              <dxo-load-panel [enabled]="true">
+              </dxo-load-panel>
+              <dxo-paging [enabled]="true">
+              </dxo-paging>
+              <dxo-selection mode="single"></dxo-selection>
+              <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+                infoText="Page #{0}. Total: {1} ({2} items)">
+              </dxo-pager>
+              <dxo-search-panel  [visible]="true" 
+                >
+              </dxo-search-panel>
+              <dxo-export [enabled]="true" fileName="Query Details" [allowExportSelectedData]="true"></dxo-export>
+                <dxi-column [width]="120" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                cellTemplate="cellTemplate">
+                <div *dxTemplate="let data of 'cellTemplate'">
+                  <a (click)="funcDownloadQueryLetter(data)" class="action-btn"><i class="fa fa-download"></i>DownLoad Query Letter</a>&nbsp;
+              </div>
+              </dxi-column>
+              <dxi-column   [width] = 120  dataField="added_on" caption="Raised On"></dxi-column>
+
+              <dxi-column   [width] = 120  dataField="query_status"></dxi-column>
+              <dxi-column  cssClass= 'WrappedColumnClass'  name="command-editing"    [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplateMsg">
+                <div *dxTemplate="let data of 'cellTemplateMsg'">
+                    <div [innerHTML]="data.data.queries_remarks"></div>
+                </div>
+              </dxi-column> 
+              </dx-data-grid>
+          </dx-scroll-view>
+      </div>
+</dx-popup>

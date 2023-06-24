@@ -1,0 +1,139 @@
+
+<router-outlet></router-outlet>
+
+<dx-popup class="popup" [width]="funcpopWidth(55)" 
+[showCloseButton]= "false" [height]="500" [showTitle]="true" title="Session Expired"
+  [dragEnabled]="true" [closeOnOutsideClick]="false" [(visible)]="isUserSessionExpired">
+  <div *dxTemplate="let data of 'content'">
+      <form [formGroup]="signInFrm" (ngSubmit)="onSignIn()" class="text-left">
+          <div class="login-form-main-message"></div>
+          <div style="border-radius: 2px;min-height:50px; color: #000;font-weight: bold;font-size:24px;">
+            <label class="labelsign-in">Please Sign In</label>
+          </div>
+          <div class="main-login-form">
+            <div class="login-group">
+              <div class="form-group">
+                <label>Trader No</label>
+                <input type="text" formControlName="trader_no" readOnly= true value="{{trader_no}}" [ngClass]="{ 'is-invalid': submitted}" class="form-control"
+                  name="trader_no" placeholder="Trader No" required />
+              </div>
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" formControlName="email_address" readOnly= true value="{{email_address}}" class="form-control" name="email_address"
+                  placeholder="Email Address" required />
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" formControlName="user_password" class="form-control" name="user_password"
+                  placeholder="Password" required />
+              </div>
+              <!--<div class="form-group">
+               <ngx-recaptcha2 #captchaElem
+                  [siteKey]="siteKey"
+                  (reset)="handleReset()"
+                  (expire)="handleExpire()"
+                  (load)="handleLoad()"
+                  (success)="handleSuccess($event)"
+                  [useGlobalDomain]="false"
+                  [size]="size"
+                  [hl]="lang"
+                  [theme]="theme"
+                  [type]="type"
+                  formControlName="recaptcha">
+                </ngx-recaptcha2>
+              </div>-->
+            </div>
+            <div class="row">
+    
+              <div class="col-lg-12">
+                
+                    <dx-button
+                        text="Sign-In"
+                        type="success"
+                        icon="fa fa-sign-in"
+                        [disabled]="!signInFrm.valid"
+                        [elementAttr]="{ id: 'elementId', class: 'col-lg-12' }"
+                        (onClick)="onSignIn()">
+                    </dx-button>
+                    <dx-button
+                        text="Sign-In with a Diffent Account"
+                        type="success"
+                        icon="fa fa-sign-out"
+                        [elementAttr]="{ id: 'elementId', class: 'col-lg-12' }"
+                        (onClick)="funclogOut()">
+                    </dx-button>
+              </div>
+             
+            </div>
+          </div>
+        </form>
+  
+  </div>
+  </dx-popup>
+
+  
+<dx-popup class="popup" [width]="funcpopWidth(55)" 
+[showCloseButton]= "false" [height]="500" [showTitle]="true" title="Session Expired"
+  [dragEnabled]="true" [closeOnOutsideClick]="false" [(visible)]="isAdminUserSessionExpired">
+  <div *dxTemplate="let data of 'content'">
+      <form [formGroup]="adminSignInFrm" (ngSubmit)="onAdminSignIn()" class="text-left">
+          <div class="login-form-main-message"></div>
+          <div style="border-radius: 2px;min-height:50px; color: #000;font-weight: bold;font-size:24px;">
+            <label class="labelsign-in">Please Sign In</label>
+          </div>
+          <div class="main-login-form">
+            <div class="login-group">
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" formControlName="email_address" readOnly= true value="{{email_address}}" class="form-control" name="email_address"
+                  placeholder="Email Address" required />
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" formControlName="user_password" class="form-control" name="user_password"
+                  placeholder="Password" required />
+              </div>
+              <!--<div class="form-group">
+               <ngx-recaptcha2 #captchaElem
+                  [siteKey]="siteKey"
+                  (reset)="handleReset()"
+                  (expire)="handleExpire()"
+                  (load)="handleLoad()"
+                  (success)="handleSuccess($event)"
+                  [useGlobalDomain]="false"
+                  [size]="size"
+                  [hl]="lang"
+                  [theme]="theme"
+                  [type]="type"
+                  formControlName="recaptcha">
+                </ngx-recaptcha2>
+              </div>-->
+            </div>
+            <div class="row">
+    
+              <div class="col-lg-12">
+                
+                    <dx-button
+                        text="Sign-In"
+                        type="success"
+                        icon="fa fa-sign-in"
+                        [disabled]="!adminSignInFrm.valid"
+                        [elementAttr]="{ id: 'elementId', class: 'col-lg-12' }"
+                        (onClick)="onAdminSignIn()">
+                    </dx-button>
+                    <dx-button
+                        text="Sign-In with a Diffent Account"
+                        type="success"
+                        icon="fa fa-sign-out"
+                        [elementAttr]="{ id: 'elementId', class: 'col-lg-12' }"
+                        (onClick)="funclogOut()">
+                    </dx-button>
+              </div>
+             
+            </div>
+          </div>
+        </form>
+  
+  </div>
+  </dx-popup>
+

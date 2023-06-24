@@ -1,0 +1,66 @@
+<dx-data-grid class="table row-border hover" [dataSource]="OutcomesData" keyExpr="id"  (onToolbarPreparing)="onClinicalTrialOutcomesPreparing($event)">
+  <dxo-filter-row [visible]="false"></dxo-filter-row>
+  <dxo-search-panel [visible]="false">
+  </dxo-search-panel>
+  <dxo-paging [enabled]="true">
+  </dxo-paging>
+  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+  </dxo-pager>
+  <dxo-export [enabled]="true" fileName="clinicalTrialApplicationData" [allowExportSelectedData]="true"></dxo-export>
+  <dxo-selection mode="multiple"></dxo-selection>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxi-column dataField="outcome_type"></dxi-column>
+  <dxi-column dataField="time_point"></dxi-column>
+  <dxi-column dataField="outcome"></dxi-column>
+  <dxi-column [width]=100 caption="Other Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let d of 'cellTemplate'">
+          <dx-button type="success" [disabled]="is_readonly" (onClick)="onEditOutcomess(d.data)">
+            <i class="fa fa-edit"></i> 
+        </dx-button>
+        <dx-button type="success" [disabled]="is_readonly" (onClick)="funcDeleteOutcomesDetails(d.data)">
+          <i class="fa fa-trash"></i> 
+      </dx-button>
+        </div>
+      </dxi-column>
+</dx-data-grid>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(40)" [height]="450" [showTitle]="true" title="Outcomes"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="outcomeAddWin">
+<div *dxTemplate="let data of 'content'">
+  <div class="col-lg-12">
+    <form enctype="multipart/form-data" role="form" [formGroup]="outcomesFrm"
+      (ngSubmit)="onSaveOutcomesFrm()">
+
+      <div class="row">
+
+        <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+
+          <label class="control-label">Outcome type</label>
+            <dx-select-box [dataSource]="outcomeTypesData" valueExpr="id" displayExpr="name" placeholder="Select Outcome Type" [searchEnabled]="true" formControlName="outcome_type_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+
+            <label class="control-label">Time frame</label>
+            <dx-text-box formControlName="time_point">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-12">
+            <label class="control-label">Outcome </label>
+  
+            <dx-text-area [height]="60" formControlName="outcome" placeholder="">
+            </dx-text-area>
+          </div>
+          
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+          <button type="submit" (submit)="onSaveOutcomesFrm()" [disabled]="!outcomesFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Outcome</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</dx-popup>

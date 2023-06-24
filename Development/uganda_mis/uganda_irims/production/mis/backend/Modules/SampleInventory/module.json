@@ -1,0 +1,11 @@
+{
+    "name": "SampleInventory",
+    "alias": "sampleinventory",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SampleInventory\\Providers\\SampleInventoryServiceProvider"
+    ],
+    "files": []
+}

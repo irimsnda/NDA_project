@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-xl-12">
+      <div class="breadcrumb-holder">
+        <h1 class="main-title float-left">Premises Application Process</h1>
+        <ol class="breadcrumb float-right">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item active">Premises Application Selection</li>
+        </ol>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+  
+  <form enctype="multipart/form-data" style="margin:0.5px" class="row div-whiteback " role="form" [formGroup]="premisesAppSelectionfrm"
+    (ngSubmit)="onPremisesAppSelection()">
+    <div class="col-lg-3 div-selectionapp" >
+        <h4 class="main-title float-left">Select Premises Category/Type Application</h4>
+    </div>
+   
+    <div class="col-lg-6">
+      <dx-radio-group
+          [dataSource]="sectionsData"
+          displayExpr="name"
+          formControlName="section_id"
+          valueExpr="id">
+          <div *dxTemplate="let name of 'item'">
+              <div>{{name.name}} Premises Application</div>
+          </div>
+      </dx-radio-group>
+      <input type="hidden" formControlName="sub_module_id" value=1/>
+          
+      </div>
+      
+    <div class="col-lg-3  div-selectionapp">
+        <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-right' }"  icon="fa fa-dashboard"  text="Back to Premises Dashboard" 
+        type="default" (onClick)="onPremisesBackToDashboard()">
+        <i class="fa fa-dashboard"></i>
+        </dx-button>
+<dx-button  [elementAttr]="{ class: 'btn btn-primary  pull-left' }"    icon="fa fa-arrow-right" text="Initiate New Premises Application" 
+      [disabled]="!premisesAppSelectionfrm.valid" 
+        type="success" (onClick)="onPremisesAppSelection()">
+      </dx-button>
+      
+    </div>
+
+  <input type="hidden" formControlName="sub_module_id" value=1/>
+   
+  </form>
+  
+  <div class="row div-backwhite" style="margin:0.5px">
+    <h6 class="main-title float-left">Premises Registration Guidelines/Definations</h6>
+    <div style="height: 100% !important; " class="col-lg-12">
+  
+        <dx-data-grid [columnHidingEnabled]="true" class="table row-border hover" [dataSource]="dtAppGuidelinesData" keyExpr="ID">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel 
+                [visible]="true" 
+              >
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="dtAppGuidelinesData" [allowExportSelectedData]="true"></dxo-export>
+      
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column width=180 dataField="application_type" [groupIndex]="0"></dxi-column>
+           
+            <dxi-column name="command-editing" [width] = 50  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+                <div *dxTemplate="let data of 'cellTemplate'">
+                    <div [innerHTML]="data.data.step"></div>
+                 
+                    <div [innerHTML]="data.data.guideline"></div>
+                   
+                </div>
+              </dxi-column>
+            <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+          </dx-data-grid>
+    </div>
+  </div>

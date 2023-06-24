@@ -1,0 +1,213 @@
+<dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onClinicalSitesDetailsToolbar($event)"
+            [dataSource]="clinicalSitesDetailsData" keyExpr="id">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="ClinicalSitesDetailsData" [allowExportSelectedData]="true">
+            </dxo-export>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false"
+              [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+               
+                <dx-button
+                text="Delete"
+                type="danger"
+                icon="fa fa-trash"  [disabled]="isReadOnly"
+                [elementAttr]="{  class: 'pull-left' }"
+                (onClick)="funcDeleteClinicalSiteDetails(data)">
+                </dx-button>
+              
+                
+              </div>
+            </dxi-column>
+            <dxi-column dataField="site_name"></dxi-column>
+            
+            <dxi-column dataField="country"></dxi-column>
+            <dxi-column dataField="region"></dxi-column>
+            <dxi-column dataField="physical_address"></dxi-column>
+            <dxi-column dataField="postal_address"></dxi-column>
+
+           
+          </dx-data-grid>
+       
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="Study Sites"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isClinicalSitesDetailsVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-data-grid class="table row-border hover"  [allowColumnResizing]="false"  [columnHidingEnabled]="false" (onToolbarPreparing)="onStudysitePreparing($event)"
+    [dataSource]="studySitesData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="Syudy Sites" [allowExportSelectedData]="true"></dxo-export>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+    cellTemplate="cellTemplate">
+    <div *dxTemplate="let data of 'cellTemplate'">
+      <a class="action-btn" (click)="funcSelectStudySite(data)"><i class="fa fa-edit"></i>Select</a>&nbsp;
+    </div>
+  </dxi-column>
+    <dxi-column dataField="name"></dxi-column>
+    <dxi-column dataField="country"></dxi-column>
+    <dxi-column dataField="region"></dxi-column>
+    <dxi-column dataField="district"></dxi-column>
+    <dxi-column dataField="physical_address"></dxi-column>
+  
+  </dx-data-grid>
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(40)" [height]="350" [showTitle]="true" title="Clinical Trial STudy Site Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isclinicalSTudySiteDetailsWin">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-lg-12" style="background:#fff;">
+      <form enctype="multipart/form-data" role="form" [formGroup]="clinicalSTudySiteDetailsFrm"
+        (ngSubmit)="onSaveisclinicalSTudySiteDetails()">
+
+        <div class="row">
+          <div class="col-md-12 col-lg-12 col-xl-12">
+            <label class="control-label">Study Site</label>
+            <dx-text-box [readOnly] = true formControlName="name">
+            </dx-text-box>
+            <input type="hidden" formControlName="study_site_id"/>
+          </div>
+          <div class="col-md-12 col-lg-12 col-xl-12">
+               
+              <button (click)="onSearchclinicalSTudySites()" class="btn btn-success" type="button"><i
+                    class="fa fa-search"></i>Search Study Site</button>
+              
+          </div>
+          <div class="col-lg-12 btn-margin-5">
+             <button type="submit" (submit)="onSaveisclinicalSTudySiteDetails()" [disabled]="!clinicalSTudySiteDetailsFrm.valid"
+              class="btn btn-primary"><i class="fa fa-user"></i> Save Clinical Study Site</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="850" [showTitle]="true" title="New Study Site"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isStudySiteAddWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <div class="col-lg-12" style="background:#fff;">
+    <form enctype="multipart/form-data" role="form" [formGroup]="studySiteFrm"
+      (ngSubmit)="onsaveStudySiteDetails()">
+
+      <div class="row">
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Name</label>
+          <dx-text-box formControlName="name">
+          </dx-text-box>
+
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Country</label>
+
+          <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"
+            (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Region/City</label>
+
+          <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"
+            (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+          </dx-select-box>
+
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">District(Optional)</label>
+
+          <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name"
+            [searchEnabled]="true" formControlName="district_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Email Address</label>
+          <dx-text-box formControlName="email_address" placeholder="Email Address">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Postal Address</label>
+          <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Telephone No</label>
+          <dx-text-box formControlName="telephone" placeholder="Telephone No">
+          </dx-text-box>
+        </div>
+                <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Description Clinic and counselling rooms</label>
+
+          <dx-text-box  formControlName="clinical_council" placeholder="Counselling">
+          </dx-text-box>
+        </div>       
+         <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Description Emergency facilities</label>
+
+          <dx-text-box  formControlName="emergency" placeholder="Emergency Facilities">
+          </dx-text-box>
+        </div>       
+         <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Description Facilities for special examinations (if required)</label>
+
+          <dx-text-box  formControlName="special_examination_facility" placeholder="Special Examination">
+          </dx-text-box>
+        </div>       
+         <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Capacity to collect, prepare, store and transport clinical samples</label>
+
+          <dx-text-box  formControlName="capacity" placeholder="Capacity">
+          </dx-text-box>
+        </div>       
+         <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Storage and handling facilities for medicines</label>
+
+          <dx-text-box  formControlName="storage_facility" placeholder="Storage facilities">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Name and qualifications of person with responsibility for dispensing medicines</label>
+
+          <dx-text-box formControlName="staff_qualification" placeholder="Qualification">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Physical Address</label>
+
+          <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+          </dx-text-area>
+        </div>
+         <div class="col-lg-8 row form-group">
+          <label class="control-label col-lg-12">Geo-Location</label>
+          <div class="col-lg-6">
+              <dx-text-box formControlName="latitude" placeholder="Latitude" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+
+              <dx-text-box formControlName="longitude" placeholder="Latitude" [showClearButton]="true">
+              </dx-text-box>
+          </div>
+        
+      </div>
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+           <button type="submit" (submit)="onsaveStudySiteDetails()" [disabled]="!studySiteFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Study Site Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</dx-popup>
+

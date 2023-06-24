@@ -1,0 +1,11 @@
+{
+    "name": "PremisesRegistration",
+    "alias": "premisesregistration",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PremisesRegistration\\Providers\\PremisesRegistrationServiceProvider"
+    ],
+    "files": []
+}

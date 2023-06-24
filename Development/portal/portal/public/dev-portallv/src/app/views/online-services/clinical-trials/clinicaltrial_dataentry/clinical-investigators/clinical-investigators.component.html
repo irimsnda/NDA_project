@@ -1,0 +1,266 @@
+
+<div class="accordion" id="clinicalInfo">
+    <div class="card">
+        <div class="card-headerdefined" id="headingTwo">
+    
+          <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#clinical_investigators"
+            aria-expanded="false" aria-controls="clinical_investigators">
+            Clinical Trial Investigators Co-/Sub Investigators 
+          </button>
+        </div>
+        <div id="clinical_investigators" class="collapse show" aria-labelledby="headingTwo" data-parent="#clinicalInfo">
+          <div class="card-body no-padding">
+            <div class="no-padding">
+    
+                <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onInvestigatorsPreparing($event)"
+                  [dataSource]="clinicaltrailinvestigatorsData" keyExpr="id">
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                  <dxo-search-panel [visible]="true">
+                  </dxo-search-panel>
+                  <dxo-paging [enabled]="true">
+                  </dxo-paging>
+                  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                  </dxo-pager>
+                  <dxo-export [enabled]="true" fileName="Investigators" [allowExportSelectedData]="true"></dxo-export>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxo-group-panel [visible]="true"></dxo-group-panel>
+                  <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                    cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                       
+                        <dx-button
+                        text="Delete"
+                        type="danger"
+                        icon="fa fa-trash"  [disabled]="isReadOnly"
+                        [elementAttr]="{  class: 'pull-left' }"
+                        (onClick)="funcDeleteInvestigatorDetails(data)">
+                        </dx-button>
+                      
+                        
+
+                      </div>
+                  </dxi-column>
+                  <dxi-column dataField="study_site"></dxi-column>
+                  <dxi-column dataField="investigator_category"></dxi-column>
+                  <dxi-column dataField="investigator"></dxi-column>
+                  <dxi-column dataField="country"></dxi-column>
+                  <dxi-column dataField="region"></dxi-column>
+                  <dxi-column dataField="district"></dxi-column>
+                  <dxi-column dataField="physical_address"></dxi-column>
+                  <dxi-column dataField="postal_address"></dxi-column>
+                  
+                </dx-data-grid>
+    
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+          <div class="card-headerdefined" id="headingThree">
+      
+            <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#clinical_sponsors"
+              aria-expanded="false" aria-controls="clinical_sponsors">
+              Clinical Trial Monitors
+            </button>
+          </div>
+          <div id="clinical_sponsors" class="collapse show" aria-labelledby="headingThree" data-parent="#clinicalInfo">
+            <div class="card-body no-padding">
+              <div class="no-padding">
+                  <dx-data-grid class="table row-border hover" [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onMonitorssPreparing($event)"
+                    [dataSource]="clinicaltrailMonitorsData" keyExpr="id">
+                    <dxo-filter-row [visible]="false"></dxo-filter-row>
+                    <dxo-search-panel [visible]="true">
+                    </dxo-search-panel>
+                    <dxo-paging [enabled]="true">
+                    </dxo-paging>
+                    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                    </dxo-pager>
+                    <dxo-export [enabled]="true" fileName="Monitors" [allowExportSelectedData]="true"></dxo-export>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-group-panel [visible]="true"></dxo-group-panel>
+                    <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                    cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                        <a (click)="funcDeleteMonitorsDetails(data)" class="action-btn" ><i class="fa fa-trash"></i>Delete</a>
+                      </div>
+                  </dxi-column>
+                    <dxi-column dataField="monitor" caption="Monitors"></dxi-column>
+                    <dxi-column dataField="country"></dxi-column>
+                    <dxi-column dataField="region"></dxi-column>
+                    <dxi-column dataField="district"></dxi-column>
+                    <dxi-column dataField="physical_address"></dxi-column>
+                    <dxi-column dataField="postal_address"></dxi-column>
+                   
+                  </dx-data-grid>
+      
+              </div>
+            </div>
+          </div>
+        </div>
+  
+
+</div>
+    
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="{{sponsor_investigatortitle}}"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isSponsorInvestigatorSearchWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onSponsorInvestigatorPreparing($event)"
+    [dataSource]="sponsorInvestigatorData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="CLincial Trial" [allowExportSelectedData]="true"></dxo-export>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+    cellTemplate="cellTemplate">
+    <div *dxTemplate="let data of 'cellTemplate'">
+      <a (click)="funcSelectSponsorInvestigator(data)" class="action-btn" ><i class="fa fa-edit"></i>Select</a>&nbsp;
+    </div>
+  </dxi-column>
+    <dxi-column dataField="name"></dxi-column>
+    <dxi-column dataField="contact_person"></dxi-column>
+    <dxi-column dataField="country"></dxi-column>
+    <dxi-column dataField="region"></dxi-column>
+    <dxi-column dataField="district"></dxi-column>
+    <dxi-column dataField="physical_address"></dxi-column>
+    <dxi-column dataField="postal_address"></dxi-column>
+    <dxi-column dataField="email_address"></dxi-column>
+   
+  </dx-data-grid>
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="700" [showTitle]="true" title="{{sponsor_investigatortitle}}"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="issponsorInvestigatorAddWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <div class="col-lg-12">
+    <form enctype="multipart/form-data" role="form" [formGroup]="sponsorInvestigatorFrm"
+      (ngSubmit)="onsaveSponsorInvestigator()">
+
+      <div class="row">
+
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+          <label class="control-label">Name</label>
+          <dx-text-box formControlName="name">
+          </dx-text-box>
+
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+            <label class="control-label">Contact Person</label>
+            <dx-text-box formControlName="contact_person">
+            </dx-text-box>
+  
+          </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Country</label>
+
+          <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"
+            (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Region/City</label>
+
+          <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"
+            (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+          </dx-select-box>
+
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">District(Optional)</label>
+
+          <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name"
+            [searchEnabled]="true" formControlName="district_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Email Address</label>
+          <dx-text-box formControlName="email" placeholder="Email Address">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Postal Address</label>
+          <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Telephone No</label>
+
+          <dx-text-box formControlName="telephone" placeholder="Telephone No">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label col-lg-12">Mobile No</label>
+
+          <dx-text-box formControlName="mobile_no" placeholder="Mobile No">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Physical Address</label>
+
+          <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+          </dx-text-area>
+        </div>
+        
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+          <button type="submit" (submit)="onsaveSponsorInvestigator()" [disabled]="!sponsorInvestigatorFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save {{consignee_sendertitle}} Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</dx-popup>
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(40)" [height]="550" [showTitle]="true" title="Clinical trial Investigator"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="InvestigatorDetailsWinVisible">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-lg-12" style="background:#fff;">
+      <form enctype="multipart/form-data" role="form" [formGroup]="clinicaltInvestigatorFrm"
+        (ngSubmit)="onsaveclinicaltInvestigatorDetails()">
+
+        <div class="row">
+          <div class="col-md-12 col-lg-12 col-xl-12">
+            <label class="control-label">Investigator</label>
+            <dx-text-box [readOnly] = true formControlName="investigator_name">
+            </dx-text-box>
+            <input type="hidden" formControlName="investigator_id"/>
+           
+          </div>
+          <div class="col-md-12 col-lg-12 col-xl-12">
+               
+              <button (click)="onClinicalTrialAllinvestigators()" class="btn btn-success" type="button"><i
+                    class="fa fa-search"></i></button>
+              
+          </div>
+          
+          <div class=" col-md-12 col-lg-12 col-xl-12">
+            <label class="control-label">Investigator Category</label>
+
+            <dx-select-box [dataSource]="investigatorCategoryData" valueExpr="id" displayExpr="category_name" 
+             [searchEnabled]="true" formControlName="category_id">
+            </dx-select-box>
+          </div>
+          <div class="col-md-12 col-lg-12 col-xl-12">
+              <label class="control-label">Study Site(Optional)</label>
+              <dx-select-box [dataSource]="clinicalSitesDetailsData" valueExpr="study_site_id" displayExpr="site_name" placeholder="Select Study Site"
+               [searchEnabled]="true" formControlName="study_site_id">
+              </dx-select-box>
+            </div>
+          <div class="col-lg-12 btn-margin-5">
+             <button type="submit" (submit)="onsaveclinicaltInvestigatorDetails()" [disabled]="!clinicaltInvestigatorFrm.valid"
+              class="btn btn-primary"><i class="fa fa-user"></i> Save Investigator Details</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</dx-popup>

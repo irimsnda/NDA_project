@@ -1,0 +1,11 @@
+{
+    "name": "ProductApplicationsReport",
+    "alias": "productapplicationsreport",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ProductApplicationsReport\\Providers\\ProductApplicationsReportServiceProvider"
+    ],
+    "files": []
+}

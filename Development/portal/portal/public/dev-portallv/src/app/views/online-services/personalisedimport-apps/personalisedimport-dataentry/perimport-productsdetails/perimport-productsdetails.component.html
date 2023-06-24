@@ -1,0 +1,170 @@
+<div class="row wizard-content">
+      <dx-data-grid [dataSource]="permitProductsData" (onToolbarPreparing)="onPermitProductGridToolbar($event)"  [allowColumnResizing]="true" [columnHidingEnabled]="false" 
+        [showBorders]="true">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxi-column [width]="150" caption="Action" name="command-editing" [allowFiltering]="false"
+          [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-menu (onItemClick)="permitProductsActionColClick($event,data)" [items]="permitProductMenuItems">
+            </dx-menu>
+          </div>
+        </dxi-column>
+        <dxi-column dataField="brand_name" caption="Brand Name"></dxi-column>
+        <dxi-column dataField="quantity"></dxi-column>
+        <dxi-column dataField="packaging_units"></dxi-column>
+        <dxi-column dataField="pack_size" caption="Pack Size"></dxi-column>
+        <dxi-column dataField="product_batch_no" caption="Product Batch #(License Permit)"></dxi-column>
+        <dxi-column dataField="product_manufacturing_date" caption="Mgf Date"></dxi-column>
+        <dxi-column dataField="product_expiry_date" caption="Product Expiry Date"></dxi-column>
+        <dxi-column dataField="currency_name"></dxi-column>
+        <dxi-column dataField="unit_price"></dxi-column>
+        <dxi-column dataField="total_value" caption="FOB Value"></dxi-column>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-summary>
+          <dxi-total-item
+              column="total_value"
+              summaryType="sum">
+          </dxi-total-item>
+      </dxo-summary>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+      </dx-data-grid>
+</div>
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Permits Products" [dragEnabled]="false"
+  [closeOnOutsideClick]="false" [(visible)]="isPermitproductsPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+    <div class="row no-padding">
+      <div class="col-lg-12 ">
+        <dx-data-grid [dataSource]="registeredProductsData"  [height]="500" [remoteOperations]='true' 
+          (onToolbarPreparing)="onRegisteredProductGridToolbar($event)"  [columnHidingEnabled]="false"  [showBorders]="true">
+          <dxo-filter-row [visible]="false"></dxo-filter-row>
+          <dxo-search-panel [visible]="true">
+          </dxo-search-panel>
+          <dxo-paging [enabled]="true">
+          </dxo-paging>
+          <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+          </dxo-pager>
+          
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column [width]="150" caption="Action" name="command-editing" [allowFiltering]="false"
+          [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+            <dx-button text="Select Product Details" (click)="funcSelectRegisteredProduct(data)"
+            type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+          </dx-button>
+          </div>
+        </dxi-column>
+          <dxi-column dataField="brand_name" caption="Brand Name"></dxi-column>
+
+          <dxi-column dataField="common_name" caption="Common Name/INN Name/API"></dxi-column>
+          <dxi-column dataField="classification_name" caption="Product Classification"></dxi-column>
+          <dxi-column dataField="section_name" caption="Product Type"></dxi-column>
+        
+          <dxi-column dataField="approval_recommendation" caption="Authorisation Status"></dxi-column>
+        <dxo-paging [pageSize]="25"></dxo-paging> 
+          <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+
+        </dx-data-grid>
+      </div>
+    </div>
+  </dx-scroll-view>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" height="funcpopHeight(50)" [showTitle]="true" title="Permit Products Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPermitproductsAddPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+
+    <dx-scroll-view>
+      <div class="row col-lg-12">
+          <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="permitProductsFrm"
+          (ngSubmit)="onsavePermitProductdetails()">
+          <div class="col-lg-12 row row-no-margin ">
+          <div class="col-lg-6 ">
+            <label>Product Name</label>
+            <dx-text-box placeholder="Brand Name/Devices Name" [readOnly]="is_brandreadonly" formControlName="brand_name">
+            </dx-text-box>
+          </div>
+         
+            <div class="col-lg-6">
+              <label>Pack Size</label>
+              <dx-text-box placeholder="Unit Pack Size"   formControlName="unitpack_size">
+              </dx-text-box>
+            </div>
+            
+            <div class="col-lg-12 ">
+              <label>Product Batch No(s)</label>
+              <dx-text-box placeholder="Batch Nos" formControlName="product_batch_no">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-6 input-group">
+              <div class="col-lg-6"> 
+                <label>Manufacturing Date</label>
+                <dx-date-box placeholder="Manufacturing Date" formControlName="product_manufacturing_date">
+                </dx-date-box>
+              </div>
+              <div class="col-lg-6"> 
+                <label>Expiry Date</label>
+                <dx-date-box placeholder="Expiry Date" formControlName="product_expiry_date">
+                </dx-date-box>
+              </div>
+            </div>
+
+            <div class="col-lg-6 input-group">
+              <div class="col-lg-6">
+                <label>Item Quantity</label>
+                <dx-number-box placeholder="Item Quantity"  [value]="quantity"   formControlName="quantity">
+                </dx-number-box>
+              </div>
+              <div class="col-lg-6">
+                <label>Product Packaging Unit</label>
+                <dx-select-box [dataSource]="packagingUnitsData" valueExpr="id" placeholder="Select Packaging Units"
+                  displayExpr="name" formControlName="packaging_unit_id" [searchEnabled]="true">
+                </dx-select-box>
+            </div>
+          </div>
+        
+            <div class="col-lg-6 input-group">
+              <div class="col-lg-6"> 
+                <label>Unit Price</label>
+                <dx-number-box placeholder="Unit Price" formControlName="unit_price">
+                </dx-number-box>
+              </div>
+              <div class="col-lg-6 ">
+                <label>Currency</label>
+                <dx-select-box [dataSource]="currencyData" valueExpr="id" placeholder="Select Currency" displayExpr="name"
+                  [searchEnabled]="true" formControlName="currency_id">
+                </dx-select-box>
+              </div>
+            </div>
+            
+            <div class="col-lg-12 ">
+              <input type="hidden" formControlName="id" />
+              <input type="hidden" formControlName="product_id" />
+            </div>
+            <dx-button text="Save Products Details"
+              (onClick)="onsavePermitProductdetails()" type="success" icon="save"
+              [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+            </dx-button>
+          </div>
+        </form>
+      </div>
+
+    </dx-scroll-view>
+    </div>
+</dx-popup>
+   
+<dx-popup class="popup" [width]="800" [height]="650" [showTitle]="true" title="Document Preview" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDocumentPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <iframe [src]="document_previewurl" class="col-lg-12" height="650" ></iframe> 
+  </div>
+</dx-popup>

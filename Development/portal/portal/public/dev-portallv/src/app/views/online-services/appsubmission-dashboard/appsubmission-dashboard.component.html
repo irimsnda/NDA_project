@@ -1,0 +1,134 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Dashboard</h1>
+      <ol class="breadcrumb float-right">
+
+        <a href="#"><li class="fa fa-dashboard">Home</li></a> &nbsp;
+
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <!-- Content Header (Page header) -->
+  
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2 div-nopadding">
+    <div class="card-box noradius noborder bg-warning">
+      <i class="fa fa-product-hunt float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">PENDING SUBMISSION</h6>
+      <h1 class="m-b-20 text-white counter">{{pending_submission}}</h1>
+      <span ><a  class=" " (click) ="OnViewApplicationSubmissionsStatus('1',{})"  class="reg_routerlink ">View Pending Submission</a></span>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2 div-nopadding">
+    <div class="card-box noradius noborder bg-default">
+      <i class="fa fa-building float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">INVOICES PENDING PAYMENT</h6>
+      <h1 class="m-b-20 text-white counter">{{invoiced_pendingpayment}}</h1>
+      <span ><a (click) ="OnViewApplicationSubmissionsStatus('4',{})"  class="reg_routerlink ">View Invoiced Applications</a></span>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2 div-nopadding">
+    <div class="card-box noradius noborder bg-danger">
+      <i class="fa fa-question-circle float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">QUERIED APPLICATIONS</h6>
+      <h1 class="m-b-20 text-white counter">{{queried_applications}}</h1>
+      <span class=""><a (click) ="OnViewApplicationSubmissionsStatus('6,7,8,9',{})"   class="reg_routerlink ">View Queried Applications</a></span>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3 div-nopadding">
+    <div class="card-box noradius noborder bg-success">
+      <i class="fa fa-file-text-o float-right text-white"></i>
+      <h6 class=" text-white text-uppercase m-b-20">APPROVED APPLICATIONS</h6>
+      <h1 class="m-b-20 text-white counter">{{approved_applications}}</h1>
+        <span class=""><a (click) ="OnViewApplicationSubmissionsStatus('10',{})"  class="reg_routerlink">View Approved Applications</a></span>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3 div-nopadding">
+    <div class="card-box noradius noborder bg-danger">
+      <i class="fa fa-ban float-right text-white"></i>
+      <h6 class=" text-white text-uppercase m-b-20">REJECTED APPLICATIONS</h6>
+      <h1 class="m-b-20 text-white counter">{{rejected_applications}}</h1>
+        <span class=""><a (click) ="OnViewApplicationSubmissionsStatus('11',{})"  class="reg_routerlink">View Rejected Applications</a></span>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+      <div class="card-header col-lg-12">
+          <h6><i class="fa fa-line-chart"></i>Application Submission</h6>.
+        </div>
+        <div class="card-body div-nopadding" style="max-height: 650px;min-height: 450px;overflow-y:auto !important;">
+            <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="FilterDetailsFrm">
+              
+              <div class="col-lg-3">
+                  <dx-select-box  [dataSource]="modulesData" valueExpr="id" displayExpr="name" 
+                  (onSelectionChanged)="onSelectModuleFilters($event)"   [searchEnabled]="true" placeholder="Select Application Type " formControlName="module_id">
+                  </dx-select-box>
+              </div>
+
+              <div class="col-lg-3">
+                <dx-select-box  [dataSource]="subModuleData" valueExpr="id" displayExpr="name" 
+                (onSelectionChanged)="onSelectSubmissionFilters($event)"   [searchEnabled]="true" placeholder="Select Sub-Application" formControlName="sub_module_id">
+                </dx-select-box>
+            </div>
+            <div class="col-lg-3">
+                <dx-select-box  [dataSource]="sectionsData" valueExpr="id" displayExpr="name" 
+                (onSelectionChanged)="onSelectSubmissionFilters($event)"   [searchEnabled]="true" placeholder="Select Product Type/Category" formControlName="section_id">
+                </dx-select-box>
+            </div>
+           
+            <div class="col-lg-3">
+                <dx-button
+                  text="Clear Filter"
+                  type="danger"
+                  icon="fa fa-eraser"
+                  [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                  (onClick)="onClearApplicationFilters()">
+              </dx-button>
+
+            </div>
+      </form>
+          <dx-data-grid class="table row-border hover"  (onToolbarPreparing)="onAppSubmissionToolbarPreparing($event)" [dataSource]="dtaApplicationSubmissionData" keyExpr="ID">
+            <dxo-filter-row [visible]="false"></dxo-filter-row>
+            <dxo-search-panel [visible]="true">
+            </dxo-search-panel>
+            <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+            
+            <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="dtAppsnProcessesData" [allowExportSelectedData]="true"></dxo-export>
+            
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column [width] = 120 name="command-editing" [allowFiltering]="false" [allowSorting]="true" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                 
+                  <dx-button text="{{data.data.action_defination}}" (click)="funcViewApplicationProcessing(data.data)"
+                      type="success" icon="a fa-edit">
+                    </dx-button>
+              </div>
+            </dxi-column>
+            <dxi-column dataField="tracking_no" ></dxi-column>
+            <dxi-column dataField="reference_no" ></dxi-column>
+            <dxi-column [groupIndex]="0" dataField="module_name"></dxi-column>
+            <dxi-column [groupIndex]="1"  dataField="application_type"></dxi-column>
+            <dxi-column dataField="section"></dxi-column>
+            <dxi-column dataField="action_date"></dxi-column>
+            <dxi-column dataField="application_status"></dxi-column>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+          </dx-data-grid>
+        </div>
+        <div class="card-footer small text-muted">Generate Report</div>
+        
+</div>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+      <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+  </div>
+</dx-popup>

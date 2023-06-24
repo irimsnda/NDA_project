@@ -1,0 +1,11 @@
+{
+    "name": "SampleAnalysis",
+    "alias": "sampleanalysis",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SampleAnalysis\\Providers\\SampleAnalysisServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,104 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="applicationGeneraldetailsfrm" >
+  <div class="row  wizard-content">
+      <div class="col-lg-4">
+        <label>Application Type</label>
+        <dx-select-box [readOnly]="true" [dataSource]="applicationTypeData" valueExpr="id"
+          displayExpr="name" placeholder="Select Application Type" [searchEnabled]="true"
+          formControlName="sub_module_id">
+        </dx-select-box>
+      </div>
+        <div class="col-lg-4">
+          <label>Product Types</label>
+          <dx-select-box [dataSource]="sectionsData" valueExpr="id" displayExpr="name"
+            placeholder="Select Product Type"  [searchEnabled]="true" formControlName="section_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-12">
+          <label>Reason for Authorisation</label>
+          <dx-text-area  formControlName="reason_for_authorisation" placeholder="Reason for Authorisation"
+            >
+          </dx-text-area>
+        </div>
+        <div class="col-lg-4" >
+          <label for="ti" class="control-label">Permit Processing Branch</label>
+      
+          <dx-select-box [dataSource]="zoneData" valueExpr="id" placeholder="Permit Process Branch"
+            displayExpr="name" [searchEnabled]="true" formControlName="zone_id">
+          </dx-select-box>
+        </div>
+          
+        <div class="col-lg-12   input-group " >
+          <div class="col-lg-4">
+            <label>{{premises_title}}</label>
+            <dx-text-area [readOnly]=true formControlName="premises_name" placeholder="Premises Name">
+            </dx-text-area>
+            <input type="hidden" formControlName="premise_id" />
+          </div>
+          <div class="col-lg-4">
+            <label>Premises Physical Address</label>
+            <dx-text-area [readOnly]=true formControlName="premises_physical_address" placeholder="Physical Address">
+            </dx-text-area>
+            <input type="hidden" formControlName="premise_id" />
+          </div>
+          <div class="col-lg-4">
+              <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search Details"  type="default" (onClick)="onRegisteredPremisesSearch()">
+                  <i class="fa fa-search"></i>Search Licensed Premises Detail
+              </dx-button>
+      
+          </div>
+        </div>
+
+    
+    <div class="col-lg-4 form-group" style="margin:1px;">
+  
+    </div>
+    <div class="col-lg-12">
+      <input type="hidden" value={{module_id}} formControlName="module_id" />
+  
+  
+      <input type="hidden" value={{application_code}} formControlName="application_code" />
+    </div>
+  </div>
+  </form>
+  <!-- pop ups -->
+  
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Registered Premises"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="ispremisesSearchWinVisible">
+    <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+      <dx-data-grid [dataSource]="registered_premisesData"  [columnHidingEnabled]="false"  [height]="500" (onToolbarPreparing)="onPremisesPerGridToolbar($event)"
+        [showBorders]="true">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+          <dxi-column [width]="150" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+          cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+         
+              <dx-button text="Select Premises License" (click)="funcSelectPremiseDetails(data)"
+                                  type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+                                </dx-button>
+          </div>
+        </dxi-column>
+        <dxi-column dataField="name"></dxi-column>
+  
+        <dxi-column dataField="premise_reg_no"></dxi-column>
+        <dxi-column dataField="permit_no"></dxi-column>
+        <dxi-column dataField="physical_address"></dxi-column>
+        <dxi-column dataField="postal_address"></dxi-column>
+        <dxi-column dataField="region_name"></dxi-column>
+        <dxi-column dataField="validity_status"></dxi-column>
+  
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="registeredPremises" [allowExportSelectedData]="true"></dxo-export>
+  
+      </dx-data-grid>
+    </dx-scroll-view>
+    </div>
+  </dx-popup>
+
+  
+  

@@ -1,0 +1,11 @@
+{
+    "name": "PublicAccess",
+    "alias": "publicaccess",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PublicAccess\\Providers\\PublicAccessServiceProvider"
+    ],
+    "files": []
+}

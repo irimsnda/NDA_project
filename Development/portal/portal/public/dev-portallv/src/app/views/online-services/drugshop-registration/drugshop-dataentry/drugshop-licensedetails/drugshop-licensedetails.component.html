@@ -1,0 +1,119 @@
+<div class=" wizard-content">
+
+    <dx-data-grid class="table row-border hover" [dataSource]="premPersonnelDetailsData" keyExpr="id" (onToolbarPreparing)="onPremisesPersonnelToolbar($event,'')">
+        
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="premPersonnelDetailsData" [allowExportSelectedData]="true"></dxo-export>
+
+        <dxo-selection mode="multiple"></dxo-selection>
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+            <div *dxTemplate="let data of 'cellTemplate'">
+                <dx-button text="Edit" (click)="funcEditPersonnelDetails(data)" 
+                    type="danger" icon="edit">
+                    </dx-button> 
+                <dx-button text="Delete" (click)="funcDeletePersonnelDetails(data)" 
+                    type="danger" icon="delete">
+                </dx-button> 
+            </div>
+        </dxi-column>
+        <dxi-column dataField="trader_name"></dxi-column>
+        <dxi-column dataField="country"></dxi-column>
+        <dxi-column dataField="region"></dxi-column>
+        <dxi-column dataField="physical_address"></dxi-column>
+    </dx-data-grid>
+</div>
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [showTitle]="true" title="Any other Pharmaceutical Business" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isBusinessPersonnelPopupVisible">
+    <div *dxTemplate="let data of 'content'" class="row">
+        <dx-scroll-view></dx-scroll-view>
+        <div class="col-lg-12">
+            <wizard style="background: #fff !important; height: 100% !important;">
+                <wizard-step stepTitle=" Other Pharmaceutical Premises" class="wizardStep-height">
+                    <form role="form" enctype="multipart/form-data" role="form"
+                         [formGroup]="       premisesStafflDetailsfrm" class="col-lg-12" (ngSubmit)="onSavePremisesStaffDetails()">
+                        <div class="row wizard-contentwin">                            
+                            <div class="col-lg-4">
+                                <label class="control-label">Does the applicant, any partner or director currently hold a licence Pharmaceutical business</label>
+                                 <dx-select-box  (onValueChanged)="onTraderasContactpersonChange($event)" [dataSource]="confirmDataParam" valueExpr="id" 
+                                 displayExpr="name" [searchEnabled]="true"
+                                   placeholder="Hold Pharmaceutical Business" 
+                                    formControlName="trader_aslocal_agent">
+                                </dx-select-box>    
+                            </div>
+                            <div class="col-lg-4 input-group">
+                                <div class="col-lg-8">
+                                    <label class="control-label">Premise Name</label>
+                                     <dx-text-box  formControlName="local_agent_name" readOnly=true [showClearButton]="true">
+                                    </dx-text-box>
+                                </div>
+                                 <div class="col-lg-4">
+                                    <dx-button [disabled]="isReadOnlyTraderasLtr" 
+                                    [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search"  type="default" (onClick)="funcSearchRegistrantDetails(1)">
+                                     <i class="fa fa-search"></i>Premise
+                                    </dx-button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <input type="hidden" formControlName="id" />
+                        </div>
+                        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                           
+                            <dx-button text="Save Staff Details" [disabled]="!premisesStafflDetailsfrm.valid" (onClick)="onSavePremisesStaffDetails()" type="success" class="btn" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                            </dx-button>
+                        </div>
+                    </form>
+                </wizard-step>
+            </wizard>
+        </div>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="{{trader_title}}"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isStaffPopupVisible">
+<div *dxTemplate="let data of 'content'">
+
+  <dx-data-grid class="table row-border hover"  [height]="450"   [remoteOperations]='true'  [dataSource]="traderAccountsDetailsData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="traderFile" [allowExportSelectedData]="true"></dxo-export>
+
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    
+    <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+     
+      <dx-button
+          text="Select LTR"
+          type="success"
+          icon="fa fa-plus"
+          [elementAttr]="{  class: 'pull-left' }"
+          (onClick)="funcSelectTraderDetails(data)">
+      </dx-button>
+      </div>
+    </dxi-column>
+    <dxi-column dataField="trader_no"></dxi-column>
+    <dxi-column dataField="trader_name"></dxi-column>
+    <dxi-column dataField="country"></dxi-column>
+    <dxi-column dataField="region"></dxi-column>
+    <dxi-column dataField="physical_address"></dxi-column>
+    <dxi-column dataField="postal_address"></dxi-column>
+    <dxi-column dataField="email_address"></dxi-column>
+
+  </dx-data-grid>
+</div>
+</dx-popup>
+
+ 

@@ -1,0 +1,11 @@
+{
+    "name": "ManagementDashboard",
+    "alias": "managementdashboard",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ManagementDashboard\\Providers\\ManagementDashboardServiceProvider"
+    ],
+    "files": []
+}

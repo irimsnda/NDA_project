@@ -1,0 +1,175 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="dispapplicationGeneraldetailsfrm" >
+
+  <div class="row wizard-content">
+    <fieldset class="col-lg-12 row">
+      <legend  class="contentfieldset">Disposal Application Information</legend>
+      <div class="col-lg-4">
+        <label>Product category </label>
+        <dx-select-box 
+          [dataSource]="sectionsData" valueExpr="id" displayExpr="name"
+          placeholder="Products Type/Category" [searchEnabled]="true" formControlName="section_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label>Proposed Date of Destruction </label>
+        <dx-date-box placeholder="Proposed Date of Destruction "  formControlName="proposed_destructiondate">
+        </dx-date-box>
+      </div>
+      <div class="col-lg-4">
+        <label>Proposed Method of Disposal/Destruction</label>
+        <dx-select-box  [dataSource]="destructionMethodsData" valueExpr="id" displayExpr="name"
+          placeholder="Method of Destructution" [searchEnabled]="true" formControlName="proposedmethod_of_disposal_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-12">
+        <label>Other  Method of Disposal/Destruction</label>
+        <dx-text-area [height]="60" formControlName="otherproposedmethod_of_disposal" placeholder="Reason For Disposal">
+        </dx-text-area>
+      </div>
+      <div class="col-lg-4">
+        <label>Proposed Destruction Site Option</label>
+        <dx-select-box  [dataSource]="disposalSiteoptionData" valueExpr="id" displayExpr="name" (onSelectionChanged)="onDestructionSiteOptionSelect($event)" 
+          placeholder="Destruction Site Option" [searchEnabled]="true" formControlName="disposal_siteoption_id">
+        </dx-select-box>
+  
+      </div>
+    
+      <div class="col-lg-4"  *ngIf="disposal_siteoption">
+        <label>Proposed Destruction Site</label>
+      
+        <dx-text-box placeholder="Proposed Destruction Site"  formControlName="proposed_destructionsite">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-12"  *ngIf="disposal_siteoption">
+        <label>Proposed Destruction Site Location</label>
+        <dx-text-area [height]="60" formControlName="destructionsite_location" placeholder="destructionsite_location">
+        </dx-text-area>
+      </div>
+      <div class="col-lg-12">
+        <label>Reasons For Disposal</label>
+        <dx-text-area [height]="60" formControlName="reason_for_disposal" placeholder="Reason For Disposal">
+        </dx-text-area>
+      </div>
+      </fieldset>
+      <fieldset class="col-lg-12 row">
+        <legend  class="contentfieldset">Details of Goods</legend>
+        <div class="col-lg-6 input-group">
+          <div class="col-lg-6">
+            <label>Total Weight</label>
+            <dx-number-box formControlName="total_weight" placeholder=""
+                [showClearButton]="true">
+              </dx-number-box>
+          </div>
+          <div class="col-lg-6">
+            <label>weight Units</label>
+            <dx-select-box  [dataSource]="weightsUnitData" valueExpr="id" displayExpr="name"
+              placeholder="Weight Units" [searchEnabled]="true" formControlName="weights_units_id">
+            </dx-select-box>
+          </div>
+    
+        </div>
+        
+        <div class="col-lg-6 input-group">
+          <div class="col-lg-6">
+            <label>Market Value</label>
+            <dx-number-box formControlName="market_value" placeholder="market_value"
+                [showClearButton]="true">
+              </dx-number-box>
+          </div>
+          <div class="col-lg-6">
+            <label>Currency</label>
+            <dx-select-box [dataSource]="payingCurrencyData" valueExpr="id" displayExpr="name"
+            placeholder="Select Currency" [searchEnabled]="true" formControlName="currency_id">
+          </dx-select-box>
+          </div>
+    
+        </div>
+        <div class="col-lg-12">
+          <label>Description of Products to be Disposed(List to be attached on upload)</label>
+          <dx-text-area [height]="60" formControlName="product_particulars_description" placeholder="Description of Products to be Disposed">
+          </dx-text-area>
+        </div>
+        </fieldset>
+        <fieldset class="col-lg-12 row">
+          <legend  class="contentfieldset">Premises Details</legend>
+          <!--
+          <div class="col-lg-4" >
+            <label>Name of the superintendent/in charge</label>
+          
+            <dx-text-box placeholder="Name of the superintendent/in charg"  formControlName="superintendent_incharge">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-4" >
+            <label>Registration number (if applicable)</label>
+          
+            <dx-text-box placeholder="Registration number (if applicable)"  formControlName="superintendent_registration_number">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-4">
+            <label>Registration body (if applicable)</label>
+          
+            <dx-text-box placeholder="Registration body (if applicable)"  formControlName="registration_body">
+            </dx-text-box>
+          </div>
+-->
+          <div class="col-lg-4   input-group " >
+            <div class="col-lg-8">
+              <label>Licensed Premises</label>
+              <dx-text-box [readOnly]=true formControlName="premises_name" placeholder="Premises Name"
+                [showClearButton]="true">
+              </dx-text-box>
+              <input type="hidden" formControlName="premise_id" />
+            </div>
+            <div class="col-lg-4 ">
+                <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search Details"  type="default" (onClick)="onRegisteredPremisesSearch()">
+                    <i class="fa fa-search"></i>Search License/Premises Detail
+                </dx-button>
+        
+            </div>
+          </div>
+        </fieldset>
+    <div class="col-lg-12">
+      <input type="hidden" value={{module_id}} formControlName="module_id" />
+      <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+      <input type="hidden" value={{application_code}} formControlName="application_code" />
+    </div>
+  </div>
+  </form>
+
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Registered Premises"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="ispremisesSearchWinVisible">
+    <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+      <dx-data-grid [dataSource]="registered_premisesData"  [columnHidingEnabled]="false"  [height]="500" (onToolbarPreparing)="onPremisesPerGridToolbar($event)"
+        [showBorders]="true">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+          <dxi-column [width]="150" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+          cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+         
+              <dx-button text="Select Premises License" (click)="funcSelectPremiseDetails(data)"
+                                  type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+                                </dx-button>
+          </div>
+        </dxi-column>
+        <dxi-column dataField="name"></dxi-column>
+  
+        <dxi-column dataField="premise_reg_no"></dxi-column>
+        <dxi-column dataField="permit_no"></dxi-column>
+        <dxi-column dataField="physical_address"></dxi-column>
+        <dxi-column dataField="postal_address"></dxi-column>
+        <dxi-column dataField="region_name"></dxi-column>
+        <dxi-column dataField="validity_status"></dxi-column>
+  
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="registeredPremises" [allowExportSelectedData]="true"></dxo-export>
+  
+      </dx-data-grid>
+    </dx-scroll-view>
+    </div>
+  </dx-popup>

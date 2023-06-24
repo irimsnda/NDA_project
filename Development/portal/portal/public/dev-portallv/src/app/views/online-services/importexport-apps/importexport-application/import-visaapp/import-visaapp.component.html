@@ -1,0 +1,618 @@
+
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Process: {{process_title}}</h1>
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+  <div class="row">
+    <div class="col-lg-6">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+        Reference No: <i> {{tracking_no}}</i> </label>
+    </div>
+    <div class="col-lg-6">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">
+        Status:<i> {{status_name}}</i> </label>
+    </div>
+
+  </div>
+</div>
+<div class="row">
+  
+    <div class="col-lg-12" *ngIf="status_id === 6 || status_id === 7 || status_id === 8">
+        <wizard [navigationMode]='strict'  navBarLayout ="large-filled-symbols" style="background: #fff !important; height: 100% !important;">
+  
+                <wizard-step stepTitle="Application Queries"  navigationSymbol="Step 1" class="wizardStep-height">
+          
+                    <div class="col-lg-12 wizard-content">
+                         
+                        <dx-data-grid class="table row-border hover row"  [wordWrapEnabled]="true" [columnHidingEnabled]="false" [dataSource]="applicationPreckingQueriesData"
+                        [showBorders]="true">
+                        <dxo-filter-row [visible]="false"></dxo-filter-row>
+                        <dxo-load-panel [enabled]="true">
+                        </dxo-load-panel>
+                        <dxo-paging [enabled]="true">
+                        </dxo-paging>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+                          infoText="Page #{0}. Total: {1} ({2} items)">
+                        </dxo-pager>
+                        <dxo-search-panel  [visible]="true" 
+                          >
+                        </dxo-search-panel>
+                        <dxo-export [enabled]="true" fileName="Query Details" [allowExportSelectedData]="true"></dxo-export>
+                        <dxi-column [width]="150" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                            cellTemplate="cellTemplate">
+                            <div *dxTemplate="let data of 'cellTemplate'">
+                                <dx-button text="Query Response" (click)="funcInitQueryResponse(data)"
+                                type="danger" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+                              </dx-button>
+                          </div>
+                        </dxi-column>
+                        <dxi-column   [width] = 120 caption="Queried On" dataField="added_on"></dxi-column>
+                        
+                        <dxi-column name="command-editing"  caption="Query Details" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate1">
+                            <div *dxTemplate="let data of 'cellTemplate1'">
+                                <div [innerHTML]="data.data.queries_remarks"></div>
+                            </div>
+                        </dxi-column> 
+                        <dxi-column name="command-editing"  caption="Query Response" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate2">
+                            <div *dxTemplate="let data of 'cellTemplate2'">
+                                <div [innerHTML]="data.data.response_txt"></div>
+                            </div>
+                        </dxi-column> 
+                       
+                    </dx-data-grid>
+                      </div>
+                      <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                          <button (click)="onApplicationDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                            class="fa fa-dashboard"></i>
+                          &nbsp; Dashboard</button>
+                        <button type="button" class="btn btn-primary" (click)="funcValidateApplicationQueryresponse(1)" >Next(Permit Submission) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                      </div>
+                </wizard-step>
+                
+                <wizard-step stepTitle="Permit Query Response Submission" navigationSymbol="Submit"  >
+                    <div class="col-lg-12">
+                      <label>Submission Comments(Optional)</label>
+                      <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+                    </div>
+                    <div class="col-lg-12">
+                            <dx-check-box text="Agree to the Terms & Conditions" [value]="undefined" (onValueChanged)="submissionsTermscheckbox($event)">
+                                </dx-check-box>
+                    </div>
+            
+                    <div class="wizard-divbottom">
+                      <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                      
+                                    <button class="btn btn-primary" type="button" [disabled]="!termscheckbox" (click)="onPermitsApplicationSubmit()">Submit Application
+                            Application</button>
+                    </div>
+                  </wizard-step>
+    
+          </wizard>
+
+</div>
+  <div class="col-lg-12"  *ngIf="status_id !== 8 && status_id !== 6">
+    <wizard style="background: #fff !important; height: 100% !important;" navigationMode="strict" navBarLayout ="large-filled-symbols">
+      
+      <wizard-step stepTitle=" Application Details"   navigationSymbol="Step 1" class="wizardStep-height">
+        <app-importexport-gendetails  [applicationGeneraldetailsfrm]="applicationGeneraldetailsfrm"  
+            [sectionsData] ="sectionsData"  
+            [applicationTypeData] ="applicationTypeData"  
+            [sub_module_id] ="sub_module_id"  
+            [applicationTypeCategoryData] ="applicationTypeCategoryData"  
+            [permitReasonData] ="permitReasonData" 
+            [portOfEntryExitData] ="portOfEntryExitData"   
+            [payingCurrencyData] ="payingCurrencyData"  
+            [currencyData]="currencyData"
+            [consigneeOptionsData] ="consigneeOptionsData"  
+            [permitProductsCategoryData] ="permitProductsCategoryData"
+            [consignee_options_check] ="consignee_options_check"  
+            [zoneData] ="zoneData"  
+            [module_id] ="module_id"  
+            [application_code] ="application_code"  
+            [ispremisesSearchWinVisible] ="ispremisesSearchWinVisible"  
+            [registered_premisesData] ="registered_premisesData"  
+            [modeOfTransportData] ="modeOfTransportData"  
+          
+            [issenderreceiverSearchWinVisible] ="issenderreceiverSearchWinVisible"  
+            [consignee_sendertitle] ="consignee_sendertitle"  
+            [issenderreceiverAddWinVisible] ="issenderreceiverAddWinVisible"  
+            [permitReceiverSenderFrm] ="permitReceiverSenderFrm"  
+            [countries] ="countries"  
+            [regions] ="regions"  
+            [districts] ="districts"  
+            [section_id] ="section_id"  
+            
+            [deviceTypeData] ="deviceTypeData"
+            [applicationCategoryData] ="applicationCategoryData"  
+            >
+            </app-importexport-gendetails>
+          <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            <button (click)="onApplicationDashboard()" class="btn btn-primary pull-left" style="margin:5px;"
+              type="button"><i class="fa fa-dashboard"></i>
+              &nbsp; Dashboard</button>
+          <!-- <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" (click)="funcValidatePermitDetails('Add Permit Details to proceed',1)"
+              type="button">
+              Next Permit Product(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+--> 
+
+
+            <button type="button" (click)="onSaveImportExportApplication()"
+               class="btn btn-primary  pull-right"
+              style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+              Application & Next</button>
+
+          </div>
+        
+      </wizard-step>
+      <wizard-step stepTitle="Permit Product Information " navigationSymbol="Step 2"  (stepEnter)="validateApplicationDetails($event)" class="wizardStep-height">
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+            <!-- [disabled] ="isprodnextdisable"-->
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitProductDetails('Add Permit Product Details to proceed',2)">Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+        <app-permit-productsdetails  [permitProductsData] ="permitProductsData"  
+            [isPermitproductsPopupVisible] ="isPermitproductsPopupVisible"  
+            [registeredProductsData] ="registeredProductsData"  
+            [isPermitproductsAddPopupVisible] ="isPermitproductsAddPopupVisible"  
+            [confirmDataParam] ="confirmDataParam"  
+            [premisesOtherDetailsRows] ="premisesOtherDetailsRows" 
+            [is_regulatedproducts] ="is_regulatedproducts"   
+            [productCategoryData] ="productCategoryData"  
+            [deviceTypeData] ="deviceTypeData"  
+            [packagingUnitsData] ="packagingUnitsData"  
+            [siUnitsData]="siUnitsData"
+            [weightsUnitData] ="weightsUnitData"  
+            [currencyData] ="currencyData" 
+            [proforma_currency_id] ="proforma_currency_id" 
+            [countries] ="countries"  
+            [permitProductsFrm] ="permitProductsFrm"  
+            [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+            [classificationData] ="classificationData"  
+            [commonNamesData] ="commonNamesData"   
+            [application_code] ="application_code"   
+            [enabled_newproductadd] ="enabled_newproductadd"   
+            [sub_module_id] ="sub_module_id"   
+            [tracking_no] ="tracking_no"   
+            [module_id] ="module_id"   
+            [module_id] ="module_id"   
+            [section_id] ="section_id"   
+            
+            >
+            </app-permit-productsdetails>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+            
+            <!-- [disabled] ="isprodnextdisable"-->
+          <button type="button" class="btn btn-primary" 
+            (click)="funcValidatePermitProductDetails('Add Permit Product Details to proceed',2)">Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step stepTitle="Documents" navigationSymbol="Step 3"  class="wizardStep-height" (stepEnter)="validateProdApplicationDetails($event)">
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+            Products Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitDocumentsDetails(3)">Next
+            Application Submission<i class="fa fa-angle-double-right"></i></button>
+
+        </div>
+        <div class=" wizard-content">
+          <app-application-documents [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+        </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+            Products Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitDocumentsDetails(3)">Next
+            Application Submission<i class="fa fa-angle-double-right"></i></button>
+
+        </div>
+
+      </wizard-step>
+      <wizard-step stepTitle="Completion & Submission"  (stepEnter)="validateSubmissionApplicationDetails($event)" navigationSymbol="Submit" >
+        
+        <form [formGroup]="onApplicationSubmissionFrm" class="col-lg-12 row div-nopadding wizard-content" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onProductApplicationSubmit()">
+          <div class="col-lg-12">
+              <b><label>Declaration /Terms and condition</label></b>
+              <ul>
+                  <p *ngFor="let guide of terms_conditions;">
+                      {{guide.no}} {{guide.term_conditiondetails}}
+                  </p>
+              </ul>
+          </div>
+          
+          <div class="col-lg-12">
+            <b> <label>Submission Comments(Optional)</label></b>
+              <dx-text-area formControlName="submission_comments" placeholder="Enter Comments(optional)"></dx-text-area>
+          </div>
+          <div class="col-lg-12">
+            <dx-check-box text="Agree to the Declaration" [value]="undefined"
+              (onValueChanged)="submissionsTermscheckbox($event)">
+            </dx-check-box>
+          </div>
+  
+          <div class="wizard-divbottom">
+            <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+            
+            <button class="btn btn-primary" type="button" [disabled]="!termscheckbox"
+              (click)="onPermitsApplicationSubmit()">Submit Permit
+              Application</button>
+          </div>
+</form>
+      </wizard-step>
+    </wizard>
+  </div>
+</div>
+<!--query  modal structure-->
+
+
+<dx-popup  class="popup" [width]="funcpopWidth(80)" [height]="850" [showTitle]="true" title="Application Registration Query Response"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isInitalQueryResponseFrmVisible">
+    <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+
+    <wizard  style="background: #fff !important; height: 100% !important;"   navBarLayout ="large-filled-symbols" [navigationMode]='free'>
+          
+        <wizard-step stepTitle="Application Queries"  navigationSymbol="Step 1"  class="wizardStep-height">
+  
+            <div class="col-lg-12 wizard-content">
+                <form role="form" class="row" style="background:#fff;" enctype="multipart/form-data" role="form" [formGroup]="initqueryresponsefrm"
+                (ngSubmit)="onSaveinitqueryresponse()">
+                <div class="col-lg-12">
+                  <label>Query</label>
+                  <dx-html-editor [height]="200" readOnly ="true"  formControlName="queries_remarks"  placeholder="Query">
+                      <dxo-toolbar>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                          <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="bold"></dxi-item>
+                          <dxi-item formatName="italic"></dxi-item>
+                         
+                          <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="orderedList"></dxi-item>
+                          <dxi-item formatName="bulletList"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="color"></dxi-item>
+                          <dxi-item formatName="link"></dxi-item>
+                          <dxi-item formatName="image"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="clear"></dxi-item>
+                      </dxo-toolbar>
+                      <dxo-media-resizing
+                          [enabled]=true>
+                      </dxo-media-resizing>
+                      
+                  </dx-html-editor>
+                </div>
+                
+                <input type="hidden" formControlName="id"/>
+                
+                <input type="hidden" formControlName="query_id"/>
+              </form>
+            
+              </div>
+              <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                
+                  <button type="button"   class="btn btn-primary  pull-right" nextStep>Next(Query Responses/Application Details) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                
+              </div>
+        </wizard-step>
+
+        <wizard-step stepTitle="Application Details"  navigationSymbol="Step 2"  class="wizardStep-height">
+          <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+              Products Details</button>
+            <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" nextStep
+              type="button">
+              Next Permit Product(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+            <button type="button" (click)="onSaveImportExportApplication()"
+               class="btn btn-primary  pull-right"
+              style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+              Application</button>
+
+          </div>
+        <app-importexport-gendetails  [applicationGeneraldetailsfrm]="applicationGeneraldetailsfrm"  
+            [sectionsData] ="sectionsData"  
+            [applicationTypeData] ="applicationTypeData"  
+            [sub_module_id] ="sub_module_id"  
+            [applicationTypeCategoryData] ="applicationTypeCategoryData"  
+            [permitReasonData] ="permitReasonData" 
+            [portOfEntryExitData] ="portOfEntryExitData"   
+            [payingCurrencyData] ="payingCurrencyData"  
+            [currencyData]="currencyData"
+            [consigneeOptionsData] ="consigneeOptionsData"  
+            [permitProductsCategoryData] ="permitProductsCategoryData"  
+            [countries] ="countries"  
+
+            [consignee_options_check] ="consignee_options_check"  
+            [zoneData] ="zoneData"  
+            [module_id] ="module_id"  
+            [modeOfTransportData] ="modeOfTransportData"  
+
+            [application_code] ="application_code"  
+            [ispremisesSearchWinVisible] ="ispremisesSearchWinVisible"  
+            [registered_premisesData] ="registered_premisesData"  
+            [issenderreceiverSearchWinVisible] ="issenderreceiverSearchWinVisible"  
+            [consignee_sendertitle] ="consignee_sendertitle"  
+            [issenderreceiverAddWinVisible] ="issenderreceiverAddWinVisible"  
+            [permitReceiverSenderFrm] ="permitReceiverSenderFrm"  
+            [countries] ="countries"  
+            [regions] ="regions"  
+            [districts] ="districts"  
+            
+            [applicationCategoryData] ="applicationCategoryData"  
+            
+            >
+            </app-importexport-gendetails>
+          <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            
+            <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" nextStep
+              type="button">
+              Next Permit Product(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+            <button type="button" (click)="onSaveImportExportApplication()"
+            class="btn btn-primary  pull-right"
+              style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+              Application</button>
+
+          </div>
+        
+      </wizard-step>
+      <wizard-step stepTitle="PermitProduct Information " navigationSymbol="Step 3"   class="wizardStep-height">
+        <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            
+          <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" nextStep
+            type="button">
+            Next Permit Product(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+          <button type="button" (click)="onSaveImportExportApplication()"
+           class="btn btn-primary  pull-right"
+            style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+            Application</button>
+
+        </div>
+        <app-permit-productsdetails  [permitProductsData] ="permitProductsData"  
+            [isPermitproductsPopupVisible] ="isPermitproductsPopupVisible"  
+            [registeredProductsData] ="registeredProductsData"  
+            [isPermitproductsAddPopupVisible] ="isPermitproductsAddPopupVisible"  
+            [confirmDataParam] ="confirmDataParam"  
+            [premisesOtherDetailsRows] ="premisesOtherDetailsRows" 
+            [is_regulatedproducts] ="is_regulatedproducts"   
+            [productCategoryData] ="productCategoryData"  
+            [deviceTypeData] ="deviceTypeData"  
+            [packagingUnitsData] ="packagingUnitsData"  
+            [weightsUnitData] ="weightsUnitData"  
+            [currencyData] ="currencyData"  
+            [permitProductsFrm] ="permitProductsFrm"  
+            [countries] ="countries"  
+            [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+            [classificationData] ="classificationData"  
+            [commonNamesData] ="commonNamesData"   
+            [application_code] ="application_code"   
+            [enabled_newproductadd] ="enabled_newproductadd"   
+            [sub_module_id] ="sub_module_id"   
+            [tracking_no] ="tracking_no"   
+            [module_id] ="module_id"   
+            [module_id] ="module_id"   
+            [section_id] ="section_id"   
+            
+            
+            >
+            </app-permit-productsdetails>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+          <button type="button" class="btn btn-primary"
+            nextStep>Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step stepTitle="Documents" navigationSymbol="Step 4"   class="wizardStep-height">
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+            Products Details</button>
+            <button type="button" class="btn btn-primary" nextStep>Next Qurey Response<i class="fa fa-angle-double-right"></i></button>
+        </div>
+        <div class=" wizard-content">
+          <app-application-documents [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+        </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+            Products Details</button>
+          <button type="button" class="btn btn-primary" nextStep>Next Qurey Response<i class="fa fa-angle-double-right"></i></button>
+
+        </div>
+      </wizard-step>
+      <wizard-step stepTitle="Application Queries Response" navigationSymbol="Response"   class="wizardStep-height">
+  
+        <div class="col-lg-12 wizard-content">
+            <form role="form" class="row" style="background:#fff;" enctype="multipart/form-data" role="form" [formGroup]="initqueryresponsefrm"
+            (ngSubmit)="onSaveinitqueryresponse()">
+            <div class="col-lg-12">
+              <label>Query</label>
+              
+              <dx-html-editor [height]="200" readOnly ="true"  formControlName="queries_remarks"  placeholder="Query">
+                  <dxo-toolbar>
+                      <dxi-item formatName="separator"></dxi-item>
+                      <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                      
+                  </dxo-toolbar>
+                  <dxo-media-resizing
+                      [enabled]=true>
+                  </dxo-media-resizing>
+                  
+              </dx-html-editor>
+            </div>
+            <div class="col-lg-12">
+              <label>Query Response (Enter the Responses to the Query)</label>
+      
+              <dx-html-editor [height]="200" formControlName="response_txt"  placeholder="Query Response">
+                  <dxo-toolbar>
+                      <dxi-item formatName="separator"></dxi-item>
+                      <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                      <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                      
+                  </dxo-toolbar>
+                  <dxo-media-resizing
+                      [enabled]=true>
+                  </dxo-media-resizing>
+                  
+              </dx-html-editor>
+            </div>
+            <input type="hidden" formControlName="id"/>
+            <input type="hidden" formControlName="query_id"/>
+          </form>
+          </div>
+          <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+
+              <dx-button text="Save Query Response(s) " [disabled]="!initqueryresponsefrm.valid" (onClick)="onSaveinitqueryresponse()"
+                  type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                </dx-button>
+                <button type="button" class="btn btn-primary" (click)="onCloseQueryMode()">Close for Submission<i class="fa fa-angle-double-right"></i></button>
+            
+          </div>
+      </wizard-step>
+
+
+  </wizard>
+</dx-scroll-view>
+
+</div>
+</dx-popup>
+
+
+
+
+
+
+
+<!-- edit option -->
+
+
+<!--Upload POP Up -->
+<dx-popup class="popup" [width]="funcpopWidth(40)" [height]="300" [showTitle]="true" title="Permit Documents Upload"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isDocumentUploadPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="documentUploadfrm"
+      (ngSubmit)="onPermitDocumentUpload()">
+      <div class="col-lg-12">
+        <label>Document Requirement</label>
+        <dx-select-box [dataSource]="documentsUploadRequirementData" valueExpr="document_requirement_id"
+          displayExpr="document_requirement" placeholder="Select Document Upload" [searchEnabled]="true"
+          formControlName="document_requirement_id">
+
+        </dx-select-box>
+      </div>
+
+      <div class="col-lg-12">
+        <label>File Upload</label>
+        <input type="file" (change)="onFileChange($event)" placeholder="Upload Document" />
+      </div>
+      <div class="col-lg-12">
+        <label>Description</label>
+        <dx-text-area [height]="60" formControlName="description" [maxLength]="maxLength" placeholder="Description"
+          [(value)]="value">
+        </dx-text-area>
+      </div>
+      <input type="hidden" formControlName="id" />
+      <input type="hidden" formControlName="node_ref" />
+      <div class="col-lg-12">
+        <dx-button text="Upload Document" [disabled]="!documentUploadfrm.valid"
+          (onClick)="onPermitDocumentUpload()" type="success" icon="save"
+          [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+        </dx-button>
+      </div>
+    </form>
+  </div>
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(70)" [height]="450" [showTitle]="true" title="Documents Version Preview"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isDocumentVersionPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+    <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true"  [dataSource]="documentsVersionsUploadData" keyExpr="id"
+      (onToolbarPreparing)="onApplicationDocumentToolbar($event)">
+      <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="documentsVersionUploadData" [allowExportSelectedData]="true">
+      </dxo-export>
+
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column dataField="name"></dxi-column>
+      <dxi-column dataField="nodeType"></dxi-column>
+      <dxi-column dataField="node_ref"></dxi-column>
+      <dxi-column dataField="modifiedAt"></dxi-column>
+      <dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let data of 'cellTemplate'">
+
+          <dx-menu (onItemClick)="documentsActionColClick($event,data)" [items]="documentVersionMenuItems">
+          </dx-menu>
+
+        </div>
+      </dxi-column>
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid>
+  </div>
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(75)" [height]="450" [showTitle]="true" title="Preview  Application Processing"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPreviewApplicationProcessing">
+
+  <div *dxTemplate="let data of 'content'" style="background:#fff;">
+      <div class="row">
+        <dx-data-grid class="table row-border hover div-backwhite" [columnHidingEnabled]="true" [dataSource]="productApplicationProcessingData"
+        [showBorders]="true" [allowColumnResizing]="true" keyExpr="id">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-load-panel [enabled]="true">
+        </dxo-load-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+          infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-export [enabled]="true" fileName="ProductApplications" [allowExportSelectedData]="true"></dxo-export>
+  
+        <dxo-selection mode="single"></dxo-selection>
+        <dxi-column  dataField="tracking_no"></dxi-column>
+        <dxi-column  dataField="reference_no"></dxi-column>
+        <dxi-column dataField="process_name"></dxi-column>
+        <dxi-column  dataField="prev_stage"></dxi-column>
+        <dxi-column  dataField="current_stage"></dxi-column>
+        <dxi-column  [groupIndex]="0" dataField="processing_date"></dxi-column>
+       
+        <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+      </dx-data-grid> 
+      </div>
+  </div>
+</dx-popup>
+
+

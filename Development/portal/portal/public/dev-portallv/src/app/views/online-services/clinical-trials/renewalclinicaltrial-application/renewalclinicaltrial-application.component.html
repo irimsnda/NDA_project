@@ -1,0 +1,625 @@
+<div class="col-xl-12">
+  <div class="breadcrumb-holder">
+    <h1 class="main-title float-left">{{process_title}}</h1>
+    <ol class="breadcrumb float-right">
+      <li class="breadcrumb-item">Home</li>
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+</div>
+
+<div style="background: #fff; font-weight: bold;margin-bottom: 5px !important; height: 55px !important;">
+  <div class="row">
+    <div class="col-lg-3">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+        Tracking No: <i> {{tracking_no}}</i> </label>
+    </div>
+    <div class="col-lg-2">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application
+        Status:<i> {{status_name}}</i> </label>
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  
+    <div class="col-lg-12"  *ngIf="status_id === 6 || status_id === 8 || status_id == 7">
+        <wizard   navBarLayout ="large-filled-symbols" [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+          
+            <wizard-step stepTitle="Application Queries" navigationSymbol="Step 1"  class="wizardStep-height">
+      
+                <div class="col-lg-12 wizard-content">
+                     
+                    <dx-data-grid class="table row-border hover row"  [columnHidingEnabled]="true" [dataSource]="applicationPreckingQueriesData" (onToolbarPreparing)="onAppQueryPreparing($event)"
+                        [showBorders]="true">
+                        <dxo-filter-row [visible]="false"></dxo-filter-row>
+                        <dxo-load-panel [enabled]="true">
+                        </dxo-load-panel>
+                        <dxo-paging [enabled]="true">
+                        </dxo-paging>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+                          infoText="Page #{0}. Total: {1} ({2} items)">
+                        </dxo-pager>
+                        <dxo-search-panel  [visible]="true" 
+                          >
+                        </dxo-search-panel>
+                        <dxo-export [enabled]="true" fileName="Query Details" [allowExportSelectedData]="true"></dxo-export>
+                        <dxi-column [width]="210" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                            cellTemplate="cellTemplate">
+                            <div *dxTemplate="let data of 'cellTemplate'">
+                                <dx-button text="Query Response" (click)="funcInitQueryResponse(data)"
+                                type="info" icon="edit"  [elementAttr]="{ class: 'btn btn-info;action-btn' }">
+                              </dx-button>
+                              <a (click)="funcDownloadQueryLetter(data)" class="action-btn"><i class="fa fa-download"></i>DownLoad Query Letter</a>&nbsp;
+                          </div>
+                        </dxi-column>
+                        <dxi-column   [width] = 120 caption="Queried On" dataField="added_on"></dxi-column>
+                        
+                        <dxi-column name="command-editing"  caption="Query Details" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate1">
+                            <div *dxTemplate="let data of 'cellTemplate1'">
+                                <div [innerHTML]="data.data.queries_remarks"></div>
+                            </div>
+                        </dxi-column> 
+                        <dxi-column name="command-editing"  caption="Query Response" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate2">
+                            <div *dxTemplate="let data of 'cellTemplate2'">
+                                <div [innerHTML]="data.data.response_txt"></div>
+                            </div>
+                        </dxi-column> 
+                       
+                    </dx-data-grid>
+                  </div>
+                  <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                      <button (click)="onClinicalDashboard()" class="btn btn-info pull-left" style="margin:5px;" type="button"><i
+                        class="fa fa-dashboard"></i>
+                      &nbsp; Dashboard</button>
+                    <button type="button" class="btn btn-info" (click)="funcValidateApplicationQueryresponse(1)">Next(Query Responses) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                  </div>
+            </wizard-step>
+            <wizard-step stepTitle="Documents Uploads"  navigationSymbol="Step 2"  class="wizardStep-height">
+              <div class="wizard-divtop">
+                  <button type="button" class="btn btn-info pull-left" previousStep><i class="fa fa-angle-double-left"></i>Previous
+                   </button>
+                   <button type="button" class="btn btn-info  pull-right" (click)="funcValidateDocumentsDetails(2)">Next Query
+                    Submission<i class="fa fa-angle-double-right"></i></button>
+                </div>
+              <div class=" wizard-content">
+                <app-application-documents #documentComponent [section_id] ="doc_section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+              </div>
+            
+            <div class="wizard-divbottom">
+              <button type="button" class="btn btn-info  pull-left" previousStep><i class="fa fa-angle-double-left"></i>Previous
+               </button>
+              <button type="button" class="btn btn-info  pull-right" (click)="funcValidateDocumentsDetails(2)">Next Query
+                Submission<i class="fa fa-angle-double-right">
+
+                </i></button>
+    
+            </div>
+    
+          </wizard-step>
+            <wizard-step navigationSymbol="Submission"  stepTitle="Query Response Submission">
+                <div class="col-lg-12">
+                  <label>Submission Comments(Optional)</label>
+                  <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+                </div>
+                
+                <div class="col-lg-12">
+                  <dx-check-box text="Agree to the Declaration" [value]="undefined" (onValueChanged)="submissionsTermscheckbox($event)">
+                  </dx-check-box>
+                </div>
+        
+                <div class="wizard-divbottom">
+                  <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                 
+                  <button class="btn btn-primary" type="button"  (click)="onPermitsApplicationSubmit()">Submit
+                    Application</button>
+                </div>
+              </wizard-step>
+
+      </wizard>
+    </div>
+  <div class="col-lg-12"  *ngIf="status_id !== 6  && status_id !== 8 && status_id!== 9">
+    <wizard style="background: #fff !important; height: 100% !important;"   navBarLayout ="large-filled-symbols">
+      
+      <wizard-step stepTitle="Clinical Trial Application Details"  navigationSymbol="Step 1"  class="wizardStep-height">
+
+          <app-clinical-generaldetails  [clinicaltrialGeneraldetailsfrm] ="clinicaltrialGeneraldetailsfrm"  
+          [durationDescData] ="durationDescData"  
+          [payingCurrencyData] ="payingCurrencyData"  
+          [ctrethicsCommitteesData] ="ctrethicsCommitteesData"  
+          [clinicalTrialRegistryData] ="clinicalTrialRegistryData"  
+
+          [fastTrackOptionsData] ="fastTrackOptionsData"  
+          [sub_module_id] ="sub_module_id"  
+          [module_id] ="module_id"  
+          [application_code] ="application_code" 
+          [section_id] ="section_id"  
+          [zoneData] ="zoneData"  
+          [reg_clinical_trial_id] ="reg_clinical_trial_id"
+          [zoneData] ="zoneData" 
+          [regions] ="regions" 
+          [countries] ="countries"
+          [districts] ="districts" 
+          [is_readonly] ="is_readonly"
+          (docClinicalSectionsEvent)="doc_section_id=$event"
+          >
+          
+          </app-clinical-generaldetails>
+          <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            <button (onClick)="onClinicalDashboard()" class="btn btn-primary pull-left" style="margin:5px;" 
+          type="button"><i class="fa fa-angle-double-right"></i>
+            &nbsp;Dashboard</button>
+            <button class="btn btn-info pull-right" style="margin:5px;" [disabled]="!application_code" nextStep
+              type="button">
+              Next Clinical Application &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+            <button type="submit" (click)="onSaveClincialTrialApplication()"
+              [disabled]="!clinicaltrialGeneraldetailsfrm.valid" class="btn btn-info  pull-right"
+              style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Clinical Trial
+              Renewal Request</button>
+
+          </div>
+      </wizard-step>
+      <wizard-step stepTitle="Clinical Study Sites"  navigationSymbol="Step 2"  class="wizardStep-height">
+          <div class="wizard-divtop">
+              <button type="button" class="btn btn-info pull-left" previousStep>&nbsp;<i
+                  class="fa fa-angle-double-left"></i>Previous
+                Clinical Trial Information</button>
+              <button type="button" class="btn btn-info pull-right" (click)="funcValidateClinicalSiteDetails('wb_clinical_trial_sites',2,'Clinical trial Sites')">Next Investigators Details &nbsp;<i class="fa fa-angle-double-right"></i></button>
+            </div>
+          <app-clinical-studysites  [clinicalSitesDetailsData] ="clinicalSitesDetailsData"  
+          [durationDescData] ="durationDescData"  
+          [application_id] ="application_id"  
+          [countries] ="countries"  
+          >
+  
+          </app-clinical-studysites>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-info pull-left" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Clinical Trial Information</button>
+          <button type="button" class="btn btn-info pull-right" (click)="funcValidateClinicalSiteDetails('wb_clinical_trial_sites',2,'Clinical trial Sites')">Next Investigators Details &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step navigationSymbol="Step 3"  stepTitle="Co-/Sub Investigators & Monitors ">
+        <div class="wizard-divtop">
+            <button type="button" class="btn btn-info pull-left" previousStep>&nbsp;<i
+                class="fa fa-angle-double-left"></i>Previous
+              Clinical trial Study Site</button>
+            <button type="button"  (click)="funcValidateClinicalSiteDetails('wb_clinical_trial_investigators',3,'Clinical Trial Investigators')" class="btn btn-info pull-right" >Next IMP Details<i class="fa fa-angle-double-right"></i></button>
+          </div>
+          <app-clinical-investigators  
+              [sub_module_id] ="sub_module_id"  
+              [module_id] ="module_id"  
+              [application_code] ="application_code"  
+              [clinicalSitesDetailsData] ="clinicalSitesDetailsData"  
+              
+              [countries] ="countries"
+              [regions] ="regions"
+              [districts] ="districts"
+              [application_id] ="application_id"
+              [investigatorCategoryData] ="investigatorCategoryData"
+          >
+        </app-clinical-investigators>
+          
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-info pull-left" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Clinical trial Study Site</button>
+          <button type="button"  (click)="funcValidateClinicalSiteDetails('wb_clinical_trial_investigators',3,'Clinical Trial Investigators')" class="btn btn-info  pull-right" >Next IMP Details<i class="fa fa-angle-double-right"></i></button>
+        </div>
+
+      </wizard-step>
+      <wizard-step  navigationSymbol="Step 4"  stepTitle="IP Products Information">
+        
+        <div class="wizard-divtop">
+            <button type="button" class="btn btn-info pull-left" previousStep>&nbsp;<i
+                class="fa fa-angle-double-left"></i>Previous
+              Clinical Trial Investigators</button>
+            <button type="button" class="btn btn-info  pull-right"  (click)="funcValidateClinicalSiteDetails('wb_clinical_trial_products',4,'Clinical Trial IMP Products',documentComponent)">Next Application
+                Documents<i class="fa fa-angle-double-right "></i></button>
+          </div>
+       
+        <div class="accordion" id="productInfo">
+
+            <div class="card">
+              <div class="card-headerdefined" id="headingTwo">
+          
+                <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#investigational_product"
+                  aria-expanded="false" aria-controls="investigational_product">
+                  Clinial trial Investigational Product
+                </button>
+          
+              </div>
+              <div id="investigational_product" class="collapse show" aria-labelledby="headingTwo" data-parent="#productInfo">
+                <div class="card-body no-padding">
+                  <div class="no-padding">
+                      <app-clinical-investigationalproducts
+                      [iMPProductDetailsFrm] ="iMPProductDetailsFrm"  
+                      [application_id] ="application_id"  
+                      [countries] ="countries"  
+                      [clinicalProductCategoryData] ="clinicalProductCategoryData"  
+                      
+                      [commonNameData] ="commonNameData" 
+                      [dosagFormData] ="dosagFormData" 
+                      [routeOfAdminData] ="routeOfAdminData" 
+                      [siUnitsData] ="siUnitsData"
+                      [marketlocationData] ="marketlocationData"
+                      [manufacturersData] ="manufacturersData"
+                        >
+                      
+                      </app-clinical-investigationalproducts>
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-headerdefined" id="headingTwo">
+          
+                <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#comparator_product"
+                  aria-expanded="false" aria-controls="comparator_product">
+                  Clinial trial Comparator Product
+                </button>
+          
+              </div>
+              <div id="comparator_product" class="collapse show" aria-labelledby="headingTwo" data-parent="#productInfo">
+                <div class="card-body no-padding">
+                  <div class="no-padding">
+                      <app-clinical-comparatorproducts 
+                      [iMPProductDetailsFrm] ="iMPProductDetailsFrm"  
+                      [application_id] ="application_id"  
+                      [countries] ="countries"  
+                      [clinicalProductCategoryData] ="clinicalProductCategoryData"  
+                      
+                      [commonNameData] ="commonNameData" 
+                      [dosagFormData] ="dosagFormData" 
+                      [routeOfAdminData] ="routeOfAdminData" 
+                      [siUnitsData] ="siUnitsData"
+                      [marketlocationData] ="marketlocationData"
+                      [manufacturersData] ="manufacturersData"
+                        >
+                      
+                      </app-clinical-comparatorproducts>
+                  
+          
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+        </div>
+
+
+      <div class="wizard-divbottom">
+        <button type="button" class="btn btn-info pull-left" previousStep>&nbsp;<i
+            class="fa fa-angle-double-left"></i>Previous
+          Clinical Trial Investigators</button>
+        <button type="button" class="btn btn-info  pull-right"  (click)="funcValidateClinicalSiteDetails('wb_clinical_trial_products',4,'Clinical Trial IMP Products',documentComponent)">Next Application
+            Documents<i class="fa fa-angle-double-right"></i></button>
+      </div>
+
+    </wizard-step>
+
+      <wizard-step navigationSymbol="Step 5"  stepTitle="Documents Uploads" class="wizardStep-height">
+          <div class="wizard-divtop">
+              <button type="button" class="btn btn-info pull-left" previousStep><i class="fa fa-angle-double-left"></i>Previous
+               Documents</button>
+              <button type="button" class="btn btn-info pull-right" (click)="funcValidateDocumentsDetails(5)">Next Application
+                Submission<i class="fa fa-angle-double-right"></i></button>
+    
+            </div>
+          <div class=" wizard-content">
+            <app-application-documents #documentComponent [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+          </div>
+        
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-info  pull-left" previousStep><i class="fa fa-angle-double-left"></i>Previous
+           Documents</button>
+          <button type="button" class="btn btn-info  pull-right" (click)="funcValidateDocumentsDetails(5)">Next Application
+            Submission<i class="fa fa-angle-double-right"></i></button>
+
+        </div>
+
+      </wizard-step>
+    
+      <wizard-step navigationSymbol="Submission"  stepTitle="Completion & Submission">
+
+          <form [formGroup]="onApplicationSubmissionFrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onGmpApplicationSubmit()">
+            <div class="col-lg-12">
+              <b><label>Declaration /Terms and condition</label></b>
+              <ul>
+                  <p *ngFor="let guide of terms_conditions;">
+                      {{guide.no}} {{guide.term_conditiondetails}}
+                  </p>
+              </ul>
+          </div>
+            
+            <div class="col-lg-12">
+              <b> <h4>Submission Comments(Optional)</h4></b>
+                <dx-text-area formControlName="submission_comments" placeholder="Enter Comments(optional)"></dx-text-area>
+            </div>
+            <div class="col-lg-12">
+              <dx-check-box text="Agree to the Declaration" [value]="undefined" (onValueChanged)="submissionsTermscheckbox($event)">
+              </dx-check-box>
+            </div>
+    
+            <div class="wizard-divbottom">
+              <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+              <app-invoice-appgeneration  [onApplicationSubmissionFrm] ="onApplicationSubmissionFrm" [module_id] ="module_id"  [status_id] ="status_id" [application_code]="application_code" ></app-invoice-appgeneration>
+              <button class="btn btn-primary" type="button" [disabled]="!termscheckbox" (click)="onPermitsApplicationSubmit()">Submit
+                Application</button>
+            </div>
+</form>
+
+      </wizard-step>
+    </wizard>
+  </div>
+</div>
+
+
+
+
+<dx-popup  class="popup" [width]="funcpopWidth(80)"  [height]="650" [showTitle]="true" title="Application Registration Query Response"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isInitalQueryResponseFrmVisible">
+      <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+
+    <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+        <wizard-step stepTitle="Clinical Trial Application Queries" class="wizardStep-height">
+  
+            <div class="col-lg-12 wizard-content">
+                <form role="form" class="row" style="background:#fff;" enctype="multipart/form-data" role="form" [formGroup]="initqueryresponsefrm"
+                (ngSubmit)="onSaveinitqueryresponse()">
+                <div class="col-lg-12">
+                  <label>Query</label>
+                  
+                  <dx-html-editor [height]="200" readOnly ="true"  formControlName="queries_remarks"  placeholder="Query">
+                      <dxo-toolbar>
+                          <dxi-item formatName="separator"></dxi-item>
+
+                      </dxo-toolbar>
+                      <dxo-media-resizing
+                          [enabled]=true>
+                      </dxo-media-resizing>
+                      
+                  </dx-html-editor>
+                </div>
+              </form>
+            
+              </div>
+              <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                 
+               
+                  <button type="button"   class="btn btn-info  pull-right" nextStep>Next(Query Responses/Application Details) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                  
+                    <!--
+                    <dx-button text="Download Query Letter" (onClick)="funcDownloadUploadedDoc()" type="success" icon="download" [elementAttr]="{ class:'btn btn-primary; pull-right'}">
+                    </dx-button>-->
+              </div>
+        </wizard-step>
+     
+        <wizard-step stepTitle="Clincial Trial Application Details" class="wizardStep-height">
+          <app-clinical-generaldetails  [clinicaltrialGeneraldetailsfrm] ="clinicaltrialGeneraldetailsfrm"  
+          [durationDescData] ="durationDescData"  
+          [payingCurrencyData] ="payingCurrencyData"  
+          [fastTrackOptionsData] ="fastTrackOptionsData"  
+          [sub_module_id] ="sub_module_id"  
+          [module_id] ="module_id"  
+          [ctrethicsCommitteesData] ="ctrethicsCommitteesData"  
+          [clinicalTrialRegistryData] ="clinicalTrialRegistryData"  
+          [application_code] ="application_code" 
+          [section_id] ="section_id"  
+          [zoneData] ="zoneData"  
+          [reg_clinical_trial_id] ="reg_clinical_trial_id"
+          [zoneData] ="zoneData" 
+          [regions] ="regions" 
+          [countries] ="countries"
+          [districts] ="districts" 
+          [is_readonly] ="is_readonly"
+          (docClinicalSectionsEvent)="doc_section_id=$event"
+          >
+          
+          
+          </app-clinical-generaldetails>
+          <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+           
+            <button class="btn btn-info pull-right" style="margin:5px;"  nextStep
+              type="button">
+              Next Clinical Application &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+            <button type="submit" (click)="onSaveClincialTrialApplication()"
+              [disabled]="!clinicaltrialGeneraldetailsfrm.valid" class="btn btn-info  pull-right"
+              style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Clinical Trial
+              Application</button>
+
+          </div>
+       
+      </wizard-step>
+      <wizard-step stepTitle="Clinical Study Sites" class="wizardStep-height">
+           <app-clinical-studysites  [clinicalSitesDetailsData] ="clinicalSitesDetailsData"  
+          [durationDescData] ="durationDescData"  
+          [application_id] ="application_id"  
+          [countries] ="countries"  
+          >
+  
+          </app-clinical-studysites>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-info" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Clinical Trial Information</button>
+          <button type="button" class="btn btn-info" nextStep>Next Investigators Details &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step stepTitle="Co-/Sub Investigators & Monitors "  class="wizardStep-height">
+          <app-clinical-investigators  
+              [sub_module_id] ="sub_module_id"  
+              [module_id] ="module_id"  
+              [application_code] ="application_code"  
+              [clinicalSitesDetailsData] ="clinicalSitesDetailsData"  
+              
+              [countries] ="countries"
+              [regions] ="regions"
+              [districts] ="districts"
+              [application_id] ="application_id"
+              [investigatorCategoryData] ="investigatorCategoryData"
+          >
+        </app-clinical-investigators>
+          
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-info" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Clinical trial Study Site</button>
+          <button type="button"  nextStep class="btn btn-info" >Next Products Details<i class="fa fa-angle-double-right"></i></button>
+        </div>
+
+      </wizard-step>
+  
+      <wizard-step stepTitle="Clinical Trial Products Information">
+         
+        <div class="accordion" id="productInfo">
+
+          <div class="card">
+            <div class="card-headerdefined" id="headingTwo">
+        
+              <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#investigational_product"
+                aria-expanded="false" aria-controls="investigational_product">
+                Clinial trial Investigational Product
+              </button>
+        
+            </div>
+            <div id="investigational_product" class="collapse show" aria-labelledby="headingTwo" data-parent="#productInfo">
+              <div class="card-body no-padding">
+                <div class="no-padding">
+                    <app-clinical-investigationalproducts
+                    [iMPProductDetailsFrm] ="iMPProductDetailsFrm"  
+                    [application_id] ="application_id"  
+                    [countries] ="countries"  
+                    [clinicalProductCategoryData] ="clinicalProductCategoryData"  
+                    
+                    [commonNameData] ="commonNameData" 
+                    [dosagFormData] ="dosagFormData" 
+                    [routeOfAdminData] ="routeOfAdminData" 
+                    [siUnitsData] ="siUnitsData"
+                    [marketlocationData] ="marketlocationData"
+                    [manufacturersData] ="manufacturersData"
+                      >
+                    
+                    </app-clinical-investigationalproducts>
+                
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-headerdefined" id="headingTwo">
+        
+              <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#comparator_product"
+                aria-expanded="false" aria-controls="comparator_product">
+                Clinial trial Comparator Product
+              </button>
+        
+            </div>
+            <div id="comparator_product" class="collapse show" aria-labelledby="headingTwo" data-parent="#productInfo">
+              <div class="card-body no-padding">
+                <div class="no-padding">
+                    <app-clinical-comparatorproducts 
+                    [iMPProductDetailsFrm] ="iMPProductDetailsFrm"  
+                    [application_id] ="application_id"  
+                    [countries] ="countries"  
+                    [clinicalProductCategoryData] ="clinicalProductCategoryData"  
+                    
+                    [commonNameData] ="commonNameData" 
+                    [dosagFormData] ="dosagFormData" 
+                    [routeOfAdminData] ="routeOfAdminData" 
+                    [siUnitsData] ="siUnitsData"
+                    [marketlocationData] ="marketlocationData"
+                    [manufacturersData] ="manufacturersData"
+                      >
+                    
+                    </app-clinical-comparatorproducts>
+                
+        
+                </div>
+              </div>
+            </div>
+          </div>
+         
+      </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-info" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Clinical Trial Investigators</button>
+          <button type="button" class="btn btn-info" nextStep>Next Application
+              Documents<i class="fa fa-angle-double-right"></i></button>
+        </div>
+
+      </wizard-step>
+
+      <wizard-step stepTitle="Documents" class="wizardStep-height">
+     
+          <div class=" wizard-content">
+            <app-application-documents #documentComponent [section_id] ="doc_section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+          </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-info" previousStep><i class="fa fa-angle-double-left"></i>Previous
+            Clinical Trial Investigators</button>
+            <button type="button" class="btn btn-info" nextStep>Next Query Response<i class="fa fa-angle-double-right"></i></button>
+        </div>
+
+      </wizard-step>
+      <wizard-step stepTitle="Query responses" class="wizardStep-height">
+        <div class="col-lg-12 wizard-content">
+          <form role="form" class="row" style="background:#fff;" enctype="multipart/form-data" role="form" [formGroup]="initqueryresponsefrm"
+          (ngSubmit)="onSaveinitqueryresponse()">
+          <div class="col-lg-12">
+            <label>Query</label>
+            
+            <dx-html-editor [height]="200" readOnly ="true"  formControlName="queries_remarks"  placeholder="Query">
+                <dxo-toolbar>
+                    <dxi-item formatName="separator"></dxi-item>
+                   
+                </dxo-toolbar>
+                <dxo-media-resizing
+                    [enabled]=true>
+                </dxo-media-resizing>
+                
+            </dx-html-editor>
+          </div>
+          <div class="col-lg-12">
+            <label>Query Response</label>
+
+            <dx-html-editor [height]="200" formControlName="response_txt"  placeholder="Query Response">
+                <dxo-toolbar>
+                    <dxi-item formatName="separator"></dxi-item>
+                    
+                </dxo-toolbar>
+                <dxo-media-resizing
+                    [enabled]=true>
+                </dxo-media-resizing>
+                
+            </dx-html-editor>
+          </div>
+          <input type="hidden" formControlName="id"/>
+          
+          <input type="hidden" formControlName="query_id"/>
+        </form>
+      
+        </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-info" previousStep><i class="fa fa-angle-double-left"></i>Previous
+            Documents</button>
+            <button type="button"  icon="save"  [disabled]="!initqueryresponsefrm.valid"  class="btn btn-info  pull-right"  (onClick)="onSaveinitqueryresponse()">Save Query Response(s)  &nbsp;<i class="fa fa-angle-double-right"></i></button>
+           
+            <button type="button" class="btn btn-info" (onClick)="onCloseQueryResponseWin()">Close of Submission<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+  
+  </wizard>
+</dx-scroll-view>
+</div>
+</dx-popup>

@@ -1,0 +1,322 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="ctrRegistrydetailsfrm">
+
+  <div class="row wizard-content">
+    <div class="col-lg-6">
+        
+      Clinical Registered is Registered by the Authority
+        <dx-select-box [dataSource]="confirmationData"  valueExpr="id" displayExpr="name"  
+          [searchEnabled]="true"  [readOnly]="is_readonly"   (onSelectionChanged)="onIsREgisteredReceSelect($event)" formControlName="is_ctrapp_registered">
+        </dx-select-box>
+    </div>
+    <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6" *ngIf="is_app_registered">
+      <label class="control-label">Application Reference/Certificate No </label>
+      <dx-text-box  formControlName="ctrregistered_tracking_no"  [readOnly]="is_readonly"  (onFocusOut)="onValidateClinicalTrialApp($event)"  (onValueChanged) = 'onEmailValueChange($event)'  placeholder="Application Reference/Certificate No " >
+      </dx-text-box>
+    </div>
+    <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6" *ngIf="!is_app_registered">
+      <label class="control-label">Institution Registered In( Name and Address)</label>
+      <dx-text-area  formControlName="registered_institution"  [readOnly]="is_readonly"  placeholder="Institution Registered In( Name and Address)" >
+      </dx-text-area>
+    </div>
+    <div class="col-xs-6 col-md-6 col-lg-6 col-xl-6" *ngIf="!is_app_registered">
+      <label class="control-label">Institution Registered Reference No:</label>
+      <dx-text-box formControlName="registered_institution_refno"  [readOnly]="is_readonly"  placeholder="Reference Number" >
+      </dx-text-box>
+    </div>
+    <div class="col-lg-6">
+      <label class="control-label">Public Title</label>
+      <dx-text-area  formControlName="public_title"  [readOnly]="is_readonly"  placeholder="Public Title" >
+      </dx-text-area>
+    </div>
+    <div class="col-lg-6">
+      <label class="control-label">Official Scientific Title</label>
+      <dx-text-area  formControlName="study_title"  [readOnly]="is_readonly"  placeholder="Study Title" >
+      </dx-text-area>
+    </div>
+    <div class="col-lg-12">
+      <label class="control-label">Brief summary describing the background and objectives of trial</label>
+      <dx-text-area  formControlName="clinicaltrial_description"  [readOnly]="is_readonly"  placeholder="Brief summary" >
+      </dx-text-area>
+    </div>
+   
+    <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4">
+      <label class="control-label">What type of trial design is being implemented?</label>
+     <!-- <dx-select-box [dataSource]="clinicalTrialDesignData"  valueExpr="id" displayExpr="name"  
+       [searchEnabled]="true" formControlName="trial_design_id">
+      </dx-select-box>-->
+
+      <dx-text-area  formControlName="trial_design"  [readOnly]="is_readonly"  placeholder="Clinical Trial Design" >
+      </dx-text-area>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Version No</label>
+      <dx-text-box formControlName="version_no"  [readOnly]="is_readonly"  placeholder="Version No" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Protocol No</label>
+      <dx-text-box formControlName="protocol_no"  [readOnly]="is_readonly"  placeholder="Protocol No" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4">
+      <label class="control-label">Clinical Study Phase</label>
+      <dx-select-box [dataSource]="clinicalStudyPhaseData"  valueExpr="id" displayExpr="name"  
+       [searchEnabled]="true" formControlName="phase_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Acronym</label>
+      <dx-text-box formControlName="acronym"  [readOnly]="is_readonly"  placeholder="Acronym" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-12 div-nopadding div-backwhite">
+      <div class="col-lg-12">
+        <label class="control-label">Disease(s) or condition(s) being studied</label>
+        <dx-tag-box
+            [items]="diseaseConditionsData"
+            formControlName="disease_being_studied"
+            placeholder="Disease(s) or condition(s) being studied"
+            valueExpr="id" [readOnly]="is_readonly" 
+            [showSelectionControls]="true"
+            [searchEnabled]="true"
+            applyValueMode="useButtons"
+            displayExpr="name">
+        </dx-tag-box>
+      </div>
+      <div class="col-lg-2">
+                          <dx-button
+                              text="Add Disease(s) or condition(s)"
+                              type="success"
+                              icon="fa fa-plus"
+                              [elementAttr]="{  class: 'pull-left' }"
+                              (onClick)="onAddNewMedConditionsDetails()">
+                          </dx-button>
+                        </div>
+    </div>
+
+    <div class="col-lg-12">
+      <label class="control-label">Other Obstetrics Disease or condition</label>
+      <dx-text-area formControlName="other_obstetrics_disease"  [readOnly]="is_readonly"  placeholder="Other Obstetrics Disease or condition" [showClearButton]="true">
+      </dx-text-area>
+    </div>
+    <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4">
+      <label class="control-label">Purpose of the Trial</label>
+  
+      <dx-text-area formControlName="purpose_of_trial"  [readOnly]="is_readonly"  placeholder="Purpose or the Trial" [showClearButton]="true">
+      </dx-text-area>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Anticipated Trial Start Date</label>
+      <dx-date-box   [readOnly]="is_readonly"   formControlName="proposed_start_date">
+      </dx-date-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Actual Trial Start Date</label>
+      <dx-date-box   [readOnly]="is_readonly"   formControlName="actualtrial_start_date">
+      </dx-date-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Anticipated Date of Last Follow up</label>
+      <dx-date-box   [readOnly]="is_readonly"   formControlName="anticipatedfollow_uplast_date">
+      </dx-date-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Completion Date</label>
+      <dx-date-box   [readOnly]="is_readonly"   formControlName="completion_date">
+      </dx-date-box>
+    </div>
+    <div class="col-lg-4 ">
+      <label class="control-label">Target No. of Participants</label>
+     
+      <dx-number-box formControlName="target_participants"  [readOnly]="is_readonly"  placeholder="Target Participants " [showClearButton]="true">
+        </dx-number-box>
+    </div>
+    <div class="col-lg-4 ">
+      <label class="control-label">Final No. Of Participants</label>
+     
+      <dx-number-box formControlName="final_participants"  [readOnly]="is_readonly"  placeholder="Final Number Participants " [showClearButton]="true">
+        </dx-number-box>
+    </div>
+    <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4">
+      <label class="control-label">Recruitment Status</label>
+      <dx-select-box [dataSource]="recruitMentStatusData"  valueExpr="id" displayExpr="name"  
+       [searchEnabled]="true" formControlName="recruitment_status_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Clinical Trial Registry Publication Url </label>
+      <dx-text-box formControlName="publication_url"  [readOnly]="is_readonly"  placeholder="Publication Url" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-12 row">
+      <div class="col-lg-10 no-padding">
+        <label>Clinical Principal Investigator</label>
+        <dx-text-box [readOnly]=true formControlName="principal_investigator"
+          placeholder="Clinical Principal Investigator"  [readOnly]="is_readonly"  [showClearButton]="true">
+        </dx-text-box>
+        <input type="hidden" formControlName="investigator_id" />
+      </div>
+      <div class="col-lg-2 no-padding">
+        <dx-button [disabled]="is_readonly"  [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search"  type="default" (onClick)="onClinicalTrialInvestigator()">
+          <i class="fa fa-search"></i>Search
+      </dx-button>
+  
+      </div>
+    </div>
+    <div class="col-lg-12">
+      <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+      <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+      <input type="hidden" value={{application_code}} formControlName="application_code" />
+      <input type="hidden" value={{section_id}} formControlName="section_id" />
+      
+      <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+      <input type="hidden" formControlName="id" />
+    </div>
+    </div>
+    </form>
+
+    <dx-popup class="popup"  [width]="funcpopWidth(40)" [height]="400" [showTitle]="true" title="Disease(s) or condition(s) Details" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="addDiseasedetailsMdl">
+      
+      <div *dxTemplate="let data of 'content'" >
+            <form [formGroup]="addDiseasedetailsfrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveDiseasedetails()">
+                <div class="col-lg-12">
+                  <label class="control-label">Disease(s) or condition(s)</label>
+                  <dx-text-box formControlName="name" placeholder="name" [showClearButton]="true">
+                  </dx-text-box>
+                </div>
+                <div class="col-lg-12">
+                  <label class="control-label">Description</label>
+                  <dx-text-area formControlName="description" placeholder="description" >
+                  </dx-text-area>
+                </div>
+                
+                <input type='hidden' value = 'par_clinical_diseaseconditions' formControlName="tablename"/>
+                <div class="col-lg-12">
+                    <dx-button
+                        text="Add Disease or Condition"
+                        type="success"
+                        icon="fa fa-plus"
+                        [elementAttr]="{  class: 'pull-left' }"
+                        (onClick)="onSaveDiseasedetails()">
+                    </dx-button>
+                  </div>
+              </form>
+      </div>
+  </dx-popup>
+
+  
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="{{sponsor_investigatortitle}}"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isSponsorInvestigatorSearchWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true" (onToolbarPreparing)="onSponsorInvestigatorPreparing($event)"
+    [dataSource]="sponsorInvestigatorData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxi-column [width]="140" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+        <a   class="action-btn" (click)="funcSelectInvestigator(data)"><i class="fa fa-edit"></i>Select</a>&nbsp;
+      </div>
+    </dxi-column>
+    <dxi-column dataField="name"></dxi-column><dxi-column dataField="contact_person"></dxi-column>
+    <dxi-column dataField="country"></dxi-column>
+    <dxi-column dataField="region"></dxi-column>
+    <dxi-column dataField="district"></dxi-column>
+    <dxi-column dataField="physical_address"></dxi-column>
+    <dxi-column dataField="postal_address"></dxi-column>
+    <dxi-column dataField="email_address"></dxi-column>
+    
+  </dx-data-grid>
+</div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="750" [showTitle]="true" title="Principal Investigator"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="issponsorInvestigatorAddWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <div class="col-lg-12">
+    <form enctype="multipart/form-data" role="form" [formGroup]="sponsorInvestigatorFrm"
+      (ngSubmit)="onsaveSponsorInvestigator()">
+
+      <div class="row">
+
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+          <label class="control-label">Name</label>
+          <dx-text-box formControlName="name">
+          </dx-text-box>
+
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+            <label class="control-label">Contact Person</label>
+            <dx-text-box formControlName="contact_person">
+            </dx-text-box>
+  
+          </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Country</label>
+
+          <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"
+            (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Region/City</label>
+
+          <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"
+            (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+          </dx-select-box>
+
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">District(Optional)</label>
+
+          <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name"
+            [searchEnabled]="true" formControlName="district_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Email Address</label>
+          <dx-text-box formControlName="email" placeholder="Email Address">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Postal Address</label>
+          <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Telephone No</label>
+
+          <dx-text-box formControlName="telephone" placeholder="Telephone No">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label col-lg-12">Mobile No</label>
+
+          <dx-text-box formControlName="mobile_no" placeholder="Mobile No">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Physical Address</label>
+          <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+          </dx-text-area>
+        </div>
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+          <button type="submit" (submit)="onsaveInvestigator()" [disabled]="!sponsorInvestigatorFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Investigator Details</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</dx-popup>

@@ -1,0 +1,11 @@
+{
+    "name": "APIIntegrations",
+    "alias": "apiintegrations",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\APIIntegrations\\Providers\\APIIntegrationsServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,11 @@
+{
+    "name": "Gmpinspection",
+    "alias": "gmpinspection",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Gmpinspection\\Providers\\GmpinspectionServiceProvider"
+    ],
+    "files": []
+}

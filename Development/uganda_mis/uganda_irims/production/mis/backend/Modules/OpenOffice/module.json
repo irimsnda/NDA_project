@@ -1,0 +1,11 @@
+{
+    "name": "OpenOffice",
+    "alias": "openoffice",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\OpenOffice\\Providers\\OpenOfficeServiceProvider"
+    ],
+    "files": []
+}

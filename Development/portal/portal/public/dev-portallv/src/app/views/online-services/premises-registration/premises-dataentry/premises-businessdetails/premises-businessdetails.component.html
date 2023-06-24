@@ -1,0 +1,93 @@
+<div class="wizard-content" >
+
+    <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false" (onToolbarPreparing)="onPremisesBusinesDetailsToolbar($event,'')" [dataSource]="premisesOtherDetailsRows" keyExpr="id">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="dtpremOtherDetailsData" [allowExportSelectedData]="true"></dxo-export>
+
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+            <div *dxTemplate="let data of 'cellTemplate'">
+               
+                <dx-button text="Edit" (click)="funcEditPremisesDetails(data)" 
+                    type="danger" icon="edit">
+                    </dx-button> 
+                <dx-button text="Delete" (click)="funcDeletePremisesBusinessDetails(data)" 
+                    type="danger" icon="delete">
+                </dx-button> 
+            </div>
+        </dxi-column>
+        <dxi-column dataField="business_type" caption="Premises Type"></dxi-column>
+        <dxi-column dataField="business_type_details" [(visible)]="!isFoodPremises"></dxi-column>
+        <dxi-column dataField="product_category" caption="Product Category" [(visible)]="isFoodPremises"></dxi-column>
+        <dxi-column dataField="product_subcategory" caption="Product Sub Category" [(visible)]="isFoodPremises"></dxi-column>
+        
+        <dxi-column dataField="product_details" caption="Product Details" [(visible)]="isFoodPremises"></dxi-column>
+            <dxi-column dataField="manufacturing_activities" caption="Manufacturing activities" [(visible)]="isFoodPremises">
+        </dxi-column>
+        
+    </dx-data-grid>
+</div>
+
+<!-- modal structure-->
+<dx-popup class="popup" [width]="funcpopWidth(45)"  height='auto' [showTitle]="true" title="{{premises_typetitle}}" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isBusinessTypePopupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view>
+        <form role="form" class="col-lg-12 row" enctype="multipart/form-data" role="form" [formGroup]="premisesOtherDetailsfrm" (ngSubmit)="onSavePremisesApplication()">
+            <div class="col-lg-12">
+                <label>Premises Type</label>
+                <dx-select-box [dataSource]="businessTypesData" valueExpr="id" displayExpr="name" [readOnly]=true placeholder="Select Business Types" [value] ='business_type_id' [searchEnabled]="true" formControlName="business_type_id">
+                </dx-select-box>
+
+            </div>
+            <div class="col-lg-12" *ngIf ="!isFoodPremises">
+                <label>Premises Main Activity Details</label>
+
+                <dx-select-box [dataSource]="businessTypeDetailsData" valueExpr="id" displayExpr="name" placeholder="Select Business Type Details" [searchEnabled]="true" formControlName="business_type_detail_id">
+                </dx-select-box>
+                <input type="hidden" formControlName="id" />
+            </div>
+            <div class="col-lg-12" *ngIf ="isFoodPremises">
+                <label>Product Category</label>
+                <dx-select-box [dataSource]="productCategoryData" valueExpr="id" displayExpr="name" placeholder="Product Category"  (onSelectionChanged)="onProductCategoryCboSelect($event)" [searchEnabled]="true" formControlName="product_category_id">
+                </dx-select-box>
+                <input type="hidden" formControlName="id" />
+            </div>
+            <div class="col-lg-12"  *ngIf ="isFoodPremises">
+                <label class="control-label">Product Sub Category</label>
+          
+                <dx-select-box [dataSource]="productSubCategoryData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+                  placeholder=" Sub-Product Category" formControlName="product_subcategory_id">
+                </dx-select-box>
+              </div>
+              <div class="col-xs-12 col-md-6 col-lg-6 col-xl-12"  *ngIf ="isFoodPremises">
+                <label for="ti" class="control-label">Manufacturing Activities(for Manufacturing site)</label>
+
+                <dx-tag-box
+                      [items]="manufacturingRoleData"
+                      formControlName="manufacturing_activities"
+                      placeholder="Manufacturing activities..."
+                      valueExpr="id"
+                      [showSelectionControls]="true"
+                      applyValueMode="useButtons"
+                      displayExpr="name">
+                      
+                  </dx-tag-box>
+            </div>
+            <div class="col-lg-12">
+                <label class="control-label">Product Details/Descriptions(for Manufacturing Premises)</label>
+                <dx-text-area formControlName="product_details"  placeholder="Product Details" >
+                </dx-text-area>
+            </div>
+            <div class="col-lg-12">
+                <dx-button text="Save {{premises_typetitle}}"  (onClick)="onSavePremisesOtherDetails()" type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                </dx-button>
+            </div>
+        </form>
+    </dx-scroll-view>
+    </div>
+</dx-popup>

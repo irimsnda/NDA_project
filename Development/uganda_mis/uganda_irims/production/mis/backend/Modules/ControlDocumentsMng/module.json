@@ -1,0 +1,11 @@
+{
+    "name": "ControlDocumentsMng",
+    "alias": "controldocumentsmng",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ControlDocumentsMng\\Providers\\ControlDocumentsMngServiceProvider"
+    ],
+    "files": []
+}

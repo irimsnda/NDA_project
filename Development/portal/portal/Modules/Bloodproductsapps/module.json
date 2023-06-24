@@ -1,0 +1,11 @@
+{
+    "name": "Bloodproductsapps",
+    "alias": "bloodproductsapps",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Bloodproductsapps\\Providers\\BloodproductsappsServiceProvider"
+    ],
+    "files": []
+}

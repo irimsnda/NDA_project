@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col-xl-12">
+      <div class="breadcrumb-holder">
+        <h1 class="main-title float-left"> Product Application Selection Process</h1>
+        <ol class="breadcrumb float-right">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item active">Product Application</li>
+        </ol>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="row div-backwhite no-padding">
+        <!--[dtTrigger]="dtTrigger"   -->
+        <div class="col-lg-12  no-padding">
+            <dx-data-grid class="table row-border hover" (onToolbarPreparing)="onProductsesappsToolbarPreparing($event)" [columnHidingEnabled]="false"  [dataSource]="registeredProductsData" keyExpr="id" >
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-search-panel [visible]="true">
+                  </dxo-search-panel>
+                <dxo-paging [enabled]="true">
+                </dxo-paging>
+                <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                </dxo-pager>
+            
+                <dxo-export [enabled]="true" fileName="registeredProducts" [allowExportSelectedData]="true"></dxo-export>
+            
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+               
+                <dxi-column width =130 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                  cellTemplate="cellTemplate">
+                  <div *dxTemplate="let data of 'cellTemplate'" class="btn-cursor">
+                      <a (click)="funSelectRegisteredProdcustsApp(data)" class="action-btn"><i class="fa fa-edit btn-cursor"></i>{{process_title}} Request</a>&nbsp;
+                    </div>
+                </dxi-column>
+                <dxi-column  [groupIndex]="0"  dataField="section_name" caption="Product Category/Type"></dxi-column>
+                <dxi-column dataField="brand_name"></dxi-column>
+                <dxi-column dataField="common_name"></dxi-column>
+                <dxi-column dataField="classification_name"></dxi-column>
+                <dxi-column dataField="certificate_no"></dxi-column>
+                <dxi-column dataField="reference_no"></dxi-column>
+                <dxi-column dataField="expiry_date"></dxi-column>
+                <dxi-column dataField="applicant_name" caption="Registrant"></dxi-column>
+                <dxi-column dataField="local_agent" caption="Local Agent"></dxi-column>
+                <dxi-column dataField="registration_status" caption="Registration Status"></dxi-column>
+                <dxi-column dataField="validity_status" caption="Validity Status"></dxi-column>
+                <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+              </dx-data-grid>
+        </div>
+    </div>
+

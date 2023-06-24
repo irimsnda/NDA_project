@@ -1,0 +1,105 @@
+<div class="row wizard-content">
+
+    <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true" (onToolbarPreparing)="onPremisesBusinesDetailsToolbar($event)"
+      [dataSource]="premisesOtherDetailsRows" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="dtpremOtherDetailsData" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+
+      <dxi-column dataField="business_type"></dxi-column>
+      <dxi-column dataField="business_type_details" caption="Product Type"></dxi-column>
+
+      <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let data of 'cellTemplate'">
+          <a (click)="funcEditPremisesDetails(data)" disabled="is_readonly"><i class="fa fa-edit"></i>Edit</a>&nbsp;
+          <a (click)="funcDeletePremisesBusinessDetails(data)" disabled="is_readonly"><i class="fa fa-trash"></i>Delete</a>
+
+        </div>
+      </dxi-column>
+    </dx-data-grid>
+  </div>
+
+  <!-- modal structure-->
+<dx-popup class="popup" [width]="funcpopWidth(40)" [height]="300" [showTitle]="true" title="Manufacturing Site Business Types Information"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isBusinessTypePopupVisible">
+<div *dxTemplate="let data of 'content'">
+  <form role="form" class="col-lg-12 row" enctype="multipart/form-data" role="form" [formGroup]="gmpOtherDetailsfrm"
+    (ngSubmit)="onSaveGmpOtherDetails()">
+    <div class="col-lg-12">
+      <label>Manufacturing Business Type</label>
+      <dx-select-box  [items]="businessTypesData" valueExpr="id"
+        displayExpr="name" readOnly = true placeholder="Select Business Types" [searchEnabled]="true" formControlName="business_type_id">
+      </dx-select-box>
+    </div>
+
+    <div class="col-lg-12 row" style="margin:1px;">
+      <div class="col-lg-8">
+        <label>Business Type</label>
+
+      <dx-select-box [items]="businessTypeDetailsData" valueExpr="id" displayExpr="name" placeholder="Select Product Type"
+        [searchEnabled]="true" formControlName="business_type_detail_id">
+      </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <dx-button
+            text="Add Business Type"
+            type="success"
+            icon="fa fa-plus"
+            [elementAttr]="{  class: 'pull-left' }"
+            (onClick)="onAddBusinessTypeDetails()">
+        </dx-button>
+      </div>
+    </div>
+    <div class="col-lg-12">
+     
+      <input type="hidden" formControlName="id" />
+    </div>
+    <div class="col-lg-12">
+      <dx-button text="Save Business details" [disabled]="!gmpOtherDetailsfrm.valid" (onClick)="onSaveGmpOtherDetails()"
+        type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+      </dx-button>
+    </div>
+  </form>
+</div>
+</dx-popup>
+<!--    -->
+
+
+  
+<dx-popup class="popup"  [width]="funcpopWidth(40)" [height]="400" [showTitle]="true" title="Product Type Details" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="addBusinessTypeDetailsMdl">
+  
+  <div *dxTemplate="let data of 'content'" >
+        <form [formGroup]="addBusinessTypeDetailsfrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveNewIngredients()">
+            <div class="col-lg-12">
+              <label class="control-label">Name</label>
+              <dx-text-box formControlName="name" placeholder="name" [showClearButton]="true">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-12">
+              <label class="control-label">Description</label>
+              <dx-text-area formControlName="description" placeholder="description" >
+              </dx-text-area>
+            </div>
+            <input type='hidden'  formControlName="business_type_id"/>
+            <input type='hidden' value = 'par_business_type_details' formControlName="tablename"/>
+
+            <div class="col-lg-12">
+                <dx-button
+                    text="Add Product Type"
+                    type="success"
+                    icon="fa fa-plus"
+                    [elementAttr]="{  class: 'pull-left' }"
+                    (onClick)="onSaveProductTypeDetails()">
+                </dx-button>
+              </div>
+          </form>
+  </div>
+</dx-popup>

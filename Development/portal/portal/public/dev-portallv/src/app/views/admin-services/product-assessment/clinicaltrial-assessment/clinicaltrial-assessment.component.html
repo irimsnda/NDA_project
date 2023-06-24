@@ -1,0 +1,92 @@
+<div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 45px !important;" class="row div-nopadding">
+ 
+    <div class="col-lg-3">
+        <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+          <i>Process: {{process_name}}</i> </label>
+      </div> 
+  <div class="col-lg-3">
+    <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+      Tracking No: <i> {{tracking_no}}</i> </label>
+  </div> <div class="col-lg-3">
+    <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+      Reference No: <i> {{reference_no}}</i> </label>
+  </div>
+  <div class="col-lg-3">
+    <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application
+      Status:<i> {{status_name}}</i> </label>
+  </div>
+
+</div>
+<div class="row">
+<div class="col-lg-12 div-nopadding">
+   
+      <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+        
+          <wizard-step stepTitle="Assessment Report" class="wizardStep-height">
+         
+                  <app-sysdocument-upload [document_type_id] ="document_type_id" [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code" [workflow_stage] ="workflow_stage"></app-sysdocument-upload>
+                  
+                <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                    <button (click)="onApplicationsDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                      class="fa fa-dashboard"></i>
+                    &nbsp; In-Tray</button>
+                    <dx-button text="Preview Product Application" (click)="onApplicationPreviewDetails()"
+                      type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary; pull-left' }">
+                    </dx-button>
+                    <button type="button" class="btn btn-primary pull-right" nextStep >Next Assessment Report Submission &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                </div>
+          </wizard-step>
+          <wizard-step stepTitle="Queries">
+             <app-application-queries  [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+               </app-application-queries>
+            <div class="wizard-divbottom">
+              <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                <dx-button text="Preview Product Application" (click)="onApplicationPreviewDetails()"
+                      type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary; pull-left' }">
+                    </dx-button>
+              <button class="btn btn-primary pull-right" type="button" (click)="onValidateApplicationAssesmentProcess()">Submit Assement Report</button>
+            </div>
+          </wizard-step>
+          <wizard-step stepTitle="Application Assessment Report Submission">
+              <form enctype="multipart/form-data" role="form" [formGroup]="applicationProcessSubfrm"
+              (ngSubmit)="onApplicaitonProcessSubmission()">
+        
+              <div class="row">
+                  <div class=" col-md-12 col-lg-6 col-xl-6">
+                      <label class="control-label">Assessment</label>
+                      <dx-select-box   [dataSource]="assessmentRecommendationsData"  valueExpr="id" displayExpr="name"  
+                       [searchEnabled]="true" formControlName="recommendation_id">
+                      </dx-select-box>
+                    </div>
+                <div class=" col-md-12 col-lg-6 col-xl-6">
+                  <label class="control-label">Action</label>
+        
+                  <dx-select-box  (onValueChanged)="onsubmissionActionDataSelection($event)"  [dataSource]="submissionActionData"  valueExpr="id" displayExpr="name"  
+                   [searchEnabled]="true" formControlName="action">
+                  </dx-select-box>
+                </div>
+                <div class=" col-md-12 col-lg-6 col-xl-6">
+                    <label class="control-label">Submission To</label>
+                    <dx-select-box [readOnly]= true [dataSource]="submissionNextStageData" valueExpr="id" displayExpr="name"  
+                     [searchEnabled]="true" formControlName="next_stage">
+                    </dx-select-box>
+                  </div>
+                  <div class="col-lg-12">
+                      <label>Description</label>
+                      <dx-text-area [height]="60" formControlName="remarks"  placeholder="Remarks(Optional)"
+                        [(value)]="value">
+                      </dx-text-area>
+                    </div>
+              </div>
+            </form>
+            <div class="wizard-divbottom">
+              <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+              
+              <button class="btn btn-primary" type="button" (click)="onApplicaitonProcessSubmission()">Submit Assement Report</button>
+            </div>
+          </wizard-step>
+
+    </wizard>
+
+  </div>
+  </div>

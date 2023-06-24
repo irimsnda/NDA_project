@@ -1,0 +1,11 @@
+{
+    "name": "PharmacovigilanceReporting",
+    "alias": "pharmacovigilancereporting",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\PharmacovigilanceReporting\\Providers\\PharmacovigilanceReportingServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,391 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="applicationGeneraldetailsfrm" >
+  <div class="row  wizard-content wizard-contentfieldset">
+    <fieldset class="col-lg-12 row">
+        <legend  class="contentfieldset">Application Details</legend>
+        <div class="col-lg-4">
+          <label>Product Types</label>
+          <dx-select-box [readOnly]="true" [dataSource]="sectionsData" valueExpr="id" displayExpr="name"
+            placeholder="Select Registration Section/Process"  [searchEnabled]="true" formControlName="section_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label>Application Type</label>
+          <dx-select-box [readOnly]="true" value={{sub_module_id}} [dataSource]="applicationTypeData" valueExpr="id"
+            displayExpr="name" placeholder="Select Application Type" [searchEnabled]="true"
+            formControlName="sub_module_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label>Permit Use</label>
+          <dx-select-box [dataSource]="applicationCategoryData" valueExpr="id" displayExpr="name"
+            placeholder="Select Application Category"   (onSelectionChanged)="onApplicationCategorySelection($event)" [searchEnabled]="true" formControlName="permit_category_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label>Product Categories</label>
+          <dx-select-box [dataSource]="permitProductsCategoryData" valueExpr="id" displayExpr="name"
+            placeholder="Select Product Category" [searchEnabled]="true" formControlName="permit_productscategory_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4" >
+          <label for="ti" class="control-label">Permit Processing Branch</label>
+      
+          <dx-select-box [dataSource]="zoneData" valueExpr="id" placeholder="Permit Process Branch"
+            displayExpr="name" [searchEnabled]="true" formControlName="zone_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4   input-group " >
+          <div class="col-lg-8">
+            <label>{{premises_title}}</label>
+            <dx-text-box [readOnly]=true formControlName="premises_name" placeholder="Premises Name"
+              [showClearButton]="true">
+            </dx-text-box>
+            <input type="hidden" formControlName="premise_id" />
+          </div>
+          <div class="col-lg-4 ">
+              <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search Details"  type="default" (onClick)="onRegisteredPremisesSearch()">
+                  <i class="fa fa-search"></i>Search License/Premises Detail
+              </dx-button>
+      
+          </div>
+        </div>
+    </fieldset>
+    <fieldset class="col-lg-12 row">
+      <legend  class="contentfieldset">Consignment Information</legend>
+      
+    <div class="col-lg-4">
+      <label>Port of Entry/Exit</label>
+      <dx-select-box [dataSource]="portOfEntryExitData" valueExpr="id" displayExpr="name"
+        placeholder="Select Port" [searchEnabled]="true" formControlName="port_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4">
+      <label>Mode of Transport</label>
+      <dx-select-box [dataSource]="modeOfTransportData"  [readOnly]= "isReadOnly" valueExpr="id" displayExpr="name"
+        placeholder="Select Mode of Transport" [searchEnabled]="true" formControlName="mode_oftransport_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4">
+      <label>{{invoice_title}} No</label>
+      <dx-text-box formControlName="proforma_invoice_no" placeholder="Invoice No" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-4">
+      <label>{{invoice_title}} Date</label>
+      <dx-date-box dateSerializationFormat = "yyyy-MM-dd" [max]="maxDate" formControlName="proforma_invoice_date" placeholder="Invoice Date" [showClearButton]="true">
+      </dx-date-box>
+    </div>
+    
+    
+    <div class="col-lg-4 input-group" *ngIf="!hide_visalicensedetails">
+      <div class="col-lg-8  ">
+        <label>{{consignor_title}} Details</label>
+        <dx-text-box [readOnly]=true formControlName="sender_receiver" placeholder="Consignor Details"
+          [showClearButton]="true">
+        </dx-text-box>
+        <input type="hidden" formControlName="sender_receiver_id" />
+      </div>
+      <div class="col-lg-4">
+          <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search Details"  type="default" (onClick)="onsearchSenderreceiver()">
+              <i class="fa fa-search"></i>Search {{consignor_title}}
+          </dx-button>
+      </div>
+    </div>
+
+  </fieldset>
+    <fieldset class="col-lg-12 row">
+        <legend  class="contentfieldset">Patient & Prescription Details</legend>
+          <div class="col-lg-4">
+                <label>Patient/Person's Identification No(Representatives if Minor)</label>
+                <dx-text-box  formControlName="patients_identification_no" placeholder="Identification No"
+                [showClearButton]="true">
+              </dx-text-box>
+          </div>
+         
+          <div class="col-lg-4">
+                <label>Patient/Person's Full Names</label>
+                <dx-text-box  formControlName="patients_fullnames" placeholder="Full Names"
+                [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4">
+                <label>Patient/Person's Phone No</label>
+                <dx-text-box  formControlName="patients_phone_no" placeholder="Phone Number"
+                [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-lg-4">
+                <label>Patient/Person's Email (optional)</label>
+                <dx-text-box  formControlName="patients_email_address" placeholder="Phone Number"
+                [showClearButton]="true">
+              </dx-text-box>
+          </div>
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label class="control-label">Country of Origin/Residence</label>
+            <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"
+              (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="patientscountry_id">
+            </dx-select-box>
+          </div>
+
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label for="ti" class="control-label">Province/Region/City</label>
+
+            <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"
+              (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="patientsregion_id">
+            </dx-select-box>
+
+          </div>
+          <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+            <label for="ti" class="control-label">District(Optional)</label>
+
+            <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name"
+              [searchEnabled]="true" formControlName="patientsdistrict_id">
+            </dx-select-box>
+          </div>
+          <div class="col-lg-12">
+                <label>Patient/Person's Physical Address</label>
+                <dx-text-box  formControlName="patients_physical_address" placeholder="Physical Address"
+                [showClearButton]="true">
+              </dx-text-box>
+        </div>
+
+        <div class="col-lg-4" >
+          <label>Has Medical Prescription(from Doctor, Surgeon or Hospital)</label>
+          <dx-select-box [dataSource]="confirmDataParam" valueExpr="id" displayExpr="name" (onSelectionChanged)="onPermiprescriptionDataSelect($event)" 
+            placeholder="Select Medicines Presciption Type" [searchEnabled]="true" formControlName="has_medical_prescription">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4"  *ngIf="is_prescription_medicines">
+          <label>Prescribing Hospital</label>
+          <dx-text-box  formControlName="prescribling_hospital" placeholder="Prescribing Hospital"
+          [showClearButton]="true">
+        </dx-text-box>
+        </div>
+        <div class="col-lg-4"  *ngIf="is_prescription_medicines">
+          <label>Hospital Physical Address</label>
+          <dx-text-box  formControlName="hospital_address" placeholder="Hospital Address"
+          [showClearButton]="true">
+        </dx-text-box>
+        </div>
+        <div class="col-lg-4"  *ngIf="is_prescription_medicines">
+          <label>Prescribing Doctor</label>
+          <dx-text-box  formControlName="prescribing_doctor" placeholder="Prescribing Doctor"
+          [showClearButton]="true">
+        </dx-text-box>
+        </div>
+        <div class="col-lg-4"  *ngIf="is_prescription_medicines">
+          <label>Prescription No</label>
+          <dx-text-box  formControlName="prescription_no" placeholder="Prescription No "
+          [showClearButton]="true">
+        </dx-text-box>
+        </div>
+        <div class="col-lg-4"  *ngIf="is_prescription_medicines">
+          <label>Prescription Date</label>
+          <dx-date-box  formControlName="prescription_date" placeholder="Prescription Date "
+          [showClearButton]="true">
+        </dx-date-box>
+        </div>
+
+    </fieldset>
+
+    <div class="col-lg-4 form-group" style="margin:1px;">
+  
+    </div>
+    <div class="col-lg-12">
+      <input type="hidden" value={{module_id}} formControlName="module_id" />
+  
+  
+      <input type="hidden" value={{application_code}} formControlName="application_code" />
+    </div>
+  </div>
+  </form>
+  <!-- pop ups -->
+  
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Registered Premises"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="ispremisesSearchWinVisible">
+    <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+      <dx-data-grid [dataSource]="registered_premisesData"  [columnHidingEnabled]="false"  [height]="500" (onToolbarPreparing)="onPremisesPerGridToolbar($event)"
+        [showBorders]="true">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+          <dxi-column [width]="150" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+          cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+         
+              <dx-button text="Select Premises License" (click)="funcSelectPremiseDetails(data)"
+                                  type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+                                </dx-button>
+          </div>
+        </dxi-column>
+        <dxi-column dataField="name"></dxi-column>
+  
+        <dxi-column dataField="premise_reg_no"></dxi-column>
+        <dxi-column dataField="permit_no"></dxi-column>
+        <dxi-column dataField="physical_address"></dxi-column>
+        <dxi-column dataField="postal_address"></dxi-column>
+        <dxi-column dataField="region_name"></dxi-column>
+        <dxi-column dataField="validity_status"></dxi-column>
+  
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="registeredPremises" [allowExportSelectedData]="true"></dxo-export>
+  
+      </dx-data-grid>
+    </dx-scroll-view>
+    </div>
+  </dx-popup>
+  
+  
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="{{consignor_title}} Details"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="issenderreceiverSearchWinVisible">
+    <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+      <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false"  [height]="500"  (onToolbarPreparing)="onsenderreceivePreparing($event)"  [remoteOperations]='true'
+        [dataSource]="senderReceiverData" keyExpr="id">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+          <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+          cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+            <dx-button text="Select {{consignor_title}} Details" (click)="funcSelectReceiverSender(data)"
+            type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+          </dx-button>
+          </div>
+  
+        </dxi-column>
+        <dxi-column dataField="name"></dxi-column>
+        <dxi-column dataField="country"></dxi-column>
+        <dxi-column dataField="region"></dxi-column>
+        <dxi-column dataField="district"></dxi-column>
+        <dxi-column dataField="physical_address"></dxi-column>
+        <dxi-column dataField="email"></dxi-column>
+      
+  
+        <dxo-paging [pageSize]="50"></dxo-paging> 
+      </dx-data-grid>
+    </dx-scroll-view>
+    </div>
+  </dx-popup>
+  
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="{{consignee_sendertitle}}"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isconsigneeSearchWinVisible">
+    <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+      <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="false"  [height]="500"  (onToolbarPreparing)="onsenderreceivePreparing($event)"  [remoteOperations]='true'
+        [dataSource]="consigneeReceiverData" keyExpr="id">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+          <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+          cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+          
+              <dx-button text="Select {{consignor_title}} Details" (click)="funcSelectReceiverSender(data)"
+            type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+          </dx-button>
+          </div>
+        </dxi-column>
+        <dxi-column dataField="name"></dxi-column>
+        <dxi-column dataField="country"></dxi-column>
+        <dxi-column dataField="region"></dxi-column>
+        <dxi-column dataField="district"></dxi-column>
+        <dxi-column dataField="physical_address"></dxi-column>
+        <dxi-column dataField="email"></dxi-column>
+      
+        <dxo-paging [pageSize]="50"></dxo-paging> 
+      </dx-data-grid>
+    </dx-scroll-view>
+    </div>
+  </dx-popup>
+  
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="{{consignee_sendertitle}}"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="issenderreceiverAddWinVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view>
+      <div class="col-lg-12">
+      
+        <form enctype="multipart/form-data" role="form" [formGroup]="permitReceiverSenderFrm"
+          (ngSubmit)="onsavePermitReceiverSender()">
+  
+          <div class="row">
+  
+            <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+  
+              <label class="control-label">Name</label>
+              <dx-text-box formControlName="name">
+              </dx-text-box>
+  
+            </div>
+            <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+              <label class="control-label">Country</label>
+  
+              <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"
+                (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+              </dx-select-box>
+            </div>
+            <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+              <label for="ti" class="control-label">Province/Region/City</label>
+  
+              <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"
+                (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+              </dx-select-box>
+  
+            </div>
+            <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+              <label for="ti" class="control-label">District(Optional)</label>
+  
+              <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name"
+                [searchEnabled]="true" formControlName="district_id">
+              </dx-select-box>
+            </div>
+            <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+              <label for="ti" class="control-label">Email Address</label>
+              <dx-text-box formControlName="email_address" placeholder="Email Address">
+              </dx-text-box>
+            </div>
+          
+            <div class="col-xs-12 col-md-3 col-lg-3 col-xl-3 ">
+              <label for="ti" class="control-label">Telephone No</label>
+  
+              <dx-text-box formControlName="telephone_no" placeholder="Telephone No">
+              </dx-text-box>
+            </div>
+            
+            <div class="col-lg-12">
+              <label class="control-label">Physical Address</label>
+              <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+              </dx-text-area>
+            </div>
+         
+            <div class="col-lg-12 btn-margin-5">
+              <br />
+              <button type="submit" (submit)="onsavePermitReceiverSender()" [disabled]="!permitReceiverSenderFrm.valid"
+                class="btn btn-primary"><i class="fa fa-user"></i> Save {{consignee_sendertitle}} Details</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </dx-scroll-view>
+    </div>
+  </dx-popup>
+  
+  

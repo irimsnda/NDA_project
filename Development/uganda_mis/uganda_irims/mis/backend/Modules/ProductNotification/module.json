@@ -1,0 +1,11 @@
+{
+    "name": "ProductNotification",
+    "alias": "productnotification",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ProductNotification\\Providers\\ProductNotificationServiceProvider"
+    ],
+    "files": []
+}

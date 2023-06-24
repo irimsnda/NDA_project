@@ -1,0 +1,105 @@
+
+<dx-popup class="popup" [width]="850" [height]="450" [showTitle]="true" title="Preview Product Application Processing"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewApplicationProcessing">
+
+<div *dxTemplate="let data of 'content'" style="background:#fff;">
+    <div class="row">
+      <dx-data-grid class="table row-border hover div-backwhite" [columnHidingEnabled]="true" [dataSource]="productApplicationProcessingData"
+      [showBorders]="true" [allowColumnResizing]="true" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-load-panel [enabled]="true">
+      </dxo-load-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+        infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-export [enabled]="true" fileName="ProductApplications" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="single"></dxo-selection>
+      <dxi-column  dataField="tracking_no"></dxi-column>
+      <dxi-column  dataField="reference_no"></dxi-column>
+      <dxi-column dataField="process_name"></dxi-column>
+      <dxi-column  dataField="prev_stage"></dxi-column>
+      <dxi-column  dataField="current_stage"></dxi-column>
+      <dxi-column  [groupIndex]="0" dataField="processing_date"></dxi-column>
+     
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid> 
+    </div>
+</div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="1050" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+<div *dxTemplate="let data of 'content'">
+    <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+</div>
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="1000" [height]="550" [showTitle]="true" title="Application Rejection Details"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isApplicationRejectionVisible">
+<div *dxTemplate="let data of 'content'">
+    <dx-data-grid class="table row-border hover "  [columnHidingEnabled]="true" [dataSource]="applicationRejectionData"
+    [showBorders]="true">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-load-panel [enabled]="true">
+    </dxo-load-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+      infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-search-panel  [visible]="true" 
+      >
+    </dxo-search-panel>
+    <dxo-export [enabled]="true" fileName="Rejection Details" [allowExportSelectedData]="true"></dxo-export>
+   
+    <dxi-column [width] = 100 dataField="tracking_no"></dxi-column>
+    <dxi-column   [width] = 90  dataField="added_on"></dxi-column>
+    <dxi-column  [width] = 200  cssClass= 'WrappedColumnClass' dataField="rejection_remarks" ></dxi-column>
+  </dx-data-grid>
+</div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="500" [height]="450" [showTitle]="true" title="Preview Product Details"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewProductsDetails">
+<div *dxTemplate="let data of 'content'" style="background:#fff;">
+  <form role="form" class="col-lg-12" enctype="multipart/form-data" role="form" [formGroup]="frmPreviewProductsDetails">
+    <div class="row">
+        <div class="col-lg-12">
+          <label class="control-label">Tracking No</label>
+          <dx-text-box formControlName="tracking_no" readOnly=true [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Trade/Proprietary Name/</label>
+          <dx-text-box formControlName="brand_name" placeholder="" readOnly=true [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12 ">
+          <label for="ti" class="control-label">Classification</label>
+
+          <dx-text-box formControlName="classification" readOnly=true  placeholder="Classification" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+      
+        <div class="col-lg-12">
+          <label class="control-label">Application Type</label>
+
+          <dx-text-box formControlName="application_type" readOnly=true  placeholder="" [showClearButton]="true">
+          </dx-text-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Current Status</label>
+
+          <dx-text-box formControlName="status" readOnly=true  [showClearButton]="true">
+          </dx-text-box>
+        </div>
+  </div>
+  </form>
+</div>
+</dx-popup>

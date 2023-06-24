@@ -1,0 +1,31 @@
+<div class="left main-sidebar">
+  <!--class="active"-->
+  <div class="sidebar-inner leftscroll">
+    <div id="sidebar-menu">
+      <ul class="sidebar-menu">
+        <li class="submenu">
+          <a routerLink="app-dashboard"><i class="fa fa-fw fa-bars"></i><span> Dashboard </span> </a>
+        </li>
+        <li *ngFor="let nav of navOnlineNav;" class="submenu">
+          <a *ngIf="nav.children.length == 0" routerLink="{{nav.router_link}}" [routerLinkActive]="'is-active'">
+            <i class="{{nav.iconCls}}"></i> <span>{{ nav.name}}</span>
+          </a>
+          <a *ngIf="nav.children">
+            <i class="{{nav.iconCls}}"></i>
+            <span>{{nav.name}}</span>
+            <span class="menu-arrow"></span>
+          </a>
+          <ul *ngIf="nav.children" class="list-unstyled">
+            <li *ngFor="let nav_child of nav.children;">
+              <a routerLink="{{ nav_child.router_link}}" [routerLinkActive]="'is-active'">
+                <i class="{{nav_child.iconCls}}" aria-hidden="true"></i>{{nav_child.name}}
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+
+</div>

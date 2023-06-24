@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-xl-12">
+      <div class="breadcrumb-holder">
+        <h1 class="main-title float-left">{{process_title}} Registered Application Selection Process</h1>
+        <ol class="breadcrumb float-right">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item active">Registered Premises Application</li>
+        </ol>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+    <div class="row div-backwhite no-padding">
+        <!--[dtTrigger]="dtTrigger"   registered_premisesData: any;
+  -->
+        <div class="col-lg-12  no-padding">
+            <dx-data-grid class="table row-border hover" (onToolbarPreparing)="onPremisesappsToolbarPreparing($event)" [columnHidingEnabled]="false"  [dataSource]="registeredPremisesData" keyExpr="id" >
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-search-panel [visible]="true">
+                  </dxo-search-panel>
+                <dxo-paging [enabled]="true">
+                </dxo-paging>
+                <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                </dxo-pager>
+            
+                <dxo-export [enabled]="true" fileName="Premises" [allowExportSelectedData]="true"></dxo-export>
+            
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+               
+                <dxi-column width =190 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                  cellTemplate="cellTemplate">
+                  <div *dxTemplate="let data of 'cellTemplate'" class="btn-cursor">
+                      <a (click)="funSelectRegisteredPremisessApp(data)" class="btn-cursor"><i class="fa fa-edit btn-cursor"></i>{{process_title}} Request GMP Inspection</a>&nbsp;
+                    </div>
+                </dxi-column>
+                <dxi-column  [groupIndex]="0"  dataField="section_name" caption="Premises Category/Type"></dxi-column>
+                <dxi-column dataField="name"></dxi-column>
+  
+                <dxi-column dataField="premise_reg_no"></dxi-column>
+                <dxi-column dataField="permit_no"></dxi-column>
+                <dxi-column dataField="physical_address"></dxi-column>
+                <dxi-column dataField="postal_address"></dxi-column>
+                <dxi-column dataField="region_name"></dxi-column>
+                <dxi-column dataField="registration_status" caption="Registration Status"></dxi-column>
+                <dxi-column dataField="validity_status" caption="Validity Status"></dxi-column>
+               
+                <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+              </dx-data-grid>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+#s2bpay-button{
+  display: inline-block;
+  z-index: 999999 !important;
+  
+  margin-left: 45%  !important;
+  height: 120px !important;
+  width: 300px !important;
+  padding: 10px !important;
+  background: #fff;
+  font-size: 15px !important;
+  margin-top: -400px !important;
+
+  border: 2px outset whitesmoke;
+  cursor: pointer;
+  padding: 2%;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.modal{
+
+  z-index: 1000000 !important;
+}
+.modal-backdrop{
+  z-index:415552 !important;
+}
+.modal{
+  z-index:41555221 !important;
+}.modal-content{
+  z-index: 100000 !important;
+}.zindex {
+  z-index: 9900011111 !important;
+}

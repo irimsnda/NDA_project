@@ -1,0 +1,250 @@
+<div class="col-xl-12">
+  <div class="breadcrumb-holder">
+    <h1 class="main-title float-left">Grouped Product Application Process</h1>
+    <ol class="breadcrumb float-right">
+      <li class="breadcrumb-item active"> {{process_title}}</li>
+
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+</div>
+<div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+  <div class="row">
+    <div class="col-lg-4">
+      <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+        Tracking No: <i> {{group_tracking_no}}</i> </label>
+    </div>
+    <div class="col-lg-6">
+      <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Groupd
+        Status:<i> {{status_name}}</i> </label>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12 div-nopadding">
+    <wizard  navBarLayout ="large-filled-symbols" [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+     
+      <wizard-step navigationSymbol="Step 1" stepTitle="Grouped Application Information" class="wizardStep-height">
+          <div class="col-lg-12 wizard-content">
+            <form role="form" enctype="multipart/form-data" role="form"  [formGroup]="productAppSubmissionDetailsfrm">
+              <div class="row wizard-content">
+               
+                <div class="col-lg-6">
+                    <label>Product Type</label>
+                    <dx-select-box [readOnly]="true" [dataSource]="sectionsData" valueExpr="id" displayExpr="name" placeholder="Select Product Type"  [searchEnabled]="true" formControlName="section_id">
+                    </dx-select-box>
+                </div>
+                <div class="col-lg-6">
+                    <label>Product Category</label>
+                    <dx-select-box [readOnly]="true"  [dataSource]="prodClassCategoriesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"  
+                        formControlName="prodclass_category_id">
+                        <div *dxTemplate="let name of 'item'">
+                          <p>{{name.name}} </p>
+                      </div>
+                    </dx-select-box>
+                    <input type="hidden" formControlName="sub_module_id" value=7/>
+                    
+              </div>
+              <div class="col-lg-6">
+                    <label>Submission Type</label>
+                    <dx-select-box [readOnly]="true"  [dataSource]="appsubmissionTypesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"  
+                        placeholder="Select Application Submission Category" 
+                        formControlName="appsubmissions_type_id">
+                        <div *dxTemplate="let name of 'item'">
+                          <p>{{name.name}} </p>
+                      </div>
+                    </dx-select-box>
+                    <input type="hidden" formControlName="sub_module_id" value=7/>
+              </div>
+              <div class="col-lg-6">
+                <label class="control-label">Product Origin</label>
+        
+                <dx-select-box [dataSource]="productTypeData" (onValueChanged)="onProductOriginChangeChange($event)" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+                  placeholder="Product Origin" formControlName="product_origin_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-12">
+                <label>Reason for Grouped Submission(Optional)</label>
+                <dx-text-area formControlName="reason_for_groupedsubmission" placeholder="Reason" >
+                </dx-text-area>
+
+              </div>
+              </div>
+          </form>
+          <div class="col-lg-12 div-footer">
+              <dx-button
+                  text="Save Grouped Application && Next Step"
+                  type="default"
+                  icon="fa fa-save"
+                  [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                  (onClick)="onSaveGroupedApplicationdetails()">
+              </dx-button>
+              
+              <dx-button
+              text="Dashboard"
+              type="success"
+              icon="fa fa-eraser"
+              [elementAttr]="{  class: 'pull-left' }"
+              (onClick)="onProductDashboard()">
+          </dx-button>
+        </div>
+          </div>
+      </wizard-step>
+      <wizard-step navigationSymbol="Step 2" stepTitle="Product(s) Application Details" class="wizardStep-height">
+        <div class="wizard-divtop">
+            <button type="button" class="btn btn-primary  pull-left" style="margin:5px;" previousStep><i
+              class="fa fa-angle-double-left"></i>Go
+              to previous
+              step</button>
+
+              <button type="button" class="btn btn-primary  pull-right" style="margin:5px;" (click)="onMoveNextWizard(2+initWizardPanel)">Go
+                to next step<i
+                class="fa fa-angle-double-right"></i></button>
+        </div>
+
+        <div class="col-lg-12 wizard-content">
+
+              
+                  <dx-data-grid class="table row-border hover" (onToolbarPreparing)="ongroupedProdsesappsToolbarPreparing($event)" [dataSource]="groupedProductApplicationData" [wordWrapEnabled]="true" 
+                  [showBorders]="true"[showRowLines] = "true"  [allowColumnResizing]="true"  [columnHidingEnabled]="false"  keyExpr="id">
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                  <dxo-load-panel [enabled]="true">
+                  </dxo-load-panel>
+                  <dxo-paging [enabled]="false">
+                  </dxo-paging>
+                  <dxo-search-panel [visible]="true">
+                  </dxo-search-panel>
+                  <dxo-export [enabled]="true" fileName="ProductApplications" [allowExportSelectedData]="true"></dxo-export>
+
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxi-column [width]=250 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                  cellTemplate="cellTemplateSingle">
+                  <div *dxTemplate="let d of 'cellTemplateSingle'">
+                        <dx-button text="Edit" (click)="funcEditgroupedProductApplicationData(d)" 
+                          type="success" icon="edit">
+                          </dx-button> 
+                        <dx-button text="Delete" (click)="funcDeletegroupedProductApplicationData(d)" 
+                          type="danger" icon="delete">
+                      </dx-button> 
+                  </div>
+                  </dxi-column>
+                  <dxi-column  dataField="reference_no"></dxi-column>
+                  <dxi-column  dataField="section"></dxi-column>
+                  <dxi-column  dataField="brand_name"></dxi-column>
+
+                  <dxi-column dataField="classification"></dxi-column>
+                  <dxi-column  [allowFiltering]="false" dataField="date_added"></dxi-column>
+                  <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+                  </dx-data-grid>
+               
+        </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary  pull-left" style="margin:5px;" previousStep><i
+            class="fa fa-angle-double-left"></i>Go
+            to previous
+            step</button>
+
+          <button type="button" class="btn btn-primary  pull-right" style="margin:5px;" (click)="onMoveNextWizard(2+initWizardPanel)">Go
+            to next step<i
+            class="fa fa-angle-double-right"></i></button>
+
+        </div>
+    </wizard-step>
+    <wizard-step navigationSymbol="Submission" stepTitle="Submission & Invoice Generation" class="wizardStep-height">
+
+      <div class="col-lg-12 wizard-content">
+              <form [formGroup]="onApplicationSubmissionFrm" class="col-lg-12 row div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onProductApplicationSubmit()">
+                <div class="col-lg-12">
+                    <b><label>Declaration</label></b>
+                    <ul>
+                        <li *ngFor="let guide of terms_conditions;">
+                            <p>{{guide.no}} {{guide.term_conditiondetails}}</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-4"  *ngIf="sub_module_id === 7 || sub_module_id === 8  || sub_module_id === 9">
+                    <label>Fast Track Option Process</label>
+                    <dx-select-box [dataSource]="fastTrackOptionsData" valueExpr="id" displayExpr="name"
+                      placeholder="Select Fast Track" [searchEnabled]="true" formControlName="is_fast_track">
+                    </dx-select-box>
+                  </div>
+                  
+                <div class="col-lg-12">
+                  <b> <label>Submission Comments(Optional)</label></b>
+                    <dx-text-area formControlName="submission_comments" placeholder="Enter Comments(optional)"></dx-text-area>
+                </div>
+                <div class="col-lg-12">
+                  <dx-check-box text="Agree to the Declaration" [value]="undefined" (onValueChanged)="newProductTermscheckbox($event)">
+                  </dx-check-box>
+                </div>
+        
+                <div class="wizard-divbottom">
+                  <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                  <app-invoice-groupedappgeneration  [onApplicationSubmissionFrm] ="onApplicationSubmissionFrm" [module_id] ="module_id"  [status_id] ="status_id" [application_code]="application_code" [group_application_code]="group_application_code" ></app-invoice-groupedappgeneration>
+
+                  <button class="btn btn-primary" type="button" [disabled]="!checkProductsSubmission" (click)="onGroupedProductApplicationSubmit()">Submit
+                    Product Application</button>
+                </div>
+          </form>
+
+
+
+      </div>
+
+
+    </wizard-step>
+    </wizard>
+  </div>
+</div>
+
+<dx-popup  class="popup" [width]="funcpopWidth(80)"  [height]="funcpopheight(80)" [showTitle]="true" 
+ title="Add New product Application Details"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isInitiateAddProductGroupAppWin">
+    <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view width="100%" height="100%">
+        <app-addproduct-applicationdetails [group_application_code] ="group_application_code"
+                  [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                  [assessmentProcedureData] ="assessmentProcedureData"  
+                  [classificationData] ="classificationData"  
+                  [commonNamesData] ="commonNamesData"  
+                  [siUnitsData] ="siUnitsData"  
+                  [distributionCategoryData] ="distributionCategoryData"  
+                  [productFormData] ="productFormData" 
+                  [methodOfUseData] ="methodOfUseData"
+                  [tabaccoFlavourData] = "tabaccoFlavourData" 
+                  [intendedEndUserData] ="intendedEndUserData"  
+                  [productSubCategoryData] ="productSubCategoryData"  
+                  [productSpecialCategoryData] ="productSpecialCategoryData"
+                  [devicesTypeData] ="devicesTypeData" 
+                  [storageConditionData] ="storageConditionData" 
+                  [dosageFormsData] ="dosageFormsData" 
+                  [routeOfAdministrationData] ="routeOfAdministrationData"
+                  [productCategoryData] ="productCategoryData" 
+                  [durationDescData] ="durationDescData"
+                  [productTypeData] ="productTypeData" 
+                  [confirmDataParam] ="confirmDataParam" 
+                  [payingCurrencyData] ="payingCurrencyData" 
+                  [fastTrackOptionsData] ="fastTrackOptionsData" 
+                  (productTypeEvent)="product_origin_id=$event"
+                  [zonesData] ="zonesData" [section_id] ="section_id"  [atc_code_id] ="atc_code_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"   [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" 
+                  [application_code] ="application_code"
+                  [tracking_no] ="tracking_no"
+                    [productIngredientsdetailsfrm] ="productIngredientsdetailsfrm"  
+              [productNutrientsdetailsfrm] ="productNutrientsdetailsfrm"  
+              [productapimanufacturingSiteFrm] ="productapimanufacturingSiteFrm"  
+              [productmanufacturingSiteFrm] ="productmanufacturingSiteFrm"  
+              [manufacturingSiteFrm] ="manufacturingSiteFrm"  
+              [productPackagingdetailsfrm] ="productPackagingdetailsfrm"  
+              [drugsingredientsData] ="drugsingredientsData" 
+              [drugsPackagingData] ="drugsPackagingData" 
+              [productManufacturersData] ="productManufacturersData" 
+              [manufacturersSiteData] ="manufacturersSiteData" 
+              [tradergmpInspectionData] ="tradergmpInspectionData" 
+              [apiManufacturersData] ="apiManufacturersData" 
+              [productgmpInspectionData] ="productgmpInspectionData" 
+              [product_id] ="product_id" [section_id] ="section_id"  [isReadOnly] ="isReadOnly" [module_id] ="module_id" [status_id] ="status_id"  [product_origin_id] ="product_origin_id">
+        </app-addproduct-applicationdetails>
+      </dx-scroll-view>
+    </div>
+</dx-popup>

@@ -1,0 +1,44 @@
+<input type="hidden" value="{{application_code}}"/>
+<dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true"   [paging]="{ enabled: true, pageSize: 1000 }" [showRowLines] = "true"  [wordWrapEnabled] = "true" [dataSource]="appDocumentsUploadData" keyExpr="id" 
+ (onToolbarPreparing)="onApplicationDocumentToolbar($event)">
+  <dxo-filter-row [visible]="false"></dxo-filter-row>
+  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[1000]" [showNavigationButtons]="true" [showInfo]="true"
+  infoText="Page #{0}. Total: {1} ({2} items)">
+</dxo-pager>
+  <dxo-export [enabled]="true" fileName="appDocumentsUploadData" [allowExportSelectedData]="true"></dxo-export>
+
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxi-column [width]="250" caption="Action"  [allowFiltering]="false" [allowSorting]="false"
+  cellTemplate="cellTemplate">
+    <div *dxTemplate="let data of 'cellTemplate'">
+        <div class="row">
+            <dx-button text="Download" (onClick)="funDownloadApplicationDocument(data.data)"
+                type="success" icon="upload">
+              </dx-button> 
+          
+        </div>
+    </div>
+</dxi-column>
+  <dxi-column [groupIndex]="0"   dataField="document_requirement"></dxi-column>
+
+  <dxi-column dataField="file_name"></dxi-column>
+  
+  <dxi-column dataField="initial_file_name"></dxi-column>
+  
+  <dxi-column width=130 dataField="uploaded_on"></dxi-column>
+
+  <dxi-column  dataField="allowed_extensions" caption="Allowed File Types"></dxi-column>
+  
+
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+</dx-data-grid>
+
+<dx-popup class="popup" [width]="800" [height]="650" [showTitle]="true" title="Document Preview" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDocumentPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <iframe [src]="document_previewurl" class="col-lg-12" height="650" ></iframe> 
+
+  </div>
+
+</dx-popup>

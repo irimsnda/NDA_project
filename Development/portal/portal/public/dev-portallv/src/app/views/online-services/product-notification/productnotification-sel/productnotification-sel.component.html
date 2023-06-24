@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Product Notifications Application Process</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active">Product Notifications Application Selection</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+<form enctype="multipart/form-data" style="margin:0.5px" class="row div-whiteback " role="form" [formGroup]="notificationsAppSelectionfrm"
+  (ngSubmit)="onProductNotificationAppSelection()">
+  <div class="col-lg-12 ">
+    <h4 class="main-title float-left">Select Product Notifications Category and Application Type</h4>
+  </div>
+
+  <div class="col-lg-6">
+    <label>Section/Product Notifications Category</label>
+
+    <dx-select-box [readOnly]="false" value=4 [dataSource]="sectionsData" valueExpr="id" displayExpr="name" placeholder="Select Sections"
+      [searchEnabled]="true" formControlName="section_id">
+    </dx-select-box>
+  </div>
+  <div class="col-lg-6">
+    <label>Product Notifications Application Type</label>
+
+    <dx-select-box [dataSource]="notificationsAppTypeData" valueExpr="id" displayExpr="name" placeholder="Select Product Notifications Application Type"
+      [searchEnabled]="true" formControlName="sub_module_id">
+    </dx-select-box>
+  </div>
+  <div class="col-lg-12 ">
+    <dx-button [elementAttr]="{ class: 'btn btn-primary  pull-right' }" text="Start Product Notifications Application"
+      [disabled]="!notificationsAppSelectionfrm.valid" type="success" (onClick)="onProductNotificationAppSelection()">
+    </dx-button>
+    <dx-button [elementAttr]="{ class: 'btn btn-primary pull-left' }" text="Back to Product Notifications Dashboard"
+      type="default" (onClick)="onProductNotiBackToDashboard()">
+      <i class="fa fa-dashboard"></i>
+    </dx-button>
+  </div>
+</form>
+
+<div class="row div-backwhite" style="margin:0.5px">
+  <h6 class="main-title float-left">Product Notifications Registration Guidelines/Definations</h6>
+  <div style="height: 100% !important; " class="col-lg-12">
+
+      <dx-data-grid [columnHidingEnabled]="true" class="table row-border hover" [dataSource]="dtAppGuidelinesData" keyExpr="ID">
+          <dxo-filter-row [visible]="false"></dxo-filter-row>
+          <dxo-search-panel 
+              [visible]="true" 
+            >
+          </dxo-search-panel>
+          <dxo-paging [enabled]="true">
+          </dxo-paging>
+          <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+          </dxo-pager>
+          <dxo-export [enabled]="true" fileName="dtAppGuidelinesData" [allowExportSelectedData]="true"></dxo-export>
+    
+          <dxo-group-panel [visible]="true"></dxo-group-panel>
+          <dxi-column width=180 dataField="application_type" [groupIndex]="0"></dxi-column>
+         
+          <dxi-column name="command-editing" [width] = 50  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                  <div [innerHTML]="data.data.step"></div>
+                 
+                  <div [innerHTML]="data.data.guideline"></div>
+                 
+              </div>
+            </dxi-column> 
+          <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+        </dx-data-grid>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+{
+    "name": "MigrationScripts",
+    "alias": "migrationscripts",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\MigrationScripts\\Providers\\MigrationScriptsServiceProvider"
+    ],
+    "files": []
+}

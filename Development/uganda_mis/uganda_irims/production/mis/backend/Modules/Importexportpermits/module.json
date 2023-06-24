@@ -1,0 +1,11 @@
+{
+    "name": "Importexportpermits",
+    "alias": "importexportpermits",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Importexportpermits\\Providers\\ImportexportpermitsServiceProvider"
+    ],
+    "files": []
+}

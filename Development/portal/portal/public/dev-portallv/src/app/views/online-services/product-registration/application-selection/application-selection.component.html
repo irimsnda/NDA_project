@@ -1,0 +1,93 @@
+
+<div class="row">
+    <div class="col-xl-12">
+      <div class="breadcrumb-holder">
+        <h1 class="main-title float-left"> Product Application Process</h1>
+        <ol class="breadcrumb float-right">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Dashboard</li>
+          <li class="breadcrumb-item active">New Product Application Process</li>
+        </ol>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+  <form enctype="multipart/form-data" style="margin:0.5px" class="row div-whiteback  div-nopadding " role="form" [formGroup]="productAppSelectionfrm"
+    (ngSubmit)="onProductAppSelection()">
+  <div class="col-lg-12" style="margin-bottom: 30px;">
+    <h6 class="main-title  col-lg-12">Guideline to start Application of New Products</h6>
+  
+    <span>Select the Product Category and Product Classification Category based on the type of product details and then click start Application .</span>
+    <br/>
+  </div>
+    <div class="col-lg-6 apptype-selection bg-light text-dark">
+        <h3 class='apptype-selection'>Select Product Category/Type Application</h3>
+    
+      <dx-select-box [dataSource]="sectionsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Select Product Category/Type Application" 
+        (onValueChanged) ="funcChangeProductCategory($event)"
+        formControlName="section_id">
+        <div *dxTemplate="let name of 'item'">
+          <div class='apptype-selection'>New {{name.name}} Product Application    </div>
+          <p>on {{name.description}}</p>
+      </div>
+     </dx-select-box>
+      </div>
+      <div class="col-lg-6 apptype-selection apptype-selection bg-light text-dark">
+          <h3 class='apptype-selection'>Select Product Classification Category</h3>
+        
+          <dx-select-box [dataSource]="prodClassCategoriesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+              placeholder="Select Product Classification Category" 
+              formControlName="prodclass_category_id">
+              <div *dxTemplate="let name of 'item'">
+                <p>{{name.name}} </p>
+            </div>
+          </dx-select-box>
+          <input type="hidden" formControlName="sub_module_id" value=7/>
+          </div>
+    <div class="col-lg-12  pull-right row" style="text-align: center;">
+        <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-right' }"  icon="fa fa-dashboard" text="Back to Product Dashboard" 
+        type="default" (onClick)="onProductsBackToDashboard()">
+        
+        </dx-button>
+        <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-right' }"   icon="fa fa-arrow-right" text="Start Product Application" 
+        [disabled]="!productAppSelectionfrm.valid" 
+          type="success" (onClick)="onProductAppSelection()">
+        </dx-button>
+      
+        
+    </div>
+  </form>
+
+<div class="row div-backwhite div-nopadding" style="margin:0.5px">
+    <h6 class="main-title float-left">Product Applications Guidelines/Definations</h6>
+    <div style="height: 100% !important; " class="col-lg-12">
+  
+      <dx-data-grid [columnHidingEnabled]="true" class="table row-border hover" [dataSource]="dtAppGuidelinesData" keyExpr="ID">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel 
+            [visible]="true" 
+          >
+        </dxo-search-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="dtAppGuidelinesData" [allowExportSelectedData]="true"></dxo-export>
+  
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxi-column width=180 dataField="application_type" [groupIndex]="0"></dxi-column>
+       
+        <dxi-column name="command-editing" [width] = 50  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+            <div *dxTemplate="let data of 'cellTemplate'">
+                <div [innerHTML]="data.data.step"></div>
+                 
+                <div [innerHTML]="data.data.guideline"></div>
+               
+            </div>
+          </dxi-column> 
+        <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+      </dx-data-grid>
+    </div>
+  </div>
+

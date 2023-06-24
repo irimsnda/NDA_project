@@ -1,0 +1,48 @@
+<form role="form" enctype="multipart/form-data" role="form" class="" [formGroup] ="ctrStudyDesingdetailsfrm">
+  <div class="col-lg-12 row div-nopadding">
+  <div class=" col-xs-12 col-md-6 col-lg-6 col-xl-6">
+    <label class="control-label">Intervention Assignment</label>
+    <dx-select-box [dataSource]="interventionAssData"  valueExpr="id" displayExpr="name"     [readOnly]="is_readonly" 
+     [searchEnabled]="true" formControlName="intervention_assignment_id">
+    </dx-select-box>
+  </div>
+  <div class=" col-xs-12 col-md-6 col-lg-6 col-xl-6">
+    <label class="control-label">Allocation to intervention</label>
+    <dx-select-box [dataSource]="interventionAllData" (onValueChanged)="onInterventionAllocSelect($event)"   [readOnly]="is_readonly"   valueExpr="id" displayExpr="name"  
+     [searchEnabled]="true" formControlName="intervention_allocation_id">
+    </dx-select-box>
+  </div>
+  <div *ngIf="is_randomised" class=" col-xs-12 col-md-6 col-lg-6 col-xl-6">
+    <label class="control-label">if randomised, describe how the allocation sequence was generated</label>
+    <dx-select-box [dataSource]="sequenceGenerationData"  valueExpr="id" displayExpr="name"    [readOnly]="is_readonly" 
+     [searchEnabled]="true" formControlName="sequence_generation_id">
+    </dx-select-box>
+  </div>
+  <div class=" col-xs-12 col-md-6 col-lg-6 col-xl-6">
+    <label class="control-label">Describe how the allocation sequence/code was concealed from the person allocating the participants to the intervention arms </label>
+    <dx-select-box [dataSource]="allocationSequenceData"  valueExpr="id" displayExpr="name"    [readOnly]="is_readonly" 
+     [searchEnabled]="true" formControlName="allocation_sequence_id">
+    </dx-select-box>
+  </div>
+  <div class=" col-xs-12 col-md-6 col-lg-6 col-xl-6">
+    <label class="control-label">Masking </label>
+    <dx-select-box [dataSource]="maskingBindingData"   [readOnly]="is_readonly"  valueExpr="id" displayExpr="name"  
+     [searchEnabled]="true" formControlName="masking_id">
+    </dx-select-box>
+  </div>
+  <div class=" col-xs-12 col-md-6 col-lg-6 col-xl-6">
+    <label class="control-label">If Masking / blinding was used </label>
+    <dx-tag-box
+          [items]="clinicalMaskingDetailsDta"
+          formControlName="masking_used_id"  [readOnly]="is_readonly" 
+          [searchEnabled]="true"
+          valueExpr="id"
+          [showSelectionControls]="true"
+          applyValueMode="useButtons"
+          displayExpr="name">
+    
+      </dx-tag-box>
+  </div>
+</div>
+ 
+  </form>

@@ -1,0 +1,731 @@
+<div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Product Registration</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active"> {{process_title}}</li>
+  
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  
+  <div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+    <div class="row">
+      <div class="col-lg-3">
+        <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+          Tracking No: <i> {{tracking_no}}</i> </label>
+      </div>
+      <div class="col-lg-2">
+        <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application
+          Status:<i>{{status_name}}</i> </label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngIf="status_id == 8 || status_id == 6 || status_id == 14">
+       
+      <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+        
+          <wizard-step stepTitle="Product Application Queries" class="wizardStep-height">
+    
+              <div class="col-lg-12 wizard-content">
+                    
+                  <dx-data-grid class="table row-border hover row" [columnHidingEnabled]="false" [dataSource]="applicationPreckingQueriesData" (onToolbarPreparing)="onAppQueryPreparing($event)"
+                      [showBorders]="true">
+                      <dxo-filter-row [visible]="false"></dxo-filter-row>
+                      <dxo-load-panel [enabled]="true">
+                      </dxo-load-panel>
+                      <dxo-paging [enabled]="true">
+                      </dxo-paging>
+                      <dxo-selection mode="single"></dxo-selection>
+                      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+                        infoText="Page #{0}. Total: {1} ({2} items)">
+                      </dxo-pager>
+                      <dxo-search-panel  [visible]="true" 
+                        >
+                      </dxo-search-panel>
+                      <dxo-export [enabled]="true" fileName="Query Details" [allowExportSelectedData]="true"></dxo-export>
+                        <dxi-column [width]="120" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                        cellTemplate="cellTemplate">
+                        <div *dxTemplate="let data of 'cellTemplate'">
+                          <a (click)="funcInitQueryResponse(data)" class="action-btn"><i class="fa fa-edit"></i>Query Response</a>&nbsp;
+                          
+                      </div>
+                    </dxi-column>
+                      <dxi-column   [width] = 120  dataField="added_on"></dxi-column>
+                      
+                      <dxi-column   [width] = 120  dataField="query_status"></dxi-column>
+                      
+                      <dxi-column  cssClass= 'WrappedColumnClass'  name="command-editing"    [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplateMsg">
+                        <div *dxTemplate="let data of 'cellTemplateMsg'">
+                            <div [innerHTML]="data.data.queries_remarks"></div>
+                        </div>
+                      </dxi-column> 
+                      <dxi-column  cssClass= 'WrappedColumnClass'  name="command-editing"   [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplateResp">
+                        <div *dxTemplate="let data of 'cellTemplateResp'">
+                            <div [innerHTML]="data.data.response_txt"></div>
+                        </div>
+                      </dxi-column> 
+                     
+                  </dx-data-grid>
+                </div>
+                <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                    <button (click)="onProductDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                      class="fa fa-dashboard"></i>
+                    &nbsp; Dashboard</button>
+                    <button class="btn btn-primary" type="button" (click)="printProductQueryLetter()">Print Query Letter</button>
+                    <button type="button" class="btn btn-primary" (click)="funcValidateApplicationQueryresponse(1)" >Next(Query Response Submission) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                </div>
+          </wizard-step>
+          <wizard-step stepTitle="{{query_title}}" class="wizardStep-height">
+
+                <div class="wizard-divtop">
+                    <button type="button" class="btn btn-primary  pull-left" style="margin:5px;" previousStep><i
+                      class="fa fa-angle-double-left"></i>Previous
+                        </button>
+                    <button type="button" class="btn btn-primary  pull-right" style="margin:5px;" (click)="funcValidateDocumentsUpload(2)">Next(Query Response Submission)<i
+                      class="fa fa-angle-double-right"></i></button>
+        
+                  </div>
+            <div class=" wizard-content">
+              <app-application-documents [prodclass_category_id] ="prodclass_category_id" [query_ref_id] ="query_ref_id" [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+            </div>
+            <div class="wizard-divbottom">
+              <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Previous
+                Application Details</button>
+              
+              <button type="button" class="btn btn-primary" (click)="funcValidateDocumentsUpload(2)">Next(Query Response Submission)<i class="fa fa-angle-double-right"></i></button>
+            </div>
+          </wizard-step>
+          <wizard-step stepTitle="Query Response Submission">
+            <div class="col-lg-12">
+                <b><h4>Declaration</h4></b>
+                <ul>
+                    <li *ngFor="let guide of terms_conditions;">
+                        <p>{{guide.no}} {{guide.term_conditiondetails}}</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-12">
+               <b> <h4>Submission Comments(Optional)</h4></b>
+                <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+            </div>
+            <div class="col-lg-12">
+              <dx-check-box text="Agree to the Declaration" [value]="undefined" (onValueChanged)="newProductTermscheckbox($event)">
+              </dx-check-box>
+            </div>
+    
+            <div class="wizard-divbottom">
+              <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+              <button class="btn btn-primary" type="button" (click)="onDrugsProductsApplicationPrint()">Print Products
+                Details
+                Application</button>
+              <button class="btn btn-primary" type="button" [disabled]="!checkProductsSubmission" (click)="onProductApplicationSubmit()">Submit
+                Product Application</button>
+            </div>
+          </wizard-step>
+
+    </wizard>
+
+  </div>
+    <div class="col-lg-12"  *ngIf="status_id !== 8 && status_id !== 6   && status_id !== 14">
+      <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+        <wizard-step *ngIf="status_id === 17 || status_id === 6" stepTitle="Queries" class="wizardStep-height">
+            
+          <div class="col-lg-12 wizard-content">
+            <app-application-queries [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-queries>
+            </div>
+            <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                <button (click)="onProductDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                  class="fa fa-dashboard"></i>
+                &nbsp; Dashboard</button>
+              <button type="button" class="btn btn-primary" nextStep>Next(Query Responses) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+            </div>
+        </wizard-step>
+        <wizard-step stepTitle="Product Application Details" class="wizardStep-height">
+          <div class="col-lg-12 no-padding" *ngIf="prodclass_category_id == 5 || prodclass_category_id == 9 || prodclass_category_id == 13 || prodclass_category_id == 14   || prodclass_category_id == 18">
+            <app-food-productsdetails  
+              [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+              [assessmentProcedureData] ="assessmentProcedureData"  
+              [classificationData] ="classificationData"  
+              [commonNamesData] ="commonNamesData"  
+              [siUnitsData] ="siUnitsData"  
+              [distributionCategoryData] ="distributionCategoryData"  
+              [productFormData] ="productFormData" 
+              [methodOfUseData] ="methodOfUseData"
+              [tabaccoFlavourData] = "tabaccoFlavourData"  
+              [intendedEndUserData] ="intendedEndUserData"  
+              [productSubCategoryData] ="productSubCategoryData"  
+              [productSpecialCategoryData] ="productSpecialCategoryData"
+              [devicesTypeData] ="devicesTypeData" 
+              [storageConditionData] ="storageConditionData" 
+              [dosageFormsData] ="dosageFormsData" 
+              [routeOfAdministrationData] ="routeOfAdministrationData"
+              [productCategoryData] ="productCategoryData" 
+              [durationDescData] ="durationDescData"
+              [productTypeData] ="productTypeData" 
+              [confirmDataParam] ="confirmDataParam" 
+              [payingCurrencyData] ="payingCurrencyData" 
+              [fastTrackOptionsData] ="fastTrackOptionsData" 
+              (productTypeEvent)="product_origin_id=$event"
+              [zonesData] ="zonesData" [section_id] ="section_id"  [atc_code_id] ="atc_code_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"   [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+            </app-food-productsdetails>
+
+          </div>
+          <div class="col-lg-12 no-padding" *ngIf="prodclass_category_id == 1  || prodclass_category_id == 8 || prodclass_category_id == 11 || prodclass_category_id == 12">
+                <app-drugs-productsdetails  [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                [assessmentProcedureData] ="assessmentProcedureData"  
+                [classificationData] ="classificationData"  
+                [commonNamesData] ="commonNamesData"  
+                [siUnitsData] ="siUnitsData"  
+                [distributionCategoryData] ="distributionCategoryData"  
+                [productFormData] ="productFormData" 
+                [methodOfUseData] ="methodOfUseData"  
+                [intendedEndUserData] ="intendedEndUserData"  
+                [productSubCategoryData] ="productSubCategoryData"  
+                [productSpecialCategoryData] ="productSpecialCategoryData"
+                [devicesTypeData] ="devicesTypeData" 
+                [reasonForClassificationData] ="reasonForClassificationData"
+                [gmdnCategoryData] ="gmdnCategoryData"
+                [storageConditionData] ="storageConditionData" 
+                [dosageFormsData] ="dosageFormsData" 
+                [routeOfAdministrationData] ="routeOfAdministrationData"
+                [productCategoryData] ="productCategoryData" 
+                [durationDescData] ="durationDescData"
+                [productTypeData] ="productTypeData" 
+                [confirmDataParam] ="confirmDataParam" 
+                [confirmDataParamAll] ="confirmDataParamAll"
+                [payingCurrencyData] ="payingCurrencyData" 
+                [fastTrackOptionsData] ="fastTrackOptionsData"
+                [isReadOnlyTraderasLtr] ="isReadOnlyTraderasLtr" 
+                (productTypeEvent)="product_origin_id=$event"
+                [zonesData] ="zonesData" [section_id] ="section_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"  [atc_code_id] ="atc_code_id" 
+                
+                [targetSpeciesData]="targetSpeciesData"
+                [prodclass_category_id] ="prodclass_category_id" 
+                 [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+                </app-drugs-productsdetails>  
+             </div>
+             <div class="col-lg-12 no-padding" *ngIf="prodclass_category_id == 2 || prodclass_category_id == 10 || prodclass_category_id == 15  || prodclass_category_id == 16   || prodclass_category_id == 17 || prodclass_category_id == 10">
+              <app-cosmetics-productsdetails  
+                [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                [assessmentProcedureData] ="assessmentProcedureData"  
+                [classificationData] ="classificationData"  
+                [commonNamesData] ="commonNamesData"  
+                [siUnitsData] ="siUnitsData"  
+                [distributionCategoryData] ="distributionCategoryData"  
+                [productFormData] ="productFormData" 
+                [methodOfUseData] ="methodOfUseData"  
+                [productAppliedData] = "productAppliedData"
+                [pestCideData] ="pestCideData"
+                [whoHazardClassData] = "whoHazardClassData"
+                [formulationData] ="formulationData"
+                [intendedEndUserData] ="intendedEndUserData"  
+                [productSubCategoryData] ="productSubCategoryData"  
+                [productSpecialCategoryData] ="productSpecialCategoryData"
+                [devicesTypeData] ="devicesTypeData" 
+                [storageConditionData] ="storageConditionData" 
+                [dosageFormsData] ="dosageFormsData" 
+                [routeOfAdministrationData] ="routeOfAdministrationData"
+                [productCategoryData] ="productCategoryData" 
+                [durationDescData] ="durationDescData"
+                [productTypeData] ="productTypeData" 
+                [confirmDataParam] ="confirmDataParam" 
+                [payingCurrencyData] ="payingCurrencyData" 
+                [fastTrackOptionsData] ="fastTrackOptionsData" 
+                (productTypeEvent)="product_origin_id=$event"
+                [zonesData] ="zonesData" [section_id] ="section_id"  [atc_code_id] ="atc_code_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"   [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+
+              </app-cosmetics-productsdetails>
+            </div>
+            <div class="col-lg-12 no-padding" *ngIf="prodclass_category == 4">
+              <app-medicaldevices-productsdetails  
+                [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                [assessmentProcedureData] ="assessmentProcedureData"  
+                [classificationData] ="classificationData"  
+                [commonNamesData] ="commonNamesData"  
+                [siUnitsData] ="siUnitsData"  
+                [distributionCategoryData] ="distributionCategoryData"  
+                [productFormData] ="productFormData" 
+                [methodOfUseData] ="methodOfUseData"  
+                [intendedEndUserData] ="intendedEndUserData"  
+                [productSubCategoryData] ="productSubCategoryData"  
+                [productSpecialCategoryData] ="productSpecialCategoryData"
+                [devicesTypeData] ="devicesTypeData" 
+                [storageConditionData] ="storageConditionData" 
+                [dosageFormsData] ="dosageFormsData" 
+                [routeOfAdministrationData] ="routeOfAdministrationData"
+                [productCategoryData] ="productCategoryData" 
+                [durationDescData] ="durationDescData"
+                [productTypeData] ="productTypeData" 
+                [confirmDataParam] ="confirmDataParam" 
+                [payingCurrencyData] ="payingCurrencyData" 
+                [fastTrackOptionsData] ="fastTrackOptionsData" 
+                [gmdnCategoryData] ="gmdnCategoryData" 
+
+                [isReadOnlyTraderasLtr] ="isReadOnlyTraderasLtr" 
+                
+                [prodclass_category_id] ="prodclass_category_id" 
+                (productTypeEvent)="product_origin_id=$event"
+                [zonesData] ="zonesData" [section_id] ="section_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"   [atc_code_id] ="atc_code_id"  [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+              </app-medicaldevices-productsdetails>
+          </div>
+            <div class="col-lg-12 div-footer">
+  
+                <dx-button
+                  text="Ammendements/Variation Request"
+                  type="default"
+                  icon="fa fa-save"
+                  [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                  (onClick)="onSavedrugRenAltProductApplication()">
+              </dx-button>
+          
+              
+                <button (click)="onProductDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                  class="fa fa-dashboard"></i>
+                &nbsp; Dashboard</button>
+            </div>
+          
+        </wizard-step>
+        <wizard-step stepTitle="Ammendements/Variation Request" class="wizardStep-height">
+          <div class="row wizard-content">
+              <app-application-variation-details [prodclass_category_id] ="prodclass_category_id"  [section_id] ="section_id"  [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+      
+              </app-application-variation-details>
+
+          </div>
+          <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+              <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+                  class="fa fa-angle-double-left"></i>Previous
+                </button>
+              <button type="button" class="btn btn-primary" (click)="funcValidateApplicationVariationDetails(2)">Next Application Submission &nbsp;<i class="fa fa-angle-double-right"></i></button>
+            </div>
+      </wizard-step>  
+
+        <wizard-step stepTitle="Submission">
+            <form [formGroup]="onApplicationSubmissionFrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onProductApplicationSubmit()">
+              <div class="col-lg-12">
+                  <b><h4>Declaration</h4></b>
+                  <ul>
+                      <li *ngFor="let guide of terms_conditions;">
+                          <p>{{guide.no}} {{guide.term_conditiondetails}}</p>
+                      </li>
+                  </ul>
+              </div>
+              <div class="col-lg-4"  *ngIf="sub_module_id === 7 || sub_module_id === 8  || sub_module_id === 9">
+                  <label>Fast Track Option Process</label>
+                  <dx-select-box [dataSource]="fastTrackOptionsData" valueExpr="id" displayExpr="name"
+                    placeholder="Select Fast Track" [searchEnabled]="true" formControlName="is_fast_track">
+                  </dx-select-box>
+                </div>
+                <div class="col-lg-4"  *ngIf="sub_module_id === 7 || sub_module_id === 8  || sub_module_id === 9">
+                  <label>Payment Currency(The payment will be based in USD/Tshs)</label>
+                  <dx-select-box [dataSource]="payingCurrencyData"  valueExpr="id" displayExpr="name"
+                    placeholder="Select Paying Currency" [searchEnabled]="true" formControlName="paying_currency_id">
+                  </dx-select-box>
+                </div>
+              <div class="col-lg-12">
+                <b> <h4>Submission Comments(Optional)</h4></b>
+                  <dx-text-area formControlName="submission_comments" placeholder="Enter Comments(optional)"></dx-text-area>
+              </div>
+              <div class="col-lg-12">
+                <dx-check-box text="Agree to the Declaration" [value]="undefined" (onValueChanged)="newProductTermscheckbox($event)">
+                </dx-check-box>
+              </div>
+      
+              <div class="wizard-divbottom">
+                <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                <app-invoice-appgeneration  [onApplicationSubmissionFrm] ="onApplicationSubmissionFrm" [module_id] ="module_id"  [status_id] ="status_id" [application_code]="application_code" ></app-invoice-appgeneration>
+                <button class="btn btn-primary" type="button" [disabled]="!checkProductsSubmission" (click)="onProductApplicationSubmit()">Submit
+                  Product Application</button>
+              </div>
+</form>
+        </wizard-step>
+      </wizard>
+  
+    </div>
+  </div>
+  
+  
+  <dx-popup class="popup" [width]="1050" [height]="450" [showTitle]="true" title="Registered Product Applications" [dragEnabled]="false"
+    [closeOnOutsideClick]="true" [(visible)]="isRegisteredProductsWinshow">
+    <div *dxTemplate="let data of 'content'" class="row">
+        <dx-data-grid class="table row-border hover" [dataSource]="registeredProductsData" keyExpr="id" >
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+  
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+  
+            <dxo-export [enabled]="true" fileName="registeredProducts" [allowExportSelectedData]="true"></dxo-export>
+  
+            <dxo-selection mode="multiple"></dxo-selection>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column dataField="local_agent"></dxi-column>
+            <dxi-column caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+              cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                  <a (click)="funSelectRegisteredProdcustsApp(data)"><i class="fa fa-edit"></i>Select</a>&nbsp;
+                </div>
+            </dxi-column>
+            <dxi-column dataField="brand_name"></dxi-column>
+            <dxi-column dataField="common_name"></dxi-column>
+            <dxi-column dataField="classification_name"></dxi-column>
+            <dxi-column dataField="certificate_no"></dxi-column>
+            <dxi-column dataField="expiry_date"></dxi-column>
+            <dxi-column dataField="applicant_name" caption="Registrant"></dxi-column>
+           
+            
+            <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+          </dx-data-grid>
+  
+    </div>
+  
+  </dx-popup>
+  
+<dx-popup  class="popup" [width]="funcpopWidth(80)"  [height]="850" [showTitle]="true" title="Application Registration Query Response"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isInitalQueryResponseFrmVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+
+<wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+    <wizard-step stepTitle="Product Application Queries" class="wizardStep-height">
+
+        <div class="col-lg-12 wizard-content">
+            <form role="form" class="row" style="background:#fff;" enctype="multipart/form-data" role="form" [formGroup]="initqueryresponsefrm"
+            (ngSubmit)="onSaveinitqueryresponse()">
+            <div class="col-lg-12">
+              <label>Query</label>
+              
+              <dx-html-editor [height]="200" readOnly ="true"  formControlName="queries_remarks"  placeholder="Query">
+                <dxo-toolbar>
+                    <dxi-item formatName="separator"></dxi-item>
+                    <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                    <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                    <dxi-item formatName="separator"></dxi-item>
+                    <dxi-item formatName="bold"></dxi-item>
+                    <dxi-item formatName="italic"></dxi-item>
+                   
+                    <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                    <dxi-item formatName="separator"></dxi-item>
+                    <dxi-item formatName="orderedList"></dxi-item>
+                    <dxi-item formatName="bulletList"></dxi-item>
+                    <dxi-item formatName="separator"></dxi-item>
+                    <dxi-item formatName="color"></dxi-item>
+                    <dxi-item formatName="link"></dxi-item>
+                    <dxi-item formatName="image"></dxi-item>
+                    <dxi-item formatName="separator"></dxi-item>
+                    <dxi-item formatName="clear"></dxi-item>
+                </dxo-toolbar>
+                <dxo-media-resizing
+                    [enabled]=true>
+                </dxo-media-resizing>
+                
+            </dx-html-editor>
+            </div>
+            <div class="col-lg-12">
+              <label>Query Response</label>
+              
+              <dx-html-editor [height]="200"  formControlName="response_txt"  placeholder="Query Response">
+                <dxo-toolbar>
+                    <dxi-item formatName="separator"></dxi-item>
+                    <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                    <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                    <dxi-item formatName="separator"></dxi-item>
+                    <dxi-item formatName="bold"></dxi-item>
+                    <dxi-item formatName="italic"></dxi-item>
+                   
+                    <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                    <dxi-item formatName="separator"></dxi-item>
+                    <dxi-item formatName="orderedList"></dxi-item>
+                    <dxi-item formatName="bulletList"></dxi-item>
+                    <dxi-item formatName="separator"></dxi-item>
+                    <dxi-item formatName="color"></dxi-item>
+                    <dxi-item formatName="link"></dxi-item>
+                    <dxi-item formatName="image"></dxi-item>
+                    <dxi-item formatName="separator"></dxi-item>
+                    <dxi-item formatName="clear"></dxi-item>
+                </dxo-toolbar>
+                <dxo-media-resizing
+                    [enabled]=true>
+                </dxo-media-resizing>
+                
+            </dx-html-editor>
+            </div>
+            <input type="hidden" formControlName="id"/>
+            
+        <input type="hidden" formControlName="query_id"/>
+          </form>
+        
+          </div>
+          <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+            <button type="button"  [disabled]="!query_id"  class="btn btn-primary  pull-right" nextStep>Next(Product Application Information) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+
+              <dx-button text="Save Response" [disabled]="!query_id" (onClick)="onSaveinitqueryresponse()"
+                type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+              </dx-button>
+              <dx-button text="Download Query Letter" (onClick)="funcDownloadUploadedDoc()" type="success" icon="download" [elementAttr]="{ class:'btn btn-primary; pull-right'}">
+              </dx-button>
+          </div>
+    </wizard-step>
+    <wizard-step stepTitle="Product General Details" class="wizardStep-height">
+      <div class="col-lg-12 wizard-content">
+           <div class="col-lg-12 no-padding" *ngIf="prodclass_category == 5 || prodclass_category_id == 9 || prodclass_category_id == 13 || prodclass_category_id == 14  || prodclass_category_id == 18">
+            <app-food-productsdetails  
+              [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+              [assessmentProcedureData] ="assessmentProcedureData"  
+              [classificationData] ="classificationData"  
+              [commonNamesData] ="commonNamesData"  
+              [siUnitsData] ="siUnitsData"  
+              [distributionCategoryData] ="distributionCategoryData"  
+              [productFormData] ="productFormData" 
+              [methodOfUseData] ="methodOfUseData"
+              [tabaccoFlavourData] = "tabaccoFlavourData"  
+              [intendedEndUserData] ="intendedEndUserData"  
+              [productSubCategoryData] ="productSubCategoryData"  
+              [productSpecialCategoryData] ="productSpecialCategoryData"
+              [devicesTypeData] ="devicesTypeData" 
+              [storageConditionData] ="storageConditionData" 
+              [dosageFormsData] ="dosageFormsData" 
+              [routeOfAdministrationData] ="routeOfAdministrationData"
+              [productCategoryData] ="productCategoryData" 
+              [durationDescData] ="durationDescData"
+              [productTypeData] ="productTypeData" 
+              [confirmDataParam] ="confirmDataParam" 
+              [payingCurrencyData] ="payingCurrencyData" 
+              [fastTrackOptionsData] ="fastTrackOptionsData" 
+              (productTypeEvent)="product_origin_id=$event"
+              [zonesData] ="zonesData" [section_id] ="section_id"  [atc_code_id] ="atc_code_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"   [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+            </app-food-productsdetails>
+        </div>
+        <div class="col-lg-12 no-padding" *ngIf="prodclass_category_id == 1  || prodclass_category_id == 8 || prodclass_category_id == 11 || prodclass_category_id == 12">
+            <app-drugs-productsdetails  
+              [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+              [assessmentProcedureData] ="assessmentProcedureData"  
+              [classificationData] ="classificationData"  
+              [commonNamesData] ="commonNamesData"  
+              [siUnitsData] ="siUnitsData"  
+              [distributionCategoryData] ="distributionCategoryData"  
+              [productFormData] ="productFormData" 
+              [methodOfUseData] ="methodOfUseData"  
+              [intendedEndUserData] ="intendedEndUserData"  
+              [productSubCategoryData] ="productSubCategoryData"  
+              [productSpecialCategoryData] ="productSpecialCategoryData"
+              [devicesTypeData] ="devicesTypeData" 
+              [storageConditionData] ="storageConditionData" 
+              [gmdnCategoryData] ="gmdnCategoryData"
+              [dosageFormsData] ="dosageFormsData" 
+              [routeOfAdministrationData] ="routeOfAdministrationData"
+              [reasonForClassificationData] ="reasonForClassificationData"
+              [productCategoryData] ="productCategoryData" 
+              [durationDescData] ="durationDescData"
+              [productTypeData] ="productTypeData" 
+              [confirmDataParam] ="confirmDataParam" 
+              [confirmDataParamAll] ="confirmDataParamAll"
+              [payingCurrencyData] ="payingCurrencyData" 
+              [fastTrackOptionsData] ="fastTrackOptionsData" 
+              [isReadOnlyTraderasLtr] ="isReadOnlyTraderasLtr" 
+              [prodclass_category_id] ="prodclass_category_id" 
+              [isReadOnlyTraderasLtr] ="isReadOnlyTraderasLtr" 
+              (productTypeEvent)="product_origin_id=$event"
+              [targetSpeciesData]="targetSpeciesData"
+              [zonesData] ="zonesData" [section_id] ="section_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id" [atc_code_id] ="atc_code_id"  [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+            </app-drugs-productsdetails>
+        </div>
+        <div class="col-lg-12 no-padding" *ngIf="prodclass_category_id == 2 || prodclass_category_id == 10 || prodclass_category_id == 15  || prodclass_category_id == 16   || prodclass_category_id == 17 || prodclass_category_id == 10">
+              <app-cosmetics-productsdetails  
+                [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                [assessmentProcedureData] ="assessmentProcedureData"  
+                [classificationData] ="classificationData"  
+                [commonNamesData] ="commonNamesData"  
+                [siUnitsData] ="siUnitsData"  
+                [distributionCategoryData] ="distributionCategoryData"  
+                [productFormData] ="productFormData" 
+                [methodOfUseData] ="methodOfUseData"  
+                [productAppliedData] = "productAppliedData"
+                [pestCideData] ="pestCideData"
+                [whoHazardClassData] = "whoHazardClassData"
+                [formulationData] ="formulationData"
+                [intendedEndUserData] ="intendedEndUserData"  
+                [productSubCategoryData] ="productSubCategoryData"  
+                [productSpecialCategoryData] ="productSpecialCategoryData"
+                [devicesTypeData] ="devicesTypeData" 
+                [storageConditionData] ="storageConditionData" 
+                [dosageFormsData] ="dosageFormsData" 
+                [routeOfAdministrationData] ="routeOfAdministrationData"
+                [productCategoryData] ="productCategoryData" 
+                [durationDescData] ="durationDescData"
+                [productTypeData] ="productTypeData" 
+                [confirmDataParam] ="confirmDataParam" 
+                [payingCurrencyData] ="payingCurrencyData" 
+                [fastTrackOptionsData] ="fastTrackOptionsData" 
+                (productTypeEvent)="product_origin_id=$event"
+                [zonesData] ="zonesData" [section_id] ="section_id"  [atc_code_id] ="atc_code_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"   [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+              </app-cosmetics-productsdetails>
+          </div>
+          <div class="col-lg-12 no-padding" *ngIf="prodclass_category_id == 4">
+              <app-medicaldevices-productsdetails  
+                [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+                [assessmentProcedureData] ="assessmentProcedureData"  
+                [classificationData] ="classificationData"  
+                [commonNamesData] ="commonNamesData"  
+                [siUnitsData] ="siUnitsData"  
+                [distributionCategoryData] ="distributionCategoryData"  
+                [productFormData] ="productFormData" 
+                [methodOfUseData] ="methodOfUseData"  
+                [intendedEndUserData] ="intendedEndUserData"  
+                [productSubCategoryData] ="productSubCategoryData"  
+                [productSpecialCategoryData] ="productSpecialCategoryData"
+                [devicesTypeData] ="devicesTypeData" 
+                [storageConditionData] ="storageConditionData" 
+                [dosageFormsData] ="dosageFormsData" 
+                [routeOfAdministrationData] ="routeOfAdministrationData"
+                [productCategoryData] ="productCategoryData" 
+                [durationDescData] ="durationDescData"
+                [productTypeData] ="productTypeData" 
+                [confirmDataParam] ="confirmDataParam" 
+                [payingCurrencyData] ="payingCurrencyData" 
+                [fastTrackOptionsData] ="fastTrackOptionsData" 
+                [gmdnCategoryData] ="gmdnCategoryData" 
+                [isReadOnlyTraderasLtr] ="isReadOnlyTraderasLtr" 
+                [prodclass_category_id] ="prodclass_category_id" 
+                (productTypeEvent)="product_origin_id=$event"
+                [zonesData] ="zonesData" [section_id] ="section_id"  [tra_product_id] ="tra_product_id" [reg_product_id] ="reg_product_id"   [atc_code_id] ="atc_code_id"  [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+              </app-medicaldevices-productsdetails>
+            </div>
+          <dx-button
+              text="Save product Application"
+              [disabled]="!productGeneraldetailsfrm.valid"
+              type="default"
+              icon="fa fa-save"
+              [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+              (onClick)="onSavedrugProductApplication()">
+          </dx-button>
+
+        </div>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+
+            <button type="button"   class="btn btn-primary  pull-right" nextStep>Next&nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+        </div>
+  </wizard-step>
+  <wizard-step stepTitle="Product Other Details" class="wizardStep-height">
+        <div class="col-lg-12 wizard-content " *ngIf="prodclass_category_id == 5
+         || prodclass_category_id == 9 || prodclass_category_id == 13 
+         || prodclass_category_id == 14  || prodclass_category_id == 18">
+                <app-food-dataproducts
+                  [productIngredientsdetailsfrm] ="productIngredientsdetailsfrm"  
+                  [productNutrientsdetailsfrm] ="productNutrientsdetailsfrm"  
+                  [productapimanufacturingSiteFrm] ="productapimanufacturingSiteFrm"  
+                  [productmanufacturingSiteFrm] ="productmanufacturingSiteFrm"  
+                  [manufacturingSiteFrm] ="manufacturingSiteFrm"  
+                  [productPackagingdetailsfrm] ="productPackagingdetailsfrm"  
+                  [drugsingredientsData] ="drugsingredientsData" 
+                  [drugsPackagingData] ="drugsPackagingData" 
+                  [productManufacturersData] ="productManufacturersData" 
+                  [manufacturersSiteData] ="manufacturersSiteData" 
+                  [tradergmpInspectionData] ="tradergmpInspectionData" 
+                  [apiManufacturersData] ="apiManufacturersData" 
+                  [productgmpInspectionData] ="productgmpInspectionData" 
+                  [product_id] ="product_id" [section_id] ="section_id"  [isReadOnly] ="isReadOnly" [module_id] ="module_id" [status_id] ="status_id"  [product_origin_id] ="product_origin_id"  [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+              </app-food-dataproducts>
+          </div>
+        <div class="col-lg-12 wizard-content " *ngIf="prodclass_category_id == 1
+         || prodclass_category_id == 8 || prodclass_category_id == 11 
+         || prodclass_category_id == 12">
+            <app-drugs-dataproducts  
+            [productIngredientsdetailsfrm] ="productIngredientsdetailsfrm"  
+            [productNutrientsdetailsfrm] ="productNutrientsdetailsfrm"  
+            [productapimanufacturingSiteFrm] ="productapimanufacturingSiteFrm"  
+            [productmanufacturingSiteFrm] ="productmanufacturingSiteFrm"  
+            [manufacturingSiteFrm] ="manufacturingSiteFrm"  
+            [productPackagingdetailsfrm] ="productPackagingdetailsfrm"  
+            [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+            [drugsingredientsData] ="drugsingredientsData" 
+            [drugsPackagingData] ="drugsPackagingData" 
+            [productManufacturersData] ="productManufacturersData" 
+            [manufacturersSiteData] ="manufacturersSiteData" 
+            [tradergmpInspectionData] ="tradergmpInspectionData" 
+            [productIngredientsModal] = "productIngredientsModal"
+            [apiManufacturersData] ="apiManufacturersData" 
+            [productgmpInspectionData] ="productgmpInspectionData" 
+            [product_id] ="product_id" [section_id] ="section_id"    [isReadOnly] ="isReadOnly" [status_id] ="status_id"  [product_origin_id] ="product_origin_id"   [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+            </app-drugs-dataproducts>
+          </div>
+          <div class="col-lg-12 wizard-content " *ngIf="prodclass_category_id == 2 || prodclass_category_id == 10 || prodclass_category_id == 15  || prodclass_category_id == 16   || prodclass_category_id == 17
+         || prodclass_category_id == 10">
+            <app-cosmetics-dataproducts 
+              [productIngredientsdetailsfrm] ="productIngredientsdetailsfrm"  
+              [productNutrientsdetailsfrm] ="productNutrientsdetailsfrm"  
+              [productapimanufacturingSiteFrm] ="productapimanufacturingSiteFrm"
+              [productmanufacturingSiteFrm] ="productmanufacturingSiteFrm"  
+              [manufacturingSiteFrm] ="manufacturingSiteFrm"  
+              [productPackagingdetailsfrm] ="productPackagingdetailsfrm"  
+              [drugsingredientsData] ="drugsingredientsData" 
+              [drugsPackagingData] ="drugsPackagingData" 
+              [productManufacturersData] ="productManufacturersData" 
+              [manufacturersSiteData] ="manufacturersSiteData" 
+              [tradergmpInspectionData] ="tradergmpInspectionData" 
+              [apiManufacturersData] ="apiManufacturersData" 
+              [productgmpInspectionData] ="productgmpInspectionData" 
+              [product_id] ="product_id"  [section_id] ="section_id"  [product_origin_id] ="product_origin_id" [module_id] ="module_id"  [module_id] ="module_id" [status_id] ="status_id" [isReadOnly] ="isReadOnly" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+              </app-cosmetics-dataproducts>
+          </div>
+          <div class="col-lg-12 wizard-content " *ngIf="prodclass_category_id == 4">
+            <app-medicaldevice-dataproducts 
+                [productIngredientsdetailsfrm] ="productIngredientsdetailsfrm"  
+                [productGeneraldetailsfrm] ="productGeneraldetailsfrm" 
+                [productNutrientsdetailsfrm] ="productNutrientsdetailsfrm"  
+                [productapimanufacturingSiteFrm] ="productapimanufacturingSiteFrm"
+                [productmanufacturingSiteFrm] ="productmanufacturingSiteFrm"  
+                [manufacturingSiteFrm] ="manufacturingSiteFrm"  
+                [productPackagingdetailsfrm] ="productPackagingdetailsfrm"  
+                [drugsingredientsData] ="drugsingredientsData" 
+                [drugsPackagingData] ="drugsPackagingData" 
+                [productManufacturersData] ="productManufacturersData" 
+                [manufacturersSiteData] ="manufacturersSiteData" 
+                [tradergmpInspectionData] ="tradergmpInspectionData" 
+                [apiManufacturersData] ="apiManufacturersData" 
+                [productgmpInspectionData] ="productgmpInspectionData" 
+                [product_id] ="product_id" [section_id] ="section_id"  [isReadOnly] ="isReadOnly" [module_id] ="module_id" [status_id] ="status_id"  [product_origin_id] ="product_origin_id"  [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+            </app-medicaldevice-dataproducts>
+          </div>
+      <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+
+          <button type="button"   class="btn btn-primary  pull-right" nextStep>Next&nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+      </div>
+</wizard-step>
+<wizard-step stepTitle="Ammendements/Variation Request" class="wizardStep-height">
+  <div class="row wizard-content">
+      <app-application-variation-details [prodclass_category_id] ="prodclass_category_id"  [section_id] ="section_id"  [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+
+      </app-application-variation-details>
+
+  </div>
+  <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+      <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+          class="fa fa-angle-double-left"></i>Previous
+      </button>
+      <button type="button" class="btn btn-primary" (click)="onFUncCloseQueryWindow()">Next
+        Query List <i class="fa fa-angle-double-right"></i></button>
+    </div>
+</wizard-step> 
+
+   
+</wizard>
+</dx-scroll-view>
+
+</div>
+</dx-popup>
+
+  <dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+      <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+  </div>
+</dx-popup>

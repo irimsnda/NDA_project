@@ -1,0 +1,43 @@
+<div class="row  ">
+  [dtTrigger]="dtTrigger"   --
+    <div class="col-lg-12 div-backwhite no-padding">
+     
+      <dx-data-grid class="table row-border hover" (onToolbarPreparing)="onProductsesappsToolbarPreparing($event)" [dataSource]="assignedApplicationsAssignmentsData"
+        [showBorders]="true"[showRowLines] = "true"  [allowColumnResizing]="true"  [columnHidingEnabled]="true"  keyExpr="id">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-load-panel [enabled]="true">
+        </dxo-load-panel>
+        <dxo-paging [enabled]="false">
+        </dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20,50,100]" [showNavigationButtons]="true" [showInfo]="true"
+          infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-export [enabled]="true" fileName="Assigned Tasks" [allowExportSelectedData]="true"></dxo-export>
+  
+        <dxo-selection mode="single"></dxo-selection>
+        <dxi-column [width]=150 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+          cellTemplate="cellTemplateSingle">
+          <div *dxTemplate="let d of 'cellTemplateSingle'">
+              <a (click)="singleApplicationActionColClick(d.data)" style="float:pull-right;" class="action-btn"><i class="{{d.data.iconCls}}"></i>Proceed with Assignement</a>&nbsp;
+          </div>
+        </dxi-column>
+       
+        <dxi-column  dataField="tracking_no"></dxi-column>
+        
+        <dxi-column  dataField="reference_no"></dxi-column>
+        <dxi-column dataField="applicant_name"></dxi-column>
+        <dxi-column [groupIndex]="0" dataField="module_name"></dxi-column>
+        <dxi-column  dataField="application_type"></dxi-column>
+        <dxi-column dataField="application_status"></dxi-column>
+        <dxi-column [groupIndex]="1" [allowFiltering]="false" dataField="assigned_process"></dxi-column>
+        <dxi-column  [allowFiltering]="false" dataField="assigned_on"></dxi-column>
+        <dxi-column  [allowFiltering]="false" dataField="assigned_by"></dxi-column>
+        <dxi-column  [allowFiltering]="false" dataField="remarks"></dxi-column>
+        <dxi-column  [allowFiltering]="false" dataField="expected_enddate"></dxi-column>
+        <dxi-column  [allowFiltering]="false" dataField="time_span"></dxi-column>
+          <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+      </dx-data-grid>
+    </div>
+  </div>

@@ -1,0 +1,17 @@
+{
+    "Administration": true,
+    "Authentication": true,
+    "Configurations": true,
+    "Bloodproductsapps": true,
+    "ClinicalTrials": true,
+    "DocumentManagement": true,
+    "Gmpinspection": true,
+    "ImportExportApp": true,
+    "PremisesRegistration": true,
+    "ProductRegistration": true,
+    "Promotionadverts": true,
+    "PublicAccess": true,
+    "Reports": true,
+    "TraderManagement": true,
+    "Utilities": true
+}
