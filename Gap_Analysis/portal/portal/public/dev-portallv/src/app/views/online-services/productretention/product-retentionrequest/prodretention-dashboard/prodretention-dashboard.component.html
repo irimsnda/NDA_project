@@ -1,0 +1,156 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Market Authorisation Annual Retention Fees </h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active">Market Authorisation Annual Retention Fees </li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4 div-nopadding">
+    <div class="card-box noradius noborder bg-warning ">
+      <i class="fa fa-question-circle float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Pending Submission Request(s)</h6>
+      <h1 class="m-b-20 text-white counter">{{pending_submission}}</h1>
+      <a class="reg_routerlink" (click) ="onLoadProductretentionRequests({application_status_id:'1'})"><span>View Pending Request Annual Retention Fees</span></a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4 div-nopadding">
+    <div class="card-box noradius noborder bg-info ">
+      <i class="fa fa-question-circle float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Request for Additional Information</h6>
+      <h1 class="m-b-20 text-white counter">{{queried_products}}</h1>
+      <a class="reg_routerlink" (click) ="onLoadProductretentionRequests({application_status_id:'17,6,7,8'})"><span>View Queried Annual Retention Fees</span></a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4 div-nopadding">
+    <div class="card-box noradius noborder bg-default">
+      <i class="fa fa-file-text-o float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Approved Annual Retention Fees</h6>
+      <h1 class="m-b-20 text-white counter">{{approved_products}}</h1>
+      <a class="reg_routerlink" (click) ="onLoadProductretentionRequests({application_status_id:10})"><span>View Approved Annual Retention Fees</span></a>
+    </div>
+  </div>
+
+</div>
+
+<div class=" row">
+  <dx-button 
+    text="Help & Guidelines"
+    type="normal"
+    stylingMode="outlined"
+    [width]="150"
+    icon="fa fa-question-circle"
+    (onClick)="onClickSubModulehelpGuidelines()">
+  </dx-button>  
+  <dx-button 
+  text="On Initiate Annual Retention Requests(Annual Retention Fees)"
+ type="default"
+  icon="fa fa-plus"
+  [elementAttr]="{ id: 'retentionDiv', class: 'col-lg-3' }"
+  (onClick)="onClickInitiateNewRetentionRequest()">
+</dx-button>  
+</div>
+
+
+<div class="row  ">
+  <!--[dtTrigger]="dtTrigger"   -->
+  <div class="col-lg-12 div-backwhite no-padding">
+    
+        <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="FilterDetailsFrm">
+            
+              <div class="col-lg-3">
+                  <dx-select-box  [dataSource]="applicationStatusData" valueExpr="id" displayExpr="name" 
+                  (onSelectionChanged)="onSelectProdutFilters($event)" [searchEnabled]="true" placeholder="Select Status" formControlName="application_status_id">
+                  </dx-select-box>
+              </div>
+              <div class="col-lg-3">
+                  <dx-button
+                    text="Clear Filter"
+                    type="default"
+                    icon="fa fa-eraser"
+                    [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                    (onClick)="onClearProdutFilters()">
+                </dx-button>
+
+              </div>
+        </form>
+   
+    <dx-data-grid class="table row-border hover" (onToolbarPreparing)="onProductsesappsToolbarPreparing($event)" [dataSource]="dtProductApplicationData"
+      [showBorders]="true"[showRowLines] = "true"  [allowColumnResizing]="true"  [columnHidingEnabled]="true"  keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-load-panel [enabled]="true">
+      </dxo-load-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20,50,100]" [showNavigationButtons]="true" [showInfo]="true"
+        infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-export [enabled]="true" fileName="ProductApplications" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="single"></dxo-selection>
+      <dxi-column [width]=125 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplateSingle">
+      <div *dxTemplate="let d of 'cellTemplateSingle'">
+          <a (click)="singleApplicationActionColClick(d.data)" style="float:pull-right;" class="action-btn"><i class="{{d.data.iconCls}}"></i>{{d.data.action_name}}</a>&nbsp;
+      </div>
+    </dxi-column>
+      <dxi-column [width]=100 caption="Other Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let d of 'cellTemplate'">
+          <dx-menu [items]="d.data.contextMenu" displayExpr="text" orientation="horizontal" [hideSubmenuOnMouseLeave]="false"
+            (onItemClick)="prodApplicationActionColClick($event,d)" submenuDirection="rightToTop">
+          </dx-menu>
+        </div>
+      </dxi-column>
+      <dxi-column  dataField="tracking_no"></dxi-column>
+      <dxi-column  [groupIndex]="0" dataField="status"></dxi-column>
+      <dxi-column  dataField="reference_no"></dxi-column>
+      <dxi-column dataField="applicant_name"></dxi-column>
+      <dxi-column  dataField="retention_year" caption="Retention Year"></dxi-column>
+      <dxi-column  dataField="requested_on"></dxi-column>
+      <dxi-column   dataField="remarks"></dxi-column>
+      <dxi-column  [allowFiltering]="false" dataField="date_added"></dxi-column>
+          <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid>
+  </div>
+</div>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="{{guidelines_title}}"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="is_popupguidelines">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+  <app-application-processguidelines  [sub_module_id]="sub_module_id" [module_id]="module_id" [guidelines_title] ="guidelines_title">
+  </app-application-processguidelines>
+</dx-scroll-view>
+  </div>
+</dx-popup>
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="Preview Application Processing"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewApplicationProcessing">
+
+  <div *dxTemplate="let data of 'content'" style="background:#fff;">
+    <dx-scroll-view>
+      <div class="row" >
+            <div class="col-lg-4 div-processstage" *ngFor="let process of productApplicationProcessingData; let process_counter= index;">
+              
+            <div class="row col-lg-12" *ngIf="process.isDone == 1">
+                  <div class="complete_stage col-lg-2"></div> <div class="col-lg-6
+                   div-processstagelabel"> <label class="label-green">{{ process_counter}} </label> {{ process.current_stage}}   Processing Date:  {{ process.processing_date}} Process Status: <label class="label-green">{{ process.process_status}} </label></div>
+                  <div class="labelarrow col-lg-2"></div>
+            </div>
+            <div  class="row col-lg-12" *ngIf="process.isDone == 0">
+              <div class="pending col-lg-2"></div> <div class="col-lg-12 div-processstagelabel"> <label class="label-red">{{ process_counter}} </label> {{ process.current_stage}}   Processing Date:  {{ process.processing_date}} Process Status: <label class="label-red">{{ process.process_status}}</label> </div>
+            </div>
+          </div>
+      </div>
+    </dx-scroll-view>
+  </div>
+</dx-popup>

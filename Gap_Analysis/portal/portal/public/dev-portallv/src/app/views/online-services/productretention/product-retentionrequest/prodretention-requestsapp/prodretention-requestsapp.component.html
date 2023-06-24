@@ -1,0 +1,227 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Process: {{process_title}}</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active">Annual Marketing Authorisation Retention Requests(Annual Retention Fees)</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+  <div class="row">
+    <div class="col-lg-3">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+        Tracking No: <i> {{tracking_no}}</i> </label>
+    </div>
+    <div class="col-lg-2">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application Status:<i> {{status_name}}</i> </label>
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  
+  <div class="col-lg-12 div-nopadding">
+  <wizard style="background: #fff !important; height: 100% !important;">
+
+    <wizard-step stepTitle="Annual Marketing Authorisation Retention Requests" class="wizardStep-height">
+
+      <form role="form" enctype="multipart/form-data" role="form" [formGroup]="retentionappGeneraldetailsfrm" (ngSubmit)="onSaveRenetionRequestApplication()">
+        <fieldset class="row scheduler-border">
+          <legend>{{process_title}} Details</legend>
+              
+          <div class="col-lg-12 ">
+            <label for="ti" class="control-label">Marketing Authorisation Retention Year</label>
+
+            <dx-select-box [dataSource]="retentionYearData" valueExpr="year" displayExpr="year" [searchEnabled]="true"
+              placeholder="Select Retention" formControlName="retention_year">
+            </dx-select-box>
+          </div>
+          
+        <div class="col-lg-12">
+          <label class="control-label">Remarks/Comments(Optional)</label>
+          <dx-text-area formControlName="remarks"  [readOnly]="is_readonly"  placeholder="Remarks/Comments(Optional)" >
+          </dx-text-area>
+        </div>
+            
+              
+          <div class="col-lg-4">
+            <input type="hidden" name="module_id" formControlName="module_id" />
+            <input type="hidden" name="sub_module_id" formControlName="sub_module_id" />
+            <input type="hidden" value={{application_code}} formControlName="application_code" />
+            <input type="hidden"  value={{application_id}} formControlName="application_id" />
+          </div>
+        </fieldset>
+        <div class="col-lg-12 div-footer">
+         
+          <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_code" 
+          nextStep type="button"><i class="fa fa-angle-double-right"></i>
+            &nbsp;Next Information</button>
+
+          <button type="submit" (submit)="onSaveRenetionRequestApplication()" awNextStep [disabled]="!retentionappGeneraldetailsfrm.valid"
+            class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+            Application</button>
+            <dx-button
+                text="Dashboard"
+                type="success"
+                icon="fa fa-eraser"
+                [elementAttr]="{  class: 'pull-left' }"
+                (onClick)="onApplicationDashboard()">
+            </dx-button>
+        </div>
+      </form>
+    </wizard-step>
+    <wizard-step stepTitle="Registered Product Details" class="wizardStep-height navigable" navigationSymbol="2" >
+        <div class="row wizard-content">
+          <dx-data-grid [dataSource]="retentionFeesProductsData" (onToolbarPreparing)="onRetentionApplicationProductGridToolbar($event)"  [allowColumnResizing]="true" [columnHidingEnabled]="false" 
+          [showBorders]="true">
+          <dxo-filter-row [visible]="false"></dxo-filter-row>
+          <dxo-search-panel [visible]="true">
+          </dxo-search-panel>
+          <dxo-paging [enabled]="true">
+          </dxo-paging>
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false"
+            [allowSorting]="false" cellTemplate="cellTemplate">
+            <div *dxTemplate="let data of 'cellTemplate'">
+              <a (click)="funcRemoveRetentionProductData(data)" style="float:pull-right;" class="action-btn"><i class="fa fa-trash"></i>Remove Product(Unlink Product)</a>
+            </div>
+          </dxi-column>
+          <dxi-column dataField="applicant_name" caption="Marketing Authorisation Holder"></dxi-column>
+          
+          <dxi-column dataField="brand_name" caption="Brand Name/Product Name"></dxi-column>
+         
+          <dxi-column dataField="common_name" caption="Generic Names"></dxi-column>
+          <dxi-column dataField="product_strength" caption="Product Strength"></dxi-column>
+          <dxi-column dataField="certificate_no" caption="Marketing Authorisation Number"></dxi-column>
+          <dxi-column dataField="expiry_date" caption="Expiry Date"></dxi-column>
+          <dxo-paging [enabled]="true">
+          </dxo-paging>
+      
+          <dxo-summary>
+            
+            <dxi-total-item
+                column="total_value"
+                summaryType="sum">
+            </dxi-total-item>
+        </dxo-summary>
+          <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+          </dxo-pager>
+          <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+        </dx-data-grid>
+
+        </div>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i class="fa fa-angle-double-left"></i>Previous
+           </button>
+          <button type="button" class="btn btn-primary" (click)="funcValidateRetentionProdDetails(2+initWizardPanel)">Next &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+    <wizard-step stepTitle="Safety Product Information Documents(Optional)" class="wizardStep-height">
+        <div class="row wizard-content">
+              
+          <app-application-documents [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+          
+        </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Previous
+            </button>
+          <button type="button" class="btn btn-primary" click="funcValidateDocumentsUpload(3+initWizardPanel)" nextStep>Next
+            Application Submission<i class="fa fa-angle-double-right"></i></button>
+
+          </div>
+      </wizard-step>
+      
+    <wizard-step stepTitle="Completion & Submission">
+  
+      <form [formGroup]="onApplicationSubmissionFrm" class="col-lg-12 row div-nopadding wizard-content" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onProdretentionApplicationSubmit()">
+      
+        
+        <div class="col-lg-12">
+          <b><label>Declaration</label></b>
+          <ul>
+              <p *ngFor="let guide of terms_conditions;">
+                <span>{{guide.no}} {{guide.term_conditiondetails}}</span>
+              </p>
+          </ul>
+      </div>
+            <div class="col-lg-12">
+              <b> <label>Submission Comments(Optional)</label></b>
+                <dx-text-area formControlName="submission_comments" placeholder="Enter Comments(optional)"></dx-text-area>
+            </div>
+              
+        <div class="col-lg-12">
+          <dx-check-box text="Agree to the Declaration" [value]="undefined">
+          </dx-check-box>
+        </div>
+
+        <div class="wizard-divbottom">
+          <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+          <app-invoice-appgeneration  [onApplicationSubmissionFrm] ="onApplicationSubmissionFrm" [sub_module_id] ="sub_module_id" [module_id] ="module_id" [status_id] ="status_id" [application_code]="application_code" [retentiongeration_request_id]="retentiongeration_request_id"></app-invoice-appgeneration>
+          
+          <button class="btn btn-primary" type="button" 
+            (click)="onProdretentionApplicationSubmit()">Submit 
+            Application</button>
+
+        </div>
+</form>
+    </wizard-step>
+  </wizard>
+  </div>
+
+
+
+</div>
+
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Registered Products" [dragEnabled]="false"
+  [closeOnOutsideClick]="false" [(visible)]="isregisteredproductsPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+    <div class="row no-padding">
+      <div class="col-lg-12 ">
+        <dx-data-grid [dataSource]="registeredProductsData"  [height]="500" [remoteOperations]='true'  [showBorders]="true">
+          <dxo-filter-row [visible]="false"></dxo-filter-row>
+          <dxo-search-panel [visible]="true">
+          </dxo-search-panel>
+          <dxo-paging [enabled]="true">
+          </dxo-paging>
+          <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+          </dxo-pager>
+          
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false"
+          [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+            <a (click)="funcSelectRegisteredProduct(data)"  class="action-btn" ><i class="fa fa-check"></i>Add Product for Retention</a>&nbsp;
+          </div>
+        </dxi-column>
+          <dxi-column dataField="applicant_name" caption="Marketing Authorisation Holder"></dxi-column>
+            
+          <dxi-column dataField="brand_name" caption="Brand Name/Product Name"></dxi-column>
+         
+          <dxi-column dataField="common_name" caption="Generic Names"></dxi-column>
+          <dxi-column dataField="product_strength" caption="Product Strength"></dxi-column>
+          <dxi-column dataField="certificate_no" caption="Marketing Authorisation Number"></dxi-column>
+          <dxi-column dataField="expiry_date" caption="Expiry Date"></dxi-column>
+          <dxi-column dataField="registration_status"  caption="Product Registration Status"></dxi-column>
+          <dxi-column dataField="validity_status"  caption="Validity Status"></dxi-column>
+
+          <dxo-paging [pageSize]="25"></dxo-paging> 
+          <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+
+        </dx-data-grid>
+      </div>
+      
+    </div>
+  </dx-scroll-view>
+  </div>
+</dx-popup>

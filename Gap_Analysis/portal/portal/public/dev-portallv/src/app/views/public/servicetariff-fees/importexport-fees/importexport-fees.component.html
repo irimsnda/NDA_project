@@ -1,0 +1,67 @@
+<div class="row no-padding">
+  <div class="col-lg-12 top-header">
+   Import/Export License Service fees
+  </div>
+ 
+  
+  <div class="col-lg-12 no-padding" style="min-height: 500px;background: #fff;">
+    <form role="form" enctype="multipart/form-data" role="form" [formGroup]="serviceChargesFilterFrm" (ngSubmit)="onSearchserviceCharges()">
+
+    <div class="row">
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Application Type</label>
+          <dx-select-box [dataSource]="applicationTypeData" formControlName="sub_module_id" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+            placeholder="Select Application Type" >
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Regulated Products/Defination</label>
+          <dx-select-box [dataSource]="regulatedProductTypesData"   (onSelectionChanged)="onregulatedProductTypesDataSelect($event)" formControlName="regulated_producttype_id" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+            placeholder="Select Regulated Products" >
+          </dx-select-box>
+        </div>
+        <div class="col-lg-4">
+          <label for="ti" class="control-label">Category</label>
+          <dx-select-box [dataSource]="sectionsDetailsData" formControlName="section_id" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+            placeholder="Select Category" >
+          </dx-select-box>
+        </div>
+      <div class="col-lg-12">
+        
+        <button type="button" (click)="onRestonSearchserviceCharges()"  class="btn btn-danger btn-round pull-right "><i class="fa fa-trash">
+            Clear</i></button>
+        <button type="submit" (submit)="onSearchserviceCharges()"  class="btn btn-primary btn-round pull-right "><i class="fa fa-search">
+            Search Service Fees & Charges</i></button>
+
+      </div>
+      
+    </div></form>
+    <dx-data-grid class="table row-border hover" [wordWrapEnabled]="true" [dataSource]="serviceFeesTaarrifsData" (onInitialized)="saveGridInstance($event)" [remoteOperations]='true'  [remoteOperations]='true'   [showBorders]="true" [allowColumnResizing]="true" [columnHidingEnabled]="false"  keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="false">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)"  [showPageSizeSelector]="true"
+      [allowedPageSizes]="[50,100,250]">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="registeredPremises" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column dataField="sub_process" caption="Application Type"></dxi-column>
+      <dxi-column dataField="section_name"  caption="Section Name"></dxi-column>
+      <dxi-column dataField="permit_use" caption="Permit Use"></dxi-column>
+      
+      <dxi-column  dataField="fee_types" caption="Fee Type"></dxi-column>
+      <dxi-column  dataField="cost_category" caption="Product details"></dxi-column>
+      <dxi-column dataField="cost_element" caption="Service Fee defination"></dxi-column>
+      <dxi-column dataField="element_cost" caption="Service Fee"></dxi-column>
+      
+      <dxo-paging [pageSize]="100"></dxo-paging>
+     
+    </dx-data-grid>
+  </div>
+
+
+</div>

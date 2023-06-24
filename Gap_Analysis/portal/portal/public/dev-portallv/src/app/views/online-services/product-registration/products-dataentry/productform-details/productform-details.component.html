@@ -1,0 +1,530 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="productGeneraldetailsfrm">
+        
+<div *ngIf="section_id == 2">
+    
+  <div class="row  wizard-content">
+    
+       <div class="col-lg-4"><label class="control-label">Brand Name/Device Name</label>
+           <dx-text-box formControlName="brand_name" placeholder="Enter Brand Name" [showClearButton]="true">
+           </dx-text-box></div>
+       <div class="col-lg-4 ">
+         <label for="ti" class="control-label">Classification</label>
+
+         <dx-select-box [dataSource]="classificationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Select Classification" formControlName="classification_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4 ">
+         <label for="ti" class="control-label">Generic Name</label>
+         
+         <dx-select-box [dataSource]="commonNamesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Select Common name" formControlName="common_name_id">
+         </dx-select-box>
+       </div>
+        <div class="col-lg-4 ">
+
+            <label for="ti" class="control-label">Therapeutic Group</label>
+              <dx-text-box formControlName="therapeutic_group" [readOnly]= "isReadOnly" [showClearButton]="true">
+              </dx-text-box>
+        </div>
+
+        <div class="col-lg-4 ">
+          <label for="ti" class="control-label">Therapeutic Code</label>
+            <dx-text-box formControlName="therapeutic_code" [readOnly]= "isReadOnly" [showClearButton]="true">
+            </dx-text-box>
+        </div>
+
+       <div class="col-lg-4" style="margin:1px;">
+
+         <label class="control-label">Product Strength</label>
+         <dx-text-box formControlName="product_strength" placeholder="Product Strength" [showClearButton]="true">
+         </dx-text-box>
+       </div>
+       <div class="col-lg-4">
+         <label class="control-label">Strength SI-Units</label>
+        
+         <dx-select-box [dataSource]="siUnitsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Strength SI-Units" formControlName="si_unit_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4">
+         <label class="control-label">Distribution Category</label>
+       
+         <dx-select-box [dataSource]="distributionCategoryData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Strength Distribution Category" formControlName="distribution_category_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4">
+         <label class="control-label">Storage Conditions</label>
+        
+         <dx-select-box [dataSource]="storageConditionData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Strength  Storage Conditions" formControlName="storage_condition_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4">
+         <label class="control-label">Dosage Forms</label>
+       
+         <dx-select-box [dataSource]="dosageFormsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Strength  Dosage Form" formControlName="dosage_form_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4">
+         
+         <label class="control-label">Route Of Administration</label>
+         <dx-select-box [dataSource]="routeOfAdministrationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Route Of Administration" formControlName="route_of_administration_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-12">
+         <label class="control-label">Product Physical Description</label>
+
+         <dx-text-area [height]="60" formControlName="physical_description"  placeholder="Physical description"
+           >
+         </dx-text-area>
+       </div>
+       <div class="col-lg-4 form-group " style="margin:1px;">
+         <label class="control-label">Cerificate Issue Place</label>
+         
+         <dx-select-box [dataSource]="zonesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Select Cerificate Issue Place" formControlName="zone_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4">
+         <input type="hidden" name="section_id" formControlName="section_id" />
+         <input type="hidden" name="sub_module_id" formControlName="sub_module_id" />
+         <input type="hidden" name="product_id" value={{product_id}} formControlName="sub_module_id" />
+
+         <input type="hidden" formControlName="reg_product_id" />
+
+         <input type="hidden" formControlName="local_agent_id" />
+         
+         <input type="hidden" formControlName="tra_product_id" />
+         
+       </div>
+     </div>
+  </div>
+  <div *ngIf="section_id == 3">
+  
+    <div class="row  wizard-content">
+
+      <div class="col-lg-4">
+        <label>Assessment Procedure</label>
+        
+        <dx-select-box [dataSource]="assessmentProcedureData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Assessment Procedure" formControlName="assessment_procedure_id">
+        </dx-select-box>
+      </div>
+
+      <div class="col-lg-4">
+        <label class="control-label">Trade/Proprietary Name/</label>
+        <dx-text-box formControlName="brand_name" placeholder="Enter Brand Name" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4 ">
+        <label for="ti" class="control-label">Classification</label>
+        
+        <dx-select-box [dataSource]="classificationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Classification" formControlName="classification_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4 ">
+        <label for="ti" class="control-label">Generic Name</label>
+   
+        <dx-select-box [dataSource]="commonNamesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Common name" formControlName="common_name_id">
+        </dx-select-box>
+      </div>
+
+      <div class="col-lg-4">
+        <label class="control-label">Cosmetics Category</label>
+        
+        <dx-select-box [dataSource]="productCategoryData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder=" Cosmetics Category" formControlName="product_category_id">
+        </dx-select-box>
+      </div>
+
+      <div class="col-lg-4">
+        <label class="control-label">Storage Conditions</label>
+
+        <dx-select-box [dataSource]="storageConditionData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="  Storage Conditions" formControlName="storage_condition_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Form of Cosmetics</label>
+       
+        <dx-select-box [dataSource]="productFormData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="  Form of Cosmetics" formControlName="product_form_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Contraindication/</label>
+        <dx-text-box formControlName="contraindication" placeholder="Enter contraindication" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4">
+         
+        <label class="control-label">Method of Use/</label>
+        <dx-select-box [dataSource]="methodOfUseData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Method Of Use" formControlName="method_ofuse_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-12">
+        <label class="control-label">Product Physical Description</label>
+
+        <dx-text-area [height]="60" formControlName="physical_description"  placeholder="Physical description"
+          >
+        </dx-text-area>
+      </div>
+      <div class="col-lg-4 form-group " style="margin:1px;">
+        <label class="control-label">Cerificate Issue Place</label>
+
+        <dx-select-box [dataSource]="zonesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Cerificate Issue Place" formControlName="zone_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <input type="hidden" name="section_id" formControlName="section_id" />
+        <input type="hidden" name="sub_module_id" formControlName="sub_module_id" />
+        <input type="hidden" name="product_id" value={{product_id}} formControlName="sub_module_id" />
+      </div>
+    </div>
+
+</div>
+<div *ngIf="section_id == 1 || section_id == 9">
+    
+    <div class="row  wizard-content">
+        
+      <div class="col-lg-4">
+        <label class="control-label">Brand Name/Device Name</label>
+        <dx-text-box formControlName="brand_name" placeholder="Enter Brand Name" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4 ">
+        <label for="ti" class="control-label">Classification</label>
+
+        <dx-select-box [dataSource]="classificationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Classification" formControlName="classification_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4 ">
+        <label for="ti" class="control-label">Generic Name</label>
+
+        <dx-select-box [dataSource]="commonNamesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Common name" formControlName="common_name_id">
+        </dx-select-box>
+      </div>
+
+      <div class="col-lg-4">
+        <label class="control-label">Product Category</label>
+        
+        <dx-select-box [dataSource]="productCategoryData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          (onSelectionChanged)="onProductCategoryCboSelect($event)" placeholder=" Product Category"
+          formControlName="product_category_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Product Sub Category</label>
+        
+        <dx-select-box [dataSource]="productSubCategoryData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder=" Sub-Product Category" formControlName="product_subcategory_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Special Product Category</label>
+        
+        <dx-select-box [dataSource]="productSpecialCategoryData" valueExpr="id" displayExpr="name"
+          [searchEnabled]="true" placeholder=" Special Category" formControlName="special_category_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Storage Conditions</label>
+
+        <dx-select-box [dataSource]="storageConditionData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="  Storage Conditions" formControlName="storage_condition_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Product Forms</label>
+        
+        <dx-select-box [dataSource]="productFormData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Product Form" formControlName="product_form_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+         
+        <label class="control-label">Intended End User</label>
+        <dx-select-box [dataSource]="intendedEndUserData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Intended End User" formControlName="intended_enduser_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Warnings</label>
+        <dx-text-box formControlName="warnings" placeholder="warnings" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4">
+      <label class="control-label">Method of Use/</label>
+      <dx-select-box [dataSource]="methodOfUseData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Method Of Use" formControlName="method_ofuse_id">
+      </dx-select-box>
+    </div>
+
+      <div class="col-lg-4">
+        <label class="control-label">Shelf Life(in Months)</label>
+
+        <dx-number-box formControlName="shelf_life" placeholder="shelf_life" [showClearButton]="true">
+        </dx-number-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Shelf Life After Opening(in Months)</label>
+
+        <dx-number-box formControlName="shelf_lifeafter_opening" placeholder="shelf_lifeafter_opening"
+          [showClearButton]="true">
+        </dx-number-box>
+      </div>
+       <div class="col-lg-4">
+        <label class="control-label">Duration Description(Days, Months, Years)</label>
+
+        <dx-select-box [dataSource]="durationDescData" valueExpr="id" displayExpr="name"
+          placeholder="Duration Description" [searchEnabled]="true"
+          formControlName="shelflifeduration_desc">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-12">
+        <label class="control-label">Instructions Of Use</label>
+
+        <dx-text-area [height]="60" formControlName="instructions_of_use"  placeholder="Instructions of Use">
+        </dx-text-area>
+      </div>
+      <div class="col-lg-12">
+        <label class="control-label">Product Physical Description</label>
+
+        <dx-text-area [height]="60" formControlName="physical_description"  placeholder="Physical description">
+        </dx-text-area>
+      </div>
+      <div class="col-lg-4 form-group " style="margin:1px;">
+        <label class="control-label">Cerificate Issue Place</label>
+
+        <dx-select-box [dataSource]="zonesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Cerificate Issue Place" formControlName="zone_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <input type="hidden" name="section_id" formControlName="section_id" />
+        <input type="hidden" name="sub_module_id" formControlName="sub_module_id" />
+        <input type="hidden" name="product_id" value={{product_id}} formControlName="sub_module_id" />
+      </div>
+    </div>
+</div>
+<div  *ngIf="section_id == 4">
+  
+    <div class="row  wizard-content">
+
+      <div class="col-lg-4">
+        <label>Assessment Procedure</label>
+        <dx-select-box [dataSource]="assessmentProcedureData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Assessment Procedure" formControlName="assessment_procedure_id">
+        </dx-select-box>
+      </div>
+
+      <div class="col-lg-4">
+        <label class="control-label">Device Name</label>
+        <dx-text-box formControlName="brand_name" placeholder="Enter Brand Name" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4 ">
+        <label for="ti" class="control-label">Medical devices Type</label>
+        
+        <dx-select-box [dataSource]="devicesTypeData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Device Type" formControlName="device_type_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4 ">
+        <label for="ti" class="control-label">Classification</label>
+        
+        <dx-select-box [dataSource]="classificationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Classification" formControlName="classification_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4 ">
+        <label for="ti" class="control-label">Common Name</label>
+
+        <dx-select-box [dataSource]="commonNamesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Common name" formControlName="common_name_id">
+        </dx-select-box>
+      </div>
+
+      <div class="col-lg-4">
+        <label class="control-label">Intended Use</label>
+        
+        <dx-select-box [dataSource]="intendedUseData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder=" Intended Use" formControlName="intended_use_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">GMDN Code</label>
+        <dx-text-box formControlName="gmdn_code" placeholder="Enter GMDN Code" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">GMDN Term</label>
+        <dx-text-box formControlName="gmdn_term" placeholder="Enter GMDN Term" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">GMDN Category</label>
+        <dx-text-box formControlName="gmdn_category" placeholder="Enter GMDN Category" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Manufacturing Date</label>
+        <dx-date-box formControlName="manufacturing_date"  dateSerializationFormat ="yyyy-MM-dd"  placeholder="Enter Manufacturing Date" [showClearButton]="true">
+        </dx-date-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Expiry Date</label>
+        <dx-date-box formControlName="expiry_date" dateSerializationFormat ="yyyy-MM-dd" placeholder="Enter Expiry Date" [showClearButton]="true">
+        </dx-date-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Shelf Life (Days)</label>
+        <dx-number-box formControlName="shelf_life" placeholder="Enter GMDN Category" [showClearButton]="true">
+        </dx-number-box>
+      </div>
+      <div class="col-lg-12">
+        <label class="control-label">Commercial Prepresenation</label>
+
+        <dx-text-area [height]="60" formControlName="physical_description"  placeholder="Physical description"
+          >
+        </dx-text-area>
+      </div>
+      <div class="col-lg-4 form-group " style="margin:1px;">
+        <label class="control-label">Cerificate Issue Place</label>
+
+        <dx-select-box [dataSource]="zonesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Cerificate Issue Place" formControlName="zone_id">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-4">
+        <input type="hidden" name="section_id" formControlName="section_id" />
+        <input type="hidden" name="sub_module_id" formControlName="sub_module_id" />
+        <input type="hidden" name="product_id" value={{product_id}} formControlName="sub_module_id" />
+      </div>
+    </div>
+
+</div>
+<div *ngIf="section_id == 7">
+    
+  <div class="row  wizard-content">
+    
+       <div class="col-lg-4"><label class="control-label">Brand Name/Device Name</label>
+           <dx-text-box formControlName="brand_name" placeholder="Enter Brand Name" [showClearButton]="true">
+           </dx-text-box></div>
+       <div class="col-lg-4 ">
+         <label for="ti" class="control-label">Classification</label>
+
+         <dx-select-box [dataSource]="classificationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Select Classification" formControlName="classification_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4 ">
+         <label for="ti" class="control-label">Generic Name</label>
+         
+         <dx-select-box [dataSource]="commonNamesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Select Common name" formControlName="common_name_id">
+         </dx-select-box>
+       </div>
+        <div class="col-lg-4 ">
+
+            <label for="ti" class="control-label">Therapeutic Group</label>
+              <dx-text-box formControlName="therapeutic_group" [readOnly]= "isReadOnly" [showClearButton]="true">
+              </dx-text-box>
+        </div>
+
+        <div class="col-lg-4 ">
+          <label for="ti" class="control-label">Therapeutic Code</label>
+            <dx-text-box formControlName="therapeutic_code" [readOnly]= "isReadOnly" [showClearButton]="true">
+            </dx-text-box>
+        </div>
+        
+       <div class="col-lg-4" style="margin:1px;">
+
+         <label class="control-label">Product Strength</label>
+         <dx-text-box formControlName="product_strength" placeholder="Product Strength" [showClearButton]="true">
+         </dx-text-box>
+       </div>
+       <div class="col-lg-4">
+         <label class="control-label">Strength SI-Units</label>
+        
+         <dx-select-box [dataSource]="siUnitsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Strength SI-Units" formControlName="si_unit_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4">
+         <label class="control-label">Distribution Category</label>
+       
+         <dx-select-box [dataSource]="distributionCategoryData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Strength Distribution Category" formControlName="distribution_category_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4">
+         <label class="control-label">Storage Conditions</label>
+        
+         <dx-select-box [dataSource]="storageConditionData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Strength  Storage Conditions" formControlName="storage_condition_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4">
+         <label class="control-label">Dosage Forms</label>
+       
+         <dx-select-box [dataSource]="dosageFormsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Strength  Dosage Form" formControlName="dosage_form_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4">
+         
+         <label class="control-label">Route Of Administration</label>
+         <dx-select-box [dataSource]="routeOfAdministrationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Route Of Administration" formControlName="route_of_administration_id">
+         </dx-select-box>
+       </div>
+        <div class="col-lg-4">
+         <label class="control-label">Target species(Applies for only Vet)</label>
+       
+         <dx-select-box [dataSource]="targetSpeciesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Target species" formControlName="target_species_id">
+         </dx-select-box>
+       </div>
+
+       <div class="col-lg-12">
+         <label class="control-label">Product Physical Description</label>
+
+         <dx-text-area [height]="60" formControlName="physical_description"  placeholder="Physical description"
+           >
+         </dx-text-area>
+       </div>
+       <div class="col-lg-4 form-group " style="margin:1px;">
+         <label class="control-label">Cerificate Issue Place</label>
+         
+         <dx-select-box [dataSource]="zonesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+           placeholder="Select Cerificate Issue Place" formControlName="zone_id">
+         </dx-select-box>
+       </div>
+       <div class="col-lg-4">
+         <input type="hidden" name="section_id" formControlName="section_id" />
+         <input type="hidden" name="sub_module_id" formControlName="sub_module_id" />
+         <input type="hidden" name="product_id" value={{product_id}} formControlName="sub_module_id" />
+
+         <input type="hidden" formControlName="reg_product_id" />
+
+         <input type="hidden" formControlName="local_agent_id" />
+         
+         <input type="hidden" formControlName="tra_product_id" />
+         
+       </div>
+     </div>
+  </div>
+
+
+</form>

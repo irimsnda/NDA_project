@@ -1,0 +1,132 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Export Application Process</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active">Export Application Selection</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+<form enctype="multipart/form-data" style="margin:0.5px" class="row div-whiteback " role="form" [formGroup]="applicationSelectionfrm"
+  (ngSubmit)="onApplicationSelection()">
+  <div class="col-lg-12" style="margin-bottom: 30px;">
+    <h6 class="main-title col-lg-12">Guideline to start Export License Application</h6>
+  
+    <span>Select the Select Export License  Application Type and specific Category or the products to be imported or exported and then click start Application .</span>
+    <br/>
+  </div>
+  <div class="col-lg-6 apptype-selection bg-light text-dark">
+     
+          <h3 class='apptype-selection'>Select Export License Application Type</h3>
+  
+        <dx-select-box [dataSource]="applicationTypeData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Export license Type" 
+          formControlName="sub_module_id">
+          <div *dxTemplate="let name of 'item'">
+            <p>{{name.name}} </p>
+        </div>
+      </dx-select-box>
+       
+</div>
+  
+<div class="col-lg-6 apptype-selection bg-light text-dark">
+
+        <h3 class='apptype-selection'>Select Product Category/Type</h3>
+  
+        <dx-select-box [dataSource]="sectionsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Product Types/Category" 
+          formControlName="section_id">
+          <div *dxTemplate="let name of 'item'">
+            <div>{{name.name}} Products Category/Type</div>
+        </div>
+      </dx-select-box>
+</div>
+  <div class="col-lg-12 ">
+   
+    <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left' }"   icon="fa fa-arrow-right"  icon="fa fa-dashboard" text="Return Back to Export License Dashboard" 
+    type="default" (onClick)="onApplicationBackToDashboard('exportlicense-dashboard')">
+    
+    </dx-button> 
+    <dx-button  [elementAttr]="{ class: 'btn btn-primary  pull-left' }"  icon="fa fa-eye"  text="View Registered/Authorised Products" 
+            type="default" (onClick)="funcViewRegisteredProducts()">
+          </dx-button>
+    <dx-button  [elementAttr]="{ class: 'btn btn-primary  pull-left' }"  icon="fa fa-arrow-right"  text="Initiate Export License Application" 
+    [disabled]="!applicationSelectionfrm.valid" 
+      type="success" (onClick)="onApplicationSelection()">
+    </dx-button>
+  </div>
+</form>
+
+<div class="row div-backwhite" style="margin:0.5px">
+  <h6 class="main-title float-left">Export License  Application Guidelines/Definations</h6>
+  <div style="height: 100% !important; " class="col-lg-12">
+
+      <dx-data-grid [columnHidingEnabled]="true" class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true" [dataSource]="dtAppGuidelinesData" keyExpr="ID">
+          <dxo-filter-row [visible]="false"></dxo-filter-row>
+          <dxo-search-panel 
+              [visible]="true" 
+            >
+          </dxo-search-panel>
+          <dxo-paging [enabled]="true">
+          </dxo-paging>
+          <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+          </dxo-pager>
+          <dxo-export [enabled]="true" fileName="dtAppGuidelinesData" [allowExportSelectedData]="true"></dxo-export>
+    
+          <dxo-group-panel [allowColumnDragging]="false" [visible]="true"></dxo-group-panel>
+          <dxi-column width=180 dataField="application_type" [groupIndex]="0"></dxi-column>
+         
+          <dxi-column name="command-editing" [width] = 50  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'"><div [innerHTML]="data.data.step"></div>
+               
+                  <div [innerHTML]="data.data.guideline"></div>
+                 
+              </div>
+              </dxi-column>
+          <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+        </dx-data-grid>
+  </div>
+</div>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Permits Products" [dragEnabled]="false"
+[closeOnOutsideClick]="false" [(visible)]="isPermitproductsPopupVisible">
+<div *dxTemplate="let data of 'content'">
+<div class="row">
+  <div class="col-lg-12 no-padding">
+    <dx-data-grid [dataSource]="registeredProductsData" [height]="500" [remoteOperations]='true'
+      [showBorders]="true">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxo-export [enabled]="true" fileName="Registetered Products" [allowExportSelectedData]="true"></dxo-export>
+      <dxo-selection mode="single"></dxo-selection>
+      <dxi-column dataField="registrant" caption="Market Authorisation Holder"></dxi-column>
+      <dxi-column dataField="localtechnical_representative" caption="Local Technical Represenatative"></dxi-column>
+
+      <dxi-column [groupIndex]="1"  dataField="section_name" caption="Product Category"></dxi-column>
+      <dxi-column dataField="brand_name" caption="Brand Name/Device Name"></dxi-column>
+      <dxi-column dataField="certificate_no"></dxi-column>
+      <dxi-column dataField="common_name" caption="Common Name/INN Name/API"></dxi-column>
+      <dxi-column dataField="retention_status"></dxi-column>
+      <dxi-column dataField="validity_status"></dxi-column>
+     
+    <dxo-paging [pageSize]="25"></dxo-paging> 
+      <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+
+    </dx-data-grid>
+  </div>
+  
+</div>
+</div>
+</dx-popup>

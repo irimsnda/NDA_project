@@ -1,0 +1,256 @@
+<div class="row body-div div-homepanel no-padding">
+
+  <!--   servicesDataset *ngFor="let nav of navResults;" style="background: #fff;border-"-->
+  <div class="col-lg-9 row " >
+    
+    <div class="div-services col-xs-12 col-md-6 col-lg-4 col-xl-4 works--item" *ngFor="let serv of servicesDataset;">
+      <div class="div-innerservices">
+       
+        <div class="col-lg-12  works--item">
+          <div class="col-lg-12 works--item">
+            <div class="{{ serv.icons}}"></div>
+          </div>
+            <div class="col-xl-12 div-module_name ">
+              <span class="title">{{ serv.module_name}} </span>  <span class="title">
+                {{ serv.description | slice : 0 : 50 }}...
+  
+                </span><p></p><p></p>
+
+            </div>
+        </div>
+        <a class="col-xl-12 div-module_description pull-right" (click)="funcPreviewGuidelines(serv)">
+          <i class="fa fa-question-circle"></i>View Services Guidelines
+        </a>
+      </div>
+        
+    </div>
+    
+  </div>
+
+  <dx-popup class="popup"  [width]="funcpopWidth(70)" [height]="450" [showTitle]="true" title="View Services Guidelines"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewsingleServicesDataset">
+  <dx-scroll-view>
+
+  <dx-data-grid   [dataSource]="singleServicesDataset"  [showBorders]="true" [allowColumnResizing]="true" [columnHidingEnabled]="true" (onToolbarPreparing)="onServiceGridPreparing($event)"  keyExpr="id">
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+<dxo-selection mode="single"></dxo-selection>
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+      
+      <dxo-paging [enabled]="false">
+      </dxo-paging>
+      <dxo-pager [showInfo]="false" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="false" fileName="Services" [allowExportSelectedData]="true"></dxo-export>
+      <dxo-group-panel [visible]="false"></dxo-group-panel>
+      <dxi-column [width] =50  caption="" alignment= 'left' dataField="#" cellTemplate="cellTemplateCOunt">
+        <div *dxTemplate="let data of 'cellTemplateCOunt'">
+          <div [innerHTML]="data.row.rowIndex+1"></div>
+      </div>
+      </dxi-column>
+      <dxi-column caption="" dataField="module_name"  [groupIndex]="0"></dxi-column>
+      <dxi-column name="command-editing"  caption="Organisation Services"  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+              <div [innerHTML]="data.data.service_description"></div>
+          </div>
+        </dxi-column> 
+        <dxi-column [width] =200 name="command-editing"  caption="Services Guidelines "  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplateGuidelines">
+          <div *dxTemplate="let data of 'cellTemplateGuidelines'">
+            <a class="btn btn-success  btn-sm" (click)="funcDownloadPreviewGuidelines(data.data)"><i class="fa fa-download"></i>Download Guidelines</a>
+            
+          </div>
+        </dxi-column> 
+    </dx-data-grid>
+  </dx-scroll-view>
+
+  </dx-popup>
+  <div class=" col-lg-3 frm-logindiv" *ngIf="!isLoggedIn">
+
+    <form [formGroup]="signInFrm" (ngSubmit)="onSignIn()" class="text-left">
+      <div class="login-form-main-message"></div>
+      <div style="border-radius: 2px;min-height:50px; color: #000;font-weight: bold;font-size:24px;">
+        <label class="labelsign-in">Please Sign In</label>
+      </div>
+      <div class="main-login-form">
+        <div class="login-group">
+          <div class="form-group">
+            <label>Customer No</label>
+            <input type="text" formControlName="trader_no" [ngClass]="{ 'is-invalid': submitted}" class="form-control"
+              name="trader_no" placeholder="Customer No" required />
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" formControlName="email_address" class="form-control" name="email_address"
+              placeholder="Email Address" required />
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" (keydown) ="onSignOnKeyPress($event)" formControlName="user_password" class="form-control" name="user_password"
+              placeholder="Password" required />
+          </div>
+       <!--   <div class="form-group">
+           <ngx-recaptcha2 #captchaElem
+              [siteKey]="siteKey"
+             
+              (success)="handleSuccess($event)"
+              [useGlobalDomain]="false"
+              
+              formControlName="recaptcha">
+            </ngx-recaptcha2>
+          </div>
+        -->
+        </div>
+        <div class="row">
+
+          <div class="col-lg-12">
+            
+                <dx-button
+                    text="Sign-In"
+                    type="success"
+                    icon="fa fa-sign-in"
+                    [elementAttr]="{ id: 'elementId', class: 'col-lg-12' }"
+                    (onClick)="onSignIn()">
+                </dx-button>
+          </div>
+          <div class="col-lg-12">
+            <dx-button
+              text="Sign-Up(Create Account)"
+              type="danger"
+              icon="fa fa-sign-in"
+              [elementAttr]="{ id: 'elementId', class: 'col-lg-12' }"
+              (onClick)="funcCreateCustomerAccount()">
+          </dx-button>
+            
+          </div>
+         
+          <div class="col-lg-12">
+            <a (click)="funcPublicNavigation('lost-password')" class=" btn-margin-5"
+            style="cursor: pointer;font-size: 15px !important;"><i class="fa fa-key">
+              Lost Password</i></a>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div>
+
+    </div>
+  </div>
+  <div class="col-lg-3 " *ngIf="isLoggedIn" style="background: #fff;">
+
+    <div style="border-radius: 2px;min-height:50px; color: #000;font-weight: bold;font-size:36px;">
+      <label class="labelsign-in">Welcome Back:</label>
+    </div>
+   
+    <div class="form-group">
+      <label>Trader</label>
+      <input type="email" readOnly="true" class="form-control" value="{{company_name}}" placeholder="Email Address"
+        required />
+    </div>
+    <div>
+      <button (click)="funcOnlineServices()" class="btn  btn-sm btn-primary col-lg-4 "><i
+        class="fa fa-angle-double-right pull-right"></i>
+      Go to the Online Services</button>
+      <button (click)="funcLogOut()" class="btn btn-sm btn-danger col-lg-4 "><i class="fa fa-sign-out"></i>
+        Log-Out</button>
+    </div>
+   
+
+  </div>
+
+</div>
+<ng-http-loader spinner="sk-wave" [filteredMethods]="['POST', 'PuT','GET']"></ng-http-loader>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="650" [showTitle]="true" title="Document Preview" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDocumentPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <iframe [src]="document_previewurl" class="col-lg-12" height="650" ></iframe> 
+
+  </div>
+
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(45)" [height] = 700 [showTitle]="true" title="Create Account"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="showCustomerAcctountCreation">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+    <form enctype="multipart/form-data" role="form" [formGroup]="createAccountFrm" (ngSubmit)="onCreateAccount()">
+      <wizard  style="background: #fff !important; height: 100% !important;">
+        <wizard-step stepTitle="Account Information" class="wizardStep-height">
+          <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+              <label class="control-label">Account Type</label>
+              <dx-select-box [dataSource]="accountTypesData" valueExpr="id" displayExpr="name" placeholder="Select Account Type"
+                 [searchEnabled]="true" formControlName="traderaccount_type_id">
+              </dx-select-box>
+            </div>
+            <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+
+              <label class="control-label">Customer/Company Name</label>
+              <dx-text-box formControlName="name" placeholder="Customer Name">
+              </dx-text-box>
+            </div>
+            <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+              <label for="ti" class="control-label">Email Address</label>
+              <dx-text-box (onFocusOut)="onValidateAccountEmail($event)"  (onValueChanged) = 'onEmailValueChange($event)' formControlName="email_address" placeholder="Email Address">
+              </dx-text-box>
+            </div>
+           
+            <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+              <label class="control-label">Country</label>
+
+              <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"
+                [searchEnabled]="true" formControlName="country_id">
+              </dx-select-box>
+            </div>
+           
+          
+          <!--
+            <div class="col-lg-12">
+              <ngx-recaptcha2 #captchaElem
+                [siteKey]="siteKey"
+                
+                (success)="handleSuccess($event)"
+                [useGlobalDomain]="false"
+                
+                formControlName="recaptcha">
+              </ngx-recaptcha2>
+            
+            </div>-->
+
+          </div>
+          <div class="col-lg-12 no-padding">
+           
+            <!--[disabled]="!createAccountFrm.valid" 
+            <button class="btn btn-primary pull-right" style="margin:5px;"  [disabled]="!createAccountFrm.valid" (click)="onMoveNextWizard(1)" type="button"
+              awNextStep><i class="fa fa-angle-double-right"></i>
+              &nbsp;Next Applications Information</button>-->
+
+              <div class="col-lg-12 btn-margin-5">
+
+                    <dx-button
+                      text="Create Account"
+                      type="success"
+                      icon="fa fa-right"
+                      [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                      (onClick)="onCreateAccount()">
+                  </dx-button>
+              </div>
+          </div>
+
+        </wizard-step>
+     
+      </wizard>
+
+    </form>
+</dx-scroll-view>
+  </div>
+</dx-popup>
+
+<ngx-smart-modal #createAccountModal identifier="createAccountModal" customClass="nsm-dialog-animation-btt medium-modal"
+[dismissable]="false" [closable]="false">
+<h4>Trader Account Information</h4>
+<h6>{{message}}</h6>
+<h5 *ngIf="trader_no">Account No: {{trader_no}}</h5>
+<button (click)="oncloseRegistrationMdl()">Close</button>
+</ngx-smart-modal>

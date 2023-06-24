@@ -1,0 +1,121 @@
+<label>Hint</label>
+<p>Hint: Please enter the details for the following 3 contact people:<br/>
+        Principal investigator<br/>
+        Public enquiries: (Person responsible for general enquiries)<br/>
+        Scientific enquiries: (Person responsible for scientific enquires)<br/>
+        There must be a minimum of one contact details for each role.</p>
+<dx-data-grid class="table row-border hover" [dataSource]="contactPersonData" keyExpr="id"  (onToolbarPreparing)="onClinicalTrialContactPersPreparing($event)">
+  <dxo-filter-row [visible]="false"></dxo-filter-row>
+  <dxo-search-panel [visible]="false">
+  </dxo-search-panel>
+  <dxo-paging [enabled]="true">
+  </dxo-paging>
+  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+  </dxo-pager>
+  <dxo-export [enabled]="true" fileName="Contact Person" [allowExportSelectedData]="true"></dxo-export>
+  <dxo-selection mode="multiple"></dxo-selection>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxi-column dataField="role"></dxi-column>
+  <dxi-column dataField="name"></dxi-column>
+  <dxi-column dataField="physical_address"></dxi-column>
+  <dxi-column dataField="city"></dxi-column>
+  <dxi-column dataField="postal_address"></dxi-column>
+  <dxi-column dataField="country"></dxi-column>
+  <dxi-column dataField="phone_no"></dxi-column>
+  <dxi-column dataField="email_address"></dxi-column>
+  <dxi-column dataField="contact_personposition" caption="Position/Affiliation"></dxi-column>
+  
+  <dxi-column [width]=100 caption="Other Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let d of 'cellTemplate'">
+          <dx-button type="success" [disabled]="is_readonly" (onClick)="onEditContactPerson(d.data)">
+            <i class="fa fa-edit"></i> 
+        </dx-button>
+        <dx-button type="success" [disabled]="is_readonly" (onClick)="funcDeleteContactPerson(d.data)">
+          <i class="fa fa-trash"></i> 
+      </dx-button>
+     
+        </div>
+      </dxi-column>
+</dx-data-grid>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(75)" [height]="650" [showTitle]="true" title="Contact Person"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="contactPersonAddWin">
+<div *dxTemplate="let data of 'content'">
+  <div class="col-lg-12">
+    <form enctype="multipart/form-data" role="form" [formGroup]="contactPersonFrm"
+      (ngSubmit)="onSaveContactPersonFrm()">
+
+      <div class="row">
+       
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Role</label>
+
+          <dx-select-box [dataSource]="contactPersonRoles" valueExpr="id" displayExpr="name"
+             [searchEnabled]="true" formControlName="contactperson_role_id">
+          </dx-select-box>
+
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+          <label class="control-label">Full Names</label>
+          <dx-text-box formControlName="name">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+          <label class="control-label">Physical Address</label>
+          <dx-text-box formControlName="physical_address">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+          <label class="control-label">Phone Number</label>
+          <dx-text-box formControlName="phone_no">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+          <label class="control-label">Email Address</label>
+          <dx-text-box formControlName="email_address">
+          </dx-text-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label class="control-label">Country</label>
+
+          <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"
+            (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+          </dx-select-box>
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+          <label for="ti" class="control-label">Region/City</label>
+
+          <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name"
+            (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+          </dx-select-box>
+
+        </div>
+
+        <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+            <label class="control-label">Postal Address</label>
+            <dx-text-box formControlName="postal_address">
+            </dx-text-box>
+          </div> <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+            <label class="control-label">Position/Affiliation</label>
+            <dx-text-box formControlName="contact_personposition">
+            </dx-text-box>
+          </div>
+          
+        <div class="col-lg-12 btn-margin-5">
+          <br />
+          <button type="submit" (submit)="onSaveContactPersonFrm()" [disabled]="!contactPersonFrm.valid"
+            class="btn btn-primary"><i class="fa fa-user"></i> Save Contact Person</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+</dx-popup>

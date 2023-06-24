@@ -1,0 +1,57 @@
+<div class="col-lg-12">
+  
+
+  <form role="form" enctype="multipart/form-data" role="form" [formGroup]="fundingSourceFrm">
+  
+    <div class="row wizard-content">
+      <div class="col-lg-12">
+        
+        Funding received? *
+          <dx-select-box [dataSource]="confirmationData"  valueExpr="id" displayExpr="name"  
+            [searchEnabled]="true"  [readOnly]="is_readonly"   (onSelectionChanged)="onIsFundingReceSelect($event)" formControlName="is_funding_receivied">
+          </dx-select-box>
+      </div>
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12" *ngIf="is_funding_received">
+        <label class="control-label">Funding source type </label>
+        <dx-select-box [dataSource]="fundingSourceTypeData"  valueExpr="id" displayExpr="name"  
+        [searchEnabled]="true"  [readOnly]="is_readonly"   formControlName="fundsource_type_id">
+      </dx-select-box>
+
+        </div>
+        <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12" *ngIf="is_funding_received">
+
+          <label class="control-label">Name of Source</label>
+          <dx-text-box  [readOnly]="is_readonly"  formControlName="name">
+          </dx-text-box>
+        </div>
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12" *ngIf="is_funding_received">
+
+        <label class="control-label">Physical Address</label>
+        <dx-text-box  [readOnly]="is_readonly"  formControlName="physical_address">
+        </dx-text-box>
+      </div>
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12" *ngIf="is_funding_received">
+        <label class="control-label">Country</label>
+
+        <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country"  [readOnly]="is_readonly" 
+          (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+        </dx-select-box>
+      </div>
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12" *ngIf="is_funding_received">
+        <label for="ti" class="control-label">Region/City</label>
+
+        <dx-select-box [dataSource]="regions" valueExpr="id"   [readOnly]="is_readonly" displayExpr="name" [searchEnabled]="true" formControlName="region_id">
+        </dx-select-box>
+
+      </div>
+
+      <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12" *ngIf="is_funding_received">
+
+          <label class="control-label">Postal Address</label>
+          <dx-text-box  [readOnly]="is_readonly"  formControlName="postal_address">
+          </dx-text-box>
+        </div>
+   
+  </div>
+  </form>
+  

@@ -1,0 +1,365 @@
+<div class=" no-padding">
+  
+  <div class="col-lg-12 no-padding row" style="background: #fff;margin-bottom: 5px;text-justify: auto;padding:5px !important;font-size:12px;line-height: 2; ">
+      
+      <div class="col-lg-8">
+        <div class="col-lg-12 top-header">
+          <b><h5> Welcome to the Clinical Trial Register</h5></b>
+        </div>
+    
+       <p> The Clinical Trial Register is a publicly accessible and freely searchable prospective trial register in which studies are registered that run in the country or are carried out by  researchers. Primary Registries have been recognized and accepted by the WHO. If your study is included in one of these registers, you meet the registration requirements..</p>
+        
+       <h5> Registration ID </h5>
+        
+        Upon registration an Clinical Trial Reference is assigned as a registration number. 
+        
+        <h5> Retrospective registration</h5>
+        
+        Only ongoing studies can be registered on the Clinical Trial Register, preferably before the first inclusion. A study which is already completed, will be rejected. This is because prospective trial registers will provide transparency into the current research and discourage publication bias.
+        
+        <h5>After registration</h5>
+    <p>     
+        If you want to edit some trial information, you can log into your account and edit your own trial. An audit trail will be kept.
+    </p>
+      </div>
+     
+      <div class="col-lg-4 frm-logindiv"  *ngIf="!isLoggedIn">
+        <form [formGroup]="signInFrm" (ngSubmit)="onSignIn()" class="text-left">
+          <div class="login-form-main-message"></div>
+          
+          <div class="main-login-form">
+            <div class="login-group">
+              <div class="form-group">
+                <label>Trader No</label>
+                <input type="text" formControlName="trader_no" [ngClass]="{ 'is-invalid': submitted}" class="form-control"
+                  name="trader_no" placeholder="Trader No" required />
+              </div>
+              <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" formControlName="email_address" class="form-control" name="email_address"
+                  placeholder="Email Address" required />
+              </div>
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" (keydown) ="onSignOnKeyPress($event)" formControlName="user_password" class="form-control" name="user_password"
+                  placeholder="Password" required />
+              </div>
+            </div>
+            <div class="row">
+    
+              <div class="col-lg-12">
+                
+                    <dx-button
+                        text="Sign-In"
+                        type="success"
+                        icon="fa fa-sign-in"
+                        [disabled]="!signInFrm.valid"
+                        [elementAttr]="{ id: 'elementId', class: 'col-lg-12' }"
+                        (onClick)="onSignIn()">
+                    </dx-button>
+    
+              </div>
+              
+              <div class="col-lg-6">
+                <a (click)="funcPublicNavigation('create-account')" class=" btn-margin-5"
+                  style="cursor: pointer;font-size: 15px !important;"><i class="fa fa-user">
+                    Sign-Up(Create Trader Account)</i></a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="col-lg-4 " *ngIf="isLoggedIn" style="background: #fff;">
+
+        <div style="border-radius: 2px;min-height:50px; color: #000;font-weight: bold;font-size:36px;">
+          <label class="labelsign-in">Welcome Back:</label>
+        </div>
+       
+        <div class="form-group">
+          <label>Trader</label><h5>{{company_name}}</h5>
+         
+        </div>
+        <div class="row">
+          <button (click)="funcOnlineServices()" class="btn  btn-sm btn-primary col-lg-4 "><i
+            class="fa fa-angle-double-right pull-right"></i>
+          Go to my Clinical Trial(s) Registry</button>
+        <button (click)="funcLogOut()" class="btn btn-sm btn-danger col-lg-4 "><i class="fa fa-sign-out"></i>
+          Log-Out</button>
+    
+        
+        </div>
+      </div>
+  </div>
+  
+  <div class="row" style="min-height: 500px;background: #fff;padding:5px !important;">
+    <form class="col-lg-12 no-padding row" role="form" enctype="multipart/form-data" role="form" [formGroup]="registeredClinicalTrial" (ngSubmit)="onSearchRegisteredclinicaltrials()">
+
+    <div class="col-lg-12"> <b> <h5>Clinical Trial Register</h5></b></div>
+    <div class="col-lg-12 row">
+      <div class=" col-xs-12 col-md-3 col-lg-3 col-xl-3">
+        <label class="control-label">Clincial Trial No</label>
+        <dx-text-box placeholder="Certifiate No" formControlName="certificate_no" >
+        </dx-text-box>
+      </div>
+      <div class=" col-xs-12 col-md-3 col-lg-3 col-xl-3">
+        <label class="control-label">Principal Investigator</label>
+        <dx-text-box placeholder="Registrant" formControlName="applicant_name" >
+        </dx-text-box>
+      </div>
+      <div class=" col-xs-12 col-md-3 col-lg-3 col-xl-3">
+        <label class="control-label">Country</label>
+
+        <dx-select-box [dataSource]="countriesData" formControlName="registrantcountry_id" valueExpr="id" displayExpr="name"
+          [searchEnabled]="true" placeholder="Select Registrant Country">
+        </dx-select-box>
+      </div>
+      
+      <div class=" col-xs-12 col-md-3 col-lg-3 col-xl-3">
+        <label for="ti" class="control-label">Study Title</label>
+        <dx-text-box placeholder="Study Title" formControlName="public_title" >
+        </dx-text-box>
+      </div>
+      <div class=" col-xs-12 col-md-3 col-lg-3 col-xl-3">
+        <label class="control-label">Official Scientific Title</label>
+        <dx-text-box  formControlName="study_title"    placeholder="Study Title" >
+        </dx-text-box>
+      </div>
+      <div class="col-lg-12">
+        <dx-check-box text="Advanced Search"  (onValueChanged)="advanceSearchTermscheckbox($event)">
+        </dx-check-box>
+      </div>
+
+    </div>
+        
+      
+      <div class="col-lg-12 row" *ngIf="isAdvancedSearch">
+        <div class=" col-xs-12 col-md-3 col-lg-3 col-xl-3">
+          <label class="control-label">Type of trial design </label>
+        
+          <dx-text-box  formControlName="trial_design"   placeholder="Clinical Trial Design" >
+          </dx-text-box>
+        </div>
+        <div class=" col-xs-12 col-md-3 col-lg-3 col-xl-3">
+          <label class="control-label">Clinical Study Phase</label>
+          <dx-select-box [dataSource]="clinicalStudyPhaseData"  valueExpr="id" displayExpr="name"  
+           [searchEnabled]="true" formControlName="phase_id">
+          </dx-select-box>
+        </div>
+
+        <div class=" col-xs-12 col-md-3 col-lg-3 col-xl-3">
+          <label class="control-label">Purpose of the Trial</label>
+      
+          <dx-text-box formControlName="purpose_of_trial"  placeholder="Purpose or the Trial" >
+          </dx-text-box>
+        </div>
+        <div class=" col-xs-12 col-md-3 col-lg-3 col-xl-3">
+          <label class="control-label">Recruitment Status</label>
+          <dx-select-box [dataSource]="recruitMentStatusData"  valueExpr="id" displayExpr="name"  
+           [searchEnabled]="true" formControlName="recruitment_status_id">
+          </dx-select-box>
+        </div>
+        <div class="col-lg-12">
+          <label class="control-label">Disease(s) or condition(s) being studied</label>
+          <dx-tag-box
+              [items]="diseaseConditionsData"
+              formControlName="disease_being_studied"
+              placeholder="Disease(s) or condition(s) being studied"
+              valueExpr="id" 
+              [showSelectionControls]="true"
+              [searchEnabled]="true"
+              applyValueMode="useButtons"
+              displayExpr="name">
+          </dx-tag-box>
+        </div>
+        
+
+      </div>
+      
+      <div class="col-lg-12">
+        <!--<button type="button" class="btn btn-primary btn-round pull-right "><i class="fa fa-file-excel-o">
+            Export Details</i></button>
+        <button type="button" class="btn btn-success btn-round pull-right "><i class="fa fa-print">
+            Print</i></button>
+        <button type="button" class="btn btn-danger btn-round pull-right " (submit)="onClearRegisteredclinicaltrialsFilter()" ><i class="fa fa-trash">
+            Clear</i></button>
+        -->
+        <button type="submit" (submit)="onSearchRegisteredclinicaltrials()"  class="btn btn-primary btn-round pull-right "><i
+            class="fa fa-search">
+            Search Clinical Trial Details</i>
+          
+          </button>
+
+      </div>
+    </form>
+   <div class="col-lg-12">
+    <dx-data-grid  (onSelectionChanged)="selectionChanged($event)"
+    (onContentReady)="contentReady($event)" [wordWrapEnabled]="true"  [wordWrapEnabled]="true"  class="table row-border hover" [dataSource]="clinicalTrialApplicationData" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="false">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="clinicalTrialApplicationData" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="single"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+     
+      <dxi-column dataField="tracking_no" caption="Clinical Identification No"></dxi-column>
+      <dxi-column   dataField="study_title" caption="Scientific Study Title"></dxi-column>
+      <dxi-column  dataField="public_title"></dxi-column>
+      <dxi-column  dataField="trial_design"></dxi-column>
+      <dxi-column [groupIndex]="0"  dataField="clinical_study_phase"></dxi-column>
+      <dxi-column dataField="registrant" caption="Principal Investigator"></dxi-column>
+       <dxi-column dataField="protocol_no"></dxi-column>
+      <dxi-column dataField="version_no"></dxi-column>
+      <dxi-column dataField="completion_date"></dxi-column>
+      <dxi-column dataField="recruitment_status"></dxi-column>
+      <dxo-master-detail [enabled]="true" template="masterDetail"></dxo-master-detail>
+
+      <dxi-column [width]=150 caption="Other Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+      <div *dxTemplate="let d of 'cellTemplate'">
+        <dx-button type="default" (onClick)="onEditClinicalTriaRegistry(d.data,true)">
+          <i class="fa fa-edit"></i>Preview Trial
+      </dx-button>
+      </div>
+      </dxi-column>
+      <div *dxTemplate="let masterDetailItem of 'masterDetail'">
+          <dx-tab-panel>  
+            <dxi-item title="CLinical Trial Registry Details" template="registryTab"></dxi-item>
+            <dxi-item title="CLinical Trial Interventions" template="interventionsTab"></dxi-item>
+           
+            <dxi-item title="CLinical Trial Recruitment Centers" template="recruitmentcentersTab"></dxi-item>
+
+            <dxi-item title="CLinical Trial Outcomes" template="outcomesTab"></dxi-item>
+            <dxi-item title="CLinical Trial Ethics Approval" template="ethicsapprovalTab"></dxi-item>
+           
+            <div *dxTemplate="let registryTabItem of 'registryTab'">
+              <form role="form" enctype="multipart/form-data" role="form" [formGroup]="ctrRegistrydetailsfrm">
+                    <div class="col-lg-12">
+                      <label class="control-label">Disease(s) or condition(s) being studied</label>
+                      <dx-tag-box
+                          [items]="diseaseConditionsData"
+                          formControlName="disease_being_studied"
+                          placeholder="Disease(s) or condition(s) being studied"
+                          valueExpr="id"
+                          [showSelectionControls]="true"
+                          applyValueMode="useButtons"
+                          displayExpr="name">
+                      </dx-tag-box>
+              
+                    </div>
+              </form>
+              <dx-form 
+                    [formData]="masterDetailItem.data"
+                    [colCount]="2"
+                    [customizeItem]="customizeItemTemplate"
+                    class="address-form form-container"
+                >
+                    <dxi-item  [disabled]="is_readonly" dataField="study_title"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="public_title"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="clinicaltrial_description" caption="Brief summary describing the background and objectives of trial"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="trial_design"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="protocol_no"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="version_no"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="clinical_study_phase"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="acronym"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="disease_being_studied"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="other_obstetrics_disease"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="purpose_of_trial"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" dataField="recruitment_status"></dxi-item>
+                    <dxi-item  [disabled]="is_readonly" caption = "Clinical Trial Registry Publication Url" dataField="publication_url"></dxi-item>
+
+                </dx-form>
+              
+            </div>
+            <div *dxTemplate="let interventionsTabItem of 'interventionsTab'">
+                <dx-data-grid  class="table row-border hover" [dataSource]="clinicalTrialIntData" keyExpr="id"  >
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                  <dxo-search-panel [visible]="false">
+                  </dxo-search-panel>
+                  <dxo-paging [enabled]="true">
+                  </dxo-paging>
+                  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                  </dxo-pager>
+                  <dxo-export [enabled]="false" fileName="clinicalTrialApplicationData" [allowExportSelectedData]="true"></dxo-export>
+                  <dxo-group-panel [visible]="true"></dxo-group-panel>
+                  <dxi-column dataField="intervention_name"></dxi-column>
+                  <dxi-column dataField="intervention_description"></dxi-column>
+                  <dxi-column dataField="intervention_type"></dxi-column>
+                  <dxi-column dataField="intervention_dose"></dxi-column>
+                  <dxi-column dataField="intervention_duration"></dxi-column>
+                  <dxi-column dataField="group_size"></dxi-column>
+                  <dxi-column dataField="control_name"></dxi-column>
+                </dx-data-grid>
+            </div>
+            <div *dxTemplate="let outcomesTabItem of 'outcomesTab'">
+              <dx-data-grid   class="table row-border hover" [dataSource]="OutcomesData" keyExpr="id"  >
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-search-panel [visible]="false">
+                </dxo-search-panel>
+                <dxo-paging [enabled]="true">
+                </dxo-paging>
+                <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                </dxo-pager>
+                <dxo-export [enabled]="false" fileName="clinicalTrialApplicationData" [allowExportSelectedData]="true"></dxo-export>
+                
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxi-column dataField="outcome_type"></dxi-column>
+                <dxi-column dataField="time_point"></dxi-column>
+                <dxi-column dataField="outcome"></dxi-column>
+                
+              </dx-data-grid>
+
+            </div>
+            <div *dxTemplate="let recruitmentcentersTabItem of 'recruitmentcentersTab'">
+              <dx-data-grid   class="table row-border hover" [dataSource]="recruitmentCentersData" keyExpr="id"  >
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-search-panel [visible]="false">
+                </dxo-search-panel>
+                <dxo-paging [enabled]="true">
+                </dxo-paging>
+                <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                </dxo-pager>
+                <dxo-export [enabled]="false" fileName="clinicalTrialApplicationData" [allowExportSelectedData]="true"></dxo-export>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxi-column dataField="recruitment_centre"></dxi-column>
+                <dxi-column dataField="street_address"></dxi-column>
+                <dxi-column dataField="region"></dxi-column>
+                <dxi-column dataField="postal_code"></dxi-column>
+                <dxi-column dataField="country"></dxi-column>
+              </dx-data-grid>
+            </div>
+            <div *dxTemplate="let ethicsapprovalTabItem of 'ethicsapprovalTab'">
+              <dx-data-grid  class="table row-border hover" [dataSource]="ethicsApprovalData" keyExpr="id"  >
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-search-panel [visible]="false">
+                </dxo-search-panel>
+                <dxo-paging [enabled]="true">
+                </dxo-paging>
+                <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                </dxo-pager>
+                <dxo-export [enabled]="false" fileName="clinicalTrialApplicationData" [allowExportSelectedData]="true"></dxo-export>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxi-column dataField="committee_name"></dxi-column>
+                <dxi-column dataField="approval_date"></dxi-column>
+                <dxi-column dataField="submission_date"></dxi-column>
+                <dxi-column dataField="street_address"></dxi-column>
+                <dxi-column dataField="city"></dxi-column>
+                <dxi-column dataField="postal_address"></dxi-column>
+                <dxi-column dataField="country"></dxi-column>
+                <dxi-column dataField="phone_no"></dxi-column>
+                <dxi-column dataField="email_address"></dxi-column>
+                
+              </dx-data-grid>
+            </div>
+          </dx-tab-panel>
+        </div>
+        
+    </dx-data-grid>
+   </div>
+  </div>
+
+</div>

@@ -1,0 +1,298 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">{{application_title}}</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item">Dashboard</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-warning">
+      <i class="fa fa-clock-o float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Pending Submission</h6>
+      <h1 class="m-b-20 text-white counter">{{pending_submission}}</h1>
+      </div>
+    <div class="card-box noradius noborder bg-warning">
+      <a class="reg_routerlink"  (click) ="reloadPermitApplicationsApplications({application_status_id:'1', sub_module_id: 61})"><span>View Permits</span></a>
+  
+      </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-success">
+      <i class="fa fa-clock-o float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Submitted Applications</h6>
+      <h1 class="m-b-20 text-white counter">{{submitted_application}}</h1>
+    </div>
+    <div class="card-box noradius noborder bg-success">
+      <a class="reg_routerlink"  (click) ="reloadPermitApplicationsApplications({application_status_id:'2,3', sub_module_id: 61})"><span>View Applications</span></a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-info">
+      <i class="fa fa-question-circle float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Request(s) for Additional Information </h6>
+      <h1 class="m-b-20 text-white counter">{{queried_applications}}</h1>
+      </div>
+    <div class="card-box noradius noborder bg-info">
+      <a class="reg_routerlink"  (click) ="reloadPermitApplicationsApplications({application_status_id:'17,6,7,8', sub_module_id: 61})"><span>View Requests</span></a>
+   
+    </div>
+  </div>
+  <!-- Content Header (Page header) -->
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-default">
+      <i class="fa fa-check float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Approved Applications</h6>
+      <h1 class="m-b-20 text-white counter">{{approved_applications}}</h1>
+        </div>
+    <div class="card-box noradius noborder bg-default">
+      <a class="reg_routerlink" (click) ="reloadPermitApplicationsApplications({application_status_id:'10,33,26', sub_module_id: 61})"><span>View Approved Applications</span></a>
+ 
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-danger">
+      <i class="fa fa-ban float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Rejected Applications</h6>
+      <h1 class="m-b-20 text-white counter">{{rejected_applications}}</h1>
+         </div>
+    <div class="card-box noradius noborder bg-danger">
+      <a class="reg_routerlink" (click) ="reloadPermitApplicationsApplications({application_status_id:11, sub_module_id: 61})"><span>View Rejected Applications</span></a>
+
+      </div>
+  </div>
+ 
+
+
+
+
+  <!-- /.col -->
+</div>
+
+<div class=" row">
+  
+  <dx-button 
+    text="Help & Guidelines"
+    type="normal"
+    stylingMode="outlined"
+    [width]="150"
+    icon="fa fa-question-circle"
+    (onClick)="onClickSubModulehelpGuidelines()">
+  </dx-button>
+  <dx-button *ngFor="let sub_module of productappTypeData;" 
+      text="{{sub_module.name}} Application"
+      type="default"
+      icon="fa {{sub_module.icon}}"
+      [elementAttr]="{ id: 'elementId' }"
+      (onClick)="onClickSubModuleAppSelection(sub_module.id,sub_module.name)">
+  </dx-button>
+ 
+</div>
+<div class="row div-nopadding">
+      <form role="form" class="row col-lg-12" enctype="multipart/form-data" role="form" [formGroup]="FilterDetailsFrm">
+        <div class="col-lg-3">
+          <dx-select-box  [dataSource]="productappTypeData" [readOnly] = "true" valueExpr="id" displayExpr="name" 
+          (onSelectionChanged)="onSelectSubPermitFilters($event)" placeholder="Filter by Permit/License"  [searchEnabled]="true"  formControlName="sub_module_id">
+          </dx-select-box>
+      </div>
+      
+      <div class="col-lg-3">
+          <dx-select-box  [dataSource]="applicationStatusData" valueExpr="id" displayExpr="name" 
+          (onSelectionChanged)="onSelectPermitFilters($event)" [searchEnabled]="true" placeholder="Filter Applications by Status" formControlName="application_status_id">
+          </dx-select-box>
+      </div>
+      <div class="col-lg-3">
+          <dx-button
+            text="Clear Filter"
+            type="danger"
+            icon="fa fa-eraser"
+            [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+            (onClick)="onClearPermitsFilters()">
+        </dx-button>
+
+      </div>
+</form>
+
+    <dx-data-grid class=" row-border hover "  (onCellPrepared)="onCellPrepared($event)" [showRowLines] = "true"  [allowColumnResizing]="true" [columnHidingEnabled]="true" [wordWrapEnabled]="true"
+      [dataSource]="dtImportExpApplicationData" [showBorders]="true"
+      (onToolbarPreparing)="onImportappsToolbarPreparing($event)" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-load-panel [enabled]="true">
+      </dxo-load-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true"
+        [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-export [enabled]="true" fileName="ImportExport" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="single"></dxo-selection>
+      <dxi-column [width]=200 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplateSingle">
+      <div *dxTemplate="let d of 'cellTemplateSingle'">
+        <dx-button text="{{d.data.action_name}}" (click)="singleApplicationActionColClick(d.data)"
+        type="success" icon="{{d.data.iconCls}}">
+      </dx-button>
+      </div>
+    </dxi-column>
+      <dxi-column caption="Actions" [width] = 100 name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let d of 'cellTemplate'">
+          <dx-menu [items]="d.data.contextMenu" displayExpr="text" (onItemClick)="applicationActionColClick($event,d)">
+          </dx-menu>
+        </div>
+      </dxi-column>
+      <dxi-column dataField="tracking_no"></dxi-column>
+
+      <dxi-column dataField="reference_no"></dxi-column>
+      <dxi-column [width] = 90 [groupIndex]="2" caption="Permit Type" dataField="importexport_permittype"></dxi-column>
+      
+      <dxi-column [groupIndex]="0" dataField="application_type" ></dxi-column>
+      <dxi-column [width] = 100  dataField="permit_reason" caption="Reason for Importation/Exportation"></dxi-column>
+      <dxi-column [width] = 100  dataField="port_name" caption="Port of Entry/Exit"></dxi-column>
+      
+      <dxi-column  [width] = 100  dataField="proforma_invoice_no"></dxi-column>
+      <dxi-column dataField="proforma_invoice_date"></dxi-column>
+      <dxi-column dataField="sender_receiver" caption="Sender/Receiver"></dxi-column>
+      <dxi-column [width] = 100  [allowFiltering]="false" dataField="date_added"></dxi-column>
+      <dxi-column [groupIndex]="2" dataField="status_name"></dxi-column>
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid>
+ 
+</div>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="Preview Application Processing"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewApplicationProcessing">
+
+  <div *dxTemplate="let data of 'content'" style="background:#fff;">
+    <dx-scroll-view>
+      <div class="row" >
+            <div class="col-lg-4 div-processstage" *ngFor="let process of productApplicationProcessingData; let process_counter= index;">
+              
+            <div class="row col-lg-12" *ngIf="process.isDone == 1">
+                  <div class="complete_stage col-lg-2"></div> <div class="col-lg-6
+                   div-processstagelabel"> <label class="label-green">{{ process_counter}} </label> {{ process.current_stage}}   Processing Date:  {{ process.processing_date}} Process Status: <label class="label-green">{{ process.process_status}} </label></div>
+                  <div class="labelarrow col-lg-2"></div>
+            </div>
+            <div  class="row col-lg-12" *ngIf="process.isDone == 0">
+              <div class="pending col-lg-2"></div> <div class="col-lg-12 div-processstagelabel"> <label class="label-red">{{ process_counter}} </label> {{ process.current_stage}}   Processing Date:  {{ process.processing_date}} Process Status: <label class="label-red">{{ process.process_status}}</label> </div>
+            </div>
+          </div>
+      </div>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(40)" [height]="500" [showTitle]="true" title="Preview Application Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewApplicationDetails">
+  <div *dxTemplate="let data of 'content'" style="background:#fff;">
+    <form role="form" class="col-lg-12" enctype="multipart/form-data" role="form" [formGroup]="frmPreviewAppDetails">
+      <div class="row">
+          <div class="col-lg-12">
+            <label class="control-label">Tracking No</label>
+            <dx-text-box formControlName="tracking_no" readOnly=true [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-12">
+            <label class="control-label">Invoice No/</label>
+            <dx-text-box formControlName="proforma_invoice_no" placeholder="" readOnly=true [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-12 ">
+            <label for="ti" class="control-label">Invoice Date</label>
+
+            <dx-text-box formControlName="proforma_invoice_date" readOnly=true  [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-12 ">
+            <label for="ti" class="control-label">Sender/Receiver</label>
+
+            <dx-text-box formControlName="sender_receiver" readOnly=true  [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-12 ">
+            <label for="ti" class="control-label">Premises Name</label>
+
+            <dx-text-box formControlName="premises_name" readOnly=true  [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          
+          <div class="col-lg-12">
+            <label class="control-label">Application Type</label>
+
+            <dx-text-box formControlName="application_type" readOnly=true  placeholder="" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-12">
+            <label class="control-label">Current Status</label>
+
+            <dx-text-box formControlName="status" readOnly=true  [showClearButton]="true">
+            </dx-text-box>
+          </div>
+    </div>
+    </form>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Application Rejection Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isApplicationRejectionVisible">
+  <div *dxTemplate="let data of 'content'">
+      <dx-data-grid class="table row-border hover "  [columnHidingEnabled]="true" [dataSource]="applicationRejectionData"
+      [showBorders]="true">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-load-panel [enabled]="true">
+      </dxo-load-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+        infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-search-panel  [visible]="true" 
+        >
+      </dxo-search-panel>
+      <dxo-export [enabled]="true" fileName="Rejection Details" [allowExportSelectedData]="true"></dxo-export>
+     
+      <dxi-column [width] = 100 dataField="tracking_no"></dxi-column>
+      <dxi-column   [width] = 90  dataField="added_on"></dxi-column>
+      <dxi-column  [width] = 200  cssClass= 'WrappedColumnClass' dataField="rejection_remarks" ></dxi-column>
+    </dx-data-grid>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="1050" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+      <div class="col-lg-12" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="{{guidelines_title}}"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="is_popupguidelines">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+  <app-application-processguidelines  [sub_module_id]="sub_module_id" [module_id]="module_id" [guidelines_title] ="guidelines_title">
+  </app-application-processguidelines>
+</dx-scroll-view>
+  </div>
+</dx-popup>
+
+
+
+<dx-popup  class="popup" [width]="funcpopWidth(60)"  [height]="450" [showTitle]="true" title="Proforma Invoice"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isInvoiceGenerationWin">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view>
+          <app-application-invoices [application_code]="application_code" [tracking_no]="tracking_no" ></app-application-invoices>
+        </dx-scroll-view>
+    </div>
+</dx-popup>

@@ -1,0 +1,13 @@
+.div_section {
+    height: calc(100% - (100px + 150px)) !important;   
+    background: #fff !important;
+}
+.ngx-datatable.bootstrap .datatable-body .empty-row {
+    position: relative !important;
+    padding: 0.75rem 1.25rem !important;
+    margin-bottom: 0 !important; min-height: 420px !important;}
+    .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover{
+        background: #2b90d9 !important;
+        color: #000 !important;
+        font-weight: bold !important;
+    }

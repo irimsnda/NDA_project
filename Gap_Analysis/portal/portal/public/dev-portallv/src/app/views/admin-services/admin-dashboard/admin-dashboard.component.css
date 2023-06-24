@@ -1,0 +1,9 @@
+.assessment_title{
+  font-weight: bold !important;
+  font-size: 16px !important;
+  padding:5px !important;
+  background-color: #fff !important;
+  height: 45px  !important;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 5px !important;
+}

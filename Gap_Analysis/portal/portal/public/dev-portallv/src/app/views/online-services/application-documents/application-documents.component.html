@@ -1,0 +1,139 @@
+<input type="hidden" value="{{application_code}}"/>
+<dx-data-grid class="table row-border hover"  (onCellPrepared)="onCellPrepared($event)"  [allowColumnResizing]="true"  [columnHidingEnabled]="false"   [paging]="{ enabled: true, pageSize: 1000 }" [showRowLines] = "true"  [wordWrapEnabled] = "true" [dataSource]="appDocumentsUploadData" keyExpr="id" 
+ (onToolbarPreparing)="onApplicationDocumentToolbar($event)">
+  <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[1000]" [showNavigationButtons]="true" [showInfo]="true"
+  infoText="Page #{0}. Total: {1} ({2} items)">
+</dxo-pager>
+  <dxo-export [enabled]="true" fileName="appDocumentsUploadData" [allowExportSelectedData]="true"></dxo-export>
+
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxi-column [width]="250" caption="Action"  [allowFiltering]="false" [allowSorting]="false"
+  cellTemplate="cellTemplate">
+    <div *dxTemplate="let data of 'cellTemplate'">
+        <div class="row">
+            <dx-button text="Upload" (onClick)="funAddApplicationUploadDetails(data)"
+                type="success" icon="upload">
+              </dx-button> 
+          <dx-menu  type="success"  (onItemClick)="appDocumentsActionColClick($event,data)"  [items]="documentMenuItems"></dx-menu>
+            
+        </div>
+    </div>
+</dxi-column>
+  <dxi-column [groupIndex]="0"   dataField="document_requirement"></dxi-column>
+
+  <dxi-column dataField="file_name"></dxi-column>
+  
+  <dxi-column dataField="initial_file_name"></dxi-column>
+  
+  <dxi-column width=130 dataField="uploaded_on"></dxi-column>
+  <dxi-column dataField="remarks"></dxi-column>
+  <dxi-column  dataField="allowed_extensions" caption="Allowed File Types"></dxi-column>
+  <dxi-column width=130 dataField="is_mandatory" caption="Mandatory/Optional"></dxi-column>
+  <dxo-group-panel [visible]="true"></dxo-group-panel>
+  <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+</dx-data-grid>
+
+<!-- <a (click)="funcEditPackagingDetails(data)"><i class="fa fa-edit"></i>Edit</a>&nbsp;-->
+
+<dx-popup class="popup" [width]="800" [height]="650" [showTitle]="true" title="Document Preview" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDocumentPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <iframe [src]="document_previewurl" class="col-lg-12" height="650" ></iframe> 
+
+  </div>
+
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="900" [height]="450" [showTitle]="true" title="Documents Version Preview" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDocumentVersionPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <dx-data-grid class="table row-border hover" [wordWrapEnabled]="true"   [allowColumnResizing]="true"  [columnHidingEnabled]="true" [dataSource]="premDocumentsVersionsUploadData" keyExpr="id"  (onToolbarPreparing)="onPremisesDocumentToolbar($event)">
+          <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+          <dxo-paging [enabled]="true">
+          </dxo-paging>
+          <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+          </dxo-pager>
+          <dxo-export [enabled]="true" fileName="premDocumentsVersionUploadData" [allowExportSelectedData]="true"></dxo-export>
+
+          <dxo-selection mode="multiple"></dxo-selection>
+          <dxo-group-panel [visible]="true"></dxo-group-panel>
+          <dxi-column dataField="name"></dxi-column>
+          <dxi-column dataField="nodeType"></dxi-column>
+          <dxi-column dataField="node_ref"></dxi-column>
+          <dxi-column dataField="modifiedAt"></dxi-column>
+          <dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+            cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                  
+                <dx-menu (onItemClick)="appDocumentsActionColClick($event,data)"  [items]="documentVersionMenuItems"></dx-menu>
+                
+              </div>
+          </dxi-column>
+          
+          <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+        </dx-data-grid>
+
+
+  </div>
+
+</dx-popup>
+
+<dx-popup (onShown) = "onDocumentUploadPopupVisible()" class="popup" [width]="500" [height]="400" [showTitle]="true" title="Registration Documents Upload"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isDocumentUploadPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="appDocumentUploadfrm"
+      (ngSubmit)="onaplicationDocumentUpload()">
+      <div class="col-lg-12">
+        <label>Document Requirement</label>
+        <dx-select-box [readOnly] = true [dataSource]="appDocumentsUploadRequirement" valueExpr="document_requirement_id"  displayExpr="document_requirement"
+          placeholder="Select Document Upload" [searchEnabled]="true" formControlName="document_requirement_id">
+
+        </dx-select-box>
+      </div>
+     
+      <div class="col-lg-12">
+
+
+        <input formControlName="file" type="text" formControlName="file"  style="width: 70%;padding: 10px;margin: 8px 0px;display: inline-block;box-sizing: border-box;background: #f1f1f1;outline: 0;border-width: 0 0 2px;border-color: #4664ab;"placeholder="select file" name="uname" readonly><a style="background-color: #35BAF6;box-shadow: 0 2px 0 darkblue;color: white;padding: 10px;position: relative;width: 30%;text-decoration: none;margin: 8px 0px;"id="fileSelection">Select files</a>
+     
+      </div>
+      <div class="col-lg-12">
+        <label>Description</label>
+        <dx-text-area [height]="60" formControlName="description"  placeholder="Description"
+          [(value)]="value">
+        </dx-text-area>
+      </div>
+      <input type="hidden" formControlName="id"/>
+      <input type="hidden" formControlName="node_ref" />
+      <div class="col-lg-12">
+        <dx-button text="Upload Application Document" [disabled]="!appDocumentUploadfrm.valid" (onClick)="onaplicationDocumentUpload()"
+          type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+        </dx-button>
+      </div>
+    </form>
+  </div>
+</dx-popup>
+
+<dx-popup (onShown) = "onDocumentUploadPopupVisible()" class="popup" [width]="400"  [height]="120" [showTitle]="false" 
+  [dragEnabled]="true" [closeOnOutsideClick]="false" [(visible)]="isDocumentUploadProgressVisible">
+  <div *dxTemplate="let data of 'content'">
+    <div class="col-lg-12 row">
+      <dx-progress-bar
+        #progressBar
+        id="progress-bar-status"
+        width="100%"
+        [class.complete]="progressBar.value == maxValue"
+        [min]="0"
+        [max]="maxValue"
+        [statusFormat]="format"
+        [value]="progress_value"
+      >
+      </dx-progress-bar>
+
+    </div>
+</div>
+</dx-popup>
+
+

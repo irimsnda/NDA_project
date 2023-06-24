@@ -1,0 +1,29 @@
+<dx-popup class="popup"  [width]="funcpopWidth(30)" [height]="450" [showTitle]="true" title="Generic Name Details" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="addproductGenericNamesModal">
+  
+  <div *dxTemplate="let data of 'content'" >
+        <form [formGroup]="addproductGenericNamesFrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveNewGenericName()">
+            <div class="col-lg-12">
+              <label class="control-label">Generic Name</label>
+              <dx-text-box formControlName="name" placeholder="name" [showClearButton]="true">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-12">
+              <label class="control-label">Description</label>
+              <dx-text-area formControlName="description" placeholder="description" >
+              </dx-text-area>
+            </div>
+           
+            <input type='hidden' value='{{section_id}}' formControlName="section_id"/>
+            <input type='hidden' value = 'par_common_names' formControlName="tablename"/>
+            <div class="col-lg-12">
+                <dx-button
+                    text="Add Generic Name"
+                    type="success"
+                    icon="fa fa-plus"
+                    [elementAttr]="{  class: 'pull-left' }"
+                    (onClick)="onSaveNewGenericName()">
+                </dx-button>
+              </div>
+          </form>
+  </div>
+</dx-popup>

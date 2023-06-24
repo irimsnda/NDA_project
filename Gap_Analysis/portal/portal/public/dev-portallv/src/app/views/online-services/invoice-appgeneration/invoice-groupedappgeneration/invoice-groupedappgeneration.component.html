@@ -1,0 +1,188 @@
+
+
+<dx-button  text="Proforma Invoice (Generation) & Payment Details" (click)="funcApplicationInvoice()"
+type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+</dx-button>
+<dx-popup  class="popup" [width]="funcpopWidth(90)"  [height]="700" [showTitle]="true" title="Invoice Generation"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isInvoiceGenerationWin">
+    <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+        <div class="row">
+          <div class="col-lg-12 row " style="text-align: center;">
+            <div class="col-lg-12 pull-left" style="border-top:1px solid #ccc;">
+              
+              <dx-button text="Generate Proforma Invoice" *ngIf="!has_generated_invoice" (click)="funcApplicationInvoiceGeneration()"
+              type="success" icon="floppy" [elementAttr]="{ class: 'btn btn-primary' }">  </dx-button>
+             
+                <dx-button text="Cancel Invoice" *ngIf="has_generated_invoice"  (click)="funcCancelProformaInvoice()"
+                type="danger" icon="close" [elementAttr]="{ class: 'btn btn-danger' }">
+                </dx-button>
+                <dx-button text="Print Invoice" *ngIf="has_generated_invoice"  (click)="funcPrintProformaInvoice()" 
+                  type="default" icon="print" [elementAttr]="{ class: 'btn btn-primary' }">
+                  </dx-button>
+            
+
+             <dx-button text="Upload Payments Details(Payment Remittance Bank Slip)" *ngIf="has_generated_invoice"  (click)="funcUploadApplicationPayment()"
+              type="danger" icon="money" [elementAttr]="{ class: 'btn btn-primary' }">  </dx-button>
+              <dx-button text="Online Payment(iREMBO Payment Platform)"  (click)="funcApplicationInvOnlinePayment()"  *ngIf="has_generated_invoice" 
+                type="success" icon="globe" [elementAttr]="{ class: 'btn btn-success' }">
+                </dx-button>
+                <dx-button text="Refresh for Delayed Payment Status confirmation" *ngIf="has_generated_invoice"  (click)="funcGroupappRefreshforPaymentStatus()"
+                type="default" icon="money" [elementAttr]="{ class: 'btn btn-primary' }">  </dx-button>
+                <dx-button text="Print Payment Statement"  (click)="funcPrintGroupAppPaymentReceipt()" *ngIf="has_generated_invoice" 
+                type="default" icon="print" [elementAttr]="{ class: 'btn btn-primary' }">
+                </dx-button>
+            </div>
+          
+          </div>
+          <dx-data-grid class="table row-border hover"  [wordWrapEnabled]="true"  (onCellPrepared)="onCellPrepared($event)"  [allowColumnResizing]="false" 
+          [dataSource]="appInvoiceDeTailsData" keyExpr="id">
+         
+          <dxi-column dataField="invoice_description"></dxi-column>
+          <dxi-column  [groupIndex]="1"  dataField="tracking_no"></dxi-column> 
+          <dxi-column   cssClass= 'WrappedColumnClass'  name="command-editing"    [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplateMsg">
+            <div *dxTemplate="let data of 'cellTemplateMsg'">
+                <div [innerHTML]="data.data.element_costs"></div>
+            </div>
+          </dxi-column> 
+          <dxi-column dataField="total_invoice_amount"></dxi-column>
+          <dxi-column dataField="equivalent_invoice_amount"></dxi-column>
+          <dxi-column dataField="currency"></dxi-column>
+          <dxi-column dataField="amount_paid"></dxi-column>
+          <dxi-column dataField="payment_status"></dxi-column>
+          <dxi-column [width]=200 caption="Print Receipt" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+            cellTemplate="cellTemplateSingleREceipt">
+            <div *dxTemplate="let d of 'cellTemplateSingleREceipt'">
+              <dx-button text="Print Receipt" *ngIf="d.data.payment_id >0" (click)="funcPrintPaymentReceipt(d.data)" 
+              type="default" icon="print" [elementAttr]="{ class: 'btn btn-primary' }">
+              </dx-button>
+            </div>
+          </dxi-column>
+          <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+        </dx-data-grid>
+         <div class="col-lg-12 row " style="text-align: center;">
+          <div class="col-lg-12 pull-left" style="border-top:1px solid #ccc;">
+              
+            <dx-button text="Generate Proforma Invoice" *ngIf="!has_generated_invoice" (click)="funcApplicationInvoiceGeneration()"
+            type="success" icon="floppy" [elementAttr]="{ class: 'btn btn-primary' }">  </dx-button>
+           
+              <dx-button text="Cancel Invoice" *ngIf="has_generated_invoice"  (click)="funcCancelProformaInvoice()"
+              type="danger" icon="close" [elementAttr]="{ class: 'btn btn-danger' }">
+              </dx-button>
+              <dx-button text="Print Invoice" *ngIf="has_generated_invoice"  (click)="funcPrintProformaInvoice()" 
+                type="default" icon="print" [elementAttr]="{ class: 'btn btn-primary' }">
+                </dx-button>
+          
+
+           <dx-button text="Upload Payments Details(Payment Remittance Bank Slip)" *ngIf="has_generated_invoice"  (click)="funcUploadApplicationPayment()"
+            type="danger" icon="money" [elementAttr]="{ class: 'btn btn-primary' }">  </dx-button>
+            <dx-button text="Online Payment(iREMBO Payment Platform)"  (click)="funcApplicationInvOnlinePayment()"  *ngIf="has_generated_invoice" 
+              type="success" icon="globe" [elementAttr]="{ class: 'btn btn-success' }">
+              </dx-button>
+              <dx-button text="Refresh for Delayed Payment Status confirmation" *ngIf="has_generated_invoice"  (click)="funcGroupappRefreshforPaymentStatus()"
+              type="default" icon="money" [elementAttr]="{ class: 'btn btn-primary' }">  </dx-button>
+              <dx-button text="Print Payment Statement"  (click)="funcPrintGroupAppPaymentReceipt()" *ngIf="has_generated_invoice" 
+              type="default" icon="print" [elementAttr]="{ class: 'btn btn-primary' }">
+              </dx-button>
+              
+          </div>
+
+
+            <!--<button class="btn btn-primary pull-right" type="button"
+            (click)="onPermitsApplicationSubmit()">Submit Application for Processing</button> -->
+            
+          </div>
+        </div>      
+      </dx-scroll-view>
+    </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(65)" [height]="500" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+      <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(65)" [height]="450" [showTitle]="true" title="Upload Payment Remittances "
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="is_uploadpaymentdetailsopt">
+  <div *dxTemplate="let data of 'content'">
+    <dx-data-grid class="table row-border hover" [wordWrapEnabled]="true"  [allowColumnResizing]="true" 
+    [dataSource]="appUploadPaymentDeTailsData" (onToolbarPreparing)="onUploadPaymentDetailsOpt($event)" keyExpr="id">
+    <dxi-column [width]=400 caption="Print" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplateSingle">
+      <div *dxTemplate="let d of 'cellTemplateSingle'">
+        <dx-button text="DownLoad" (click)="funcDownloadUploadedPayments(d.data)" 
+        type="success" icon="download" [elementAttr]="{ class: 'btn btn-primary' }">
+        </dx-button>
+        <dx-button text="Edit Details" (click)="funcEditUploadedPayments(d.data)" 
+        type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+        </dx-button>
+      </div>
+    </dxi-column>
+    
+    <dxi-column dataField="amount_paid"></dxi-column> 
+    <dxi-column dataField="currency"></dxi-column> 
+    <dxi-column dataField="bank_name"></dxi-column>
+    <dxi-column dataField="payment_reference"></dxi-column>
+  </dx-data-grid>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(30)" [height]="650" [showTitle]="true" title="Upload Payment Remittances "
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="is_uploadpaymentdetailsfrm">
+  <div *dxTemplate="let data of 'content'">
+    <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="uploadpaymentdetailsfrm"
+    (ngSubmit)="onuploadpaymentdetailsSubmit()">
+    <div class="col-lg-12">
+      <label>Payment Mode</label>
+      <dx-select-box  [dataSource]="paymentModesData" valueExpr="id"  displayExpr="name"
+        placeholder="Payment Mode" [searchEnabled]="true" formControlName="payment_mode_id">
+      </dx-select-box>
+    </div>
+
+    <div class="col-lg-12">
+      <label>Bank Name</label>
+      <dx-text-box formControlName="bank_name" placeholder="Bank Name" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-12">
+      <label>Amount Paid</label>
+      <dx-text-box formControlName="amount_paid" placeholder="Amount Paid" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-12">
+      <label>Currency</label>
+      <dx-select-box  [dataSource]="currenciesData" valueExpr="id"  displayExpr="name"
+        placeholder="Currency" [searchEnabled]="true" formControlName="currency_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-12">
+      <label>Payment References No(Transaction ID)</label>
+      <dx-text-box formControlName="payment_reference" placeholder="Payment References" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    
+    <div class="col-lg-12">
+      <label>Payment Slip</label>
+      <input type="file" (change)="fileChangeEvent($event)"  class="form-control" multiple placeholder="Upload Payment Slip"/>
+    </div>
+    <input type="hidden" formControlName="invoice_id" value="{{invoice_id}}"/>
+    <div class="col-lg-12">
+      <dx-button text="Upload Application Document" [disabled]="!uploadpaymentdetailsfrm.valid" (onClick)="onuploadpaymentdetailsSubmit()"
+        type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+      </dx-button>
+    </div>
+    
+  </form>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="800" [height]="650" [showTitle]="true" title="Document Preview" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDocumentPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <iframe [src]="document_previewurl" class="col-lg-12" height="650" ></iframe> 
+
+  </div>
+
+</dx-popup>

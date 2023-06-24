@@ -1,0 +1,11 @@
+{
+    "name": "ClinicalTrial",
+    "alias": "clinicaltrial",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ClinicalTrial\\Providers\\ClinicalTrialServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,119 @@
+<div class="row wizard-content">
+  <dx-data-grid [dataSource]="permitsDrugsProductsDetails" (onToolbarPreparing)="onPermitProductGridToolbar($event)"  [allowColumnResizing]="true" [columnHidingEnabled]="false" 
+    [showBorders]="true">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false"
+      [allowSorting]="false" cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+
+        <dx-menu (onItemClick)="permitProductsActionColClick($event,data)" [items]="permitProductMenuItems">
+
+        </dx-menu>
+      </div>
+    </dxi-column>
+    
+    <dxi-column dataField="brand_name" caption="Drug Name"></dxi-column>
+    <dxi-column dataField="controlled_drugssubstances" caption="Controlled Drugs Substance"></dxi-column>
+    <dxi-column dataField="dosage_form"></dxi-column>
+    <dxi-column dataField="product_strength"></dxi-column>
+    <dxi-column dataField="pack_unitdetails" caption="Pack Unit Details"></dxi-column>
+    <dxi-column dataField="quantity" caption="Ordered"></dxi-column>
+    
+    <dxo-summary>
+      
+      <dxi-total-item
+          column="total_value"
+          summaryType="sum">
+      </dxi-total-item>
+  </dxo-summary>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+  </dx-data-grid>
+</div>
+
+<dx-popup class="popup"  [width]="funcpopWidth(75)" height="funcpopHeight(80)" [showTitle]="true" title="Permit Products Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPermitproductsPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+
+    <dx-scroll-view>
+      <div class="row col-lg-12">
+          <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="permitProductsFrm"
+          (ngSubmit)="onsavePermitProductdetails()">
+          <div class="col-lg-12 row row-no-margin ">
+            
+            <div class="col-lg-6 ">
+              <label>Drug Name</label>
+              <dx-text-box placeholder="Drug Name" formControlName="brand_name">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-6 ">
+              <label>Controlled Drugs Substance</label>
+              <dx-select-box [dataSource]="controlDrugsSubstanceData" valueExpr="id" placeholder="Select Controlled Drugs Substance"  
+                displayExpr="name" formControlName="controlled_drugssubstances_id" [searchEnabled]="true">
+              </dx-select-box>
+            </div>
+            
+            <div class="col-lg-6">
+              <label>Dosage Form</label>
+              <dx-select-box [dataSource]="dosageFormsData" valueExpr="id" placeholder="Select Product Dosage Form"
+                displayExpr="name" formControlName="dosage_form_id" [searchEnabled]="true">
+              </dx-select-box>
+            </div>
+          
+            <div class="col-lg-6  row" style="margin-left: 5px !important;padding:0px !important;">
+              <div class="col-lg-6">
+                <label>Product Strength</label>
+                <dx-number-box placeholder="Product Strength"  (onValueChanged)="funcChangeProductStrength($event)"   formControlName="product_strength">
+                </dx-number-box>
+              </div>
+              <div class="col-lg-6">
+                <label>Units</label>
+                <dx-select-box [dataSource]="gramsBaseSiUnitData" valueExpr="id" placeholder="Select Units"
+                  displayExpr="name"  formControlName="gramsbasesiunit_id" [searchEnabled]="true">
+                </dx-select-box>
+              </div>
+            </div>
+            <div class="col-lg-6  row" style="margin-left: 5px !important;padding:0px !important;">
+              <div class="col-lg-6">
+                <label>Packaging Unit Size</label>
+                <dx-text-box placeholder="Pack Unit"  formControlName="pack_unit">
+                </dx-text-box>
+              </div>
+              <div class="col-lg-6">
+                <label>Packaging Type</label>
+                <dx-select-box [dataSource]="drugsPackagingTypeData" valueExpr="id" placeholder="Select Packaging Type"
+                  displayExpr="name" formControlName="drugspackaging_type_id" [searchEnabled]="true">
+                </dx-select-box>
+              </div>
+            </div>
+           
+            <div class="col-lg-6">
+              <label>Quantity Ordered</label>
+              <dx-number-box placeholder="Item Quantity"
+              formControlName="quantity">
+              </dx-number-box>
+            </div>
+          
+            <div class="col-lg-12 ">
+              <input type="hidden" formControlName="id" />
+              <input type="hidden" formControlName="product_id" />
+              
+            </div>
+            <dx-button text="Save Products Details"
+              (onClick)="onsavePermitProductdetails()" type="success" icon="save"
+              [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+            </dx-button>
+          </div>
+        </form>
+      </div>
+    </dx-scroll-view>
+    </div>
+    </dx-popup>

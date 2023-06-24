@@ -1,0 +1,83 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Trader Account Users</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active">Profile</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+        <dx-data-grid class="table row-border hover " [allowColumnResizing]="true" [columnHidingEnabled]="true" [dataSource]="dtaTraderaccountUsers"
+        [showBorders]="true" (onToolbarPreparing)="onTradersToolbarPreparing($event)" keyExpr="id">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-load-panel [enabled]="true">
+        </dxo-load-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+          infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-search-panel 
+            [visible]="true">
+        </dxo-search-panel>
+        <dxo-export [enabled]="true" fileName="TraderAccount" [allowExportSelectedData]="true"></dxo-export>
+
+        <dxo-selection mode="single"></dxo-selection>
+       
+        <dxi-column  dataField="email"></dxi-column>
+
+        <dxi-column  dataField="account_role"></dxi-column>
+        <dxi-column dataField="telephone_no" ></dxi-column>
+        <dxi-column dataField="identification_no" ></dxi-column>
+        <dxi-column dataField="created_on" ></dxi-column>
+        <dxi-column dataField="last_login_time" ></dxi-column>
+        <dxi-column name="command-editing"  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+            <div *dxTemplate="let data of 'cellTemplate'">
+              
+              <a (click)="funcUpdateTraderUserAccountDetails(data)"><i class="fa fa-edit"></i>Update User Details</a>&nbsp;
+
+            </div>
+          </dxi-column>
+        <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+      </dx-data-grid>
+</div>
+
+<dx-popup class="popup"  [width]="funcpopWidth(30)" [height]="420" [showTitle]="true" title="Account Users" [dragEnabled]="false" [closeOnOutsideClick]="" [(visible)]="addTraderUsersAccountFrmWin">
+  
+    <div *dxTemplate="let data of 'content'" >
+          <form [formGroup]="traderUsersAccountFrm" class="col-lg-12  div-nopadding" style="background: #fff;" role="form" (ngSubmit)="onSavetraderUsersAccountDetails()">
+              <div class="col-lg-12">
+                <label class="control-label">User Email Address</label>
+                <dx-text-box formControlName="email_address" placeholder="email_address" [showClearButton]="true">
+                </dx-text-box>
+              </div>
+              <div class="col-lg-12">
+                  <label>Account Password</label>
+                  
+                  <dx-text-box formControlName="password" mode="password" placeholder="Password">
+                    </dx-text-box>
+            </div>
+            <div class="col-lg-12">
+                <label>Confirm Password</label>
+                <dx-text-box formControlName="confirm_password" mode="password" placeholder="Password">
+                  </dx-text-box>
+                  <input type="hidden" formControlName="id"/>
+          </div>
+              <div class="col-lg-12">
+                  <dx-button
+                      text="Add Account"
+                      type="success"
+                      icon="fa fa-plus"
+                      [elementAttr]="{  class: 'pull-left' }"
+                      (onClick)="onSavetraderUsersAccountDetails()">
+                  </dx-button>
+                </div>
+            </form>
+    </div>
+</dx-popup>

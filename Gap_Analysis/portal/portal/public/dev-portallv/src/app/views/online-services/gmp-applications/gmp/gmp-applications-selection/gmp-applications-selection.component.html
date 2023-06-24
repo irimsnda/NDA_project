@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">GMP Inspection Application Process</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active">GMP Inspection  Application Selection</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+
+<form enctype="multipart/form-data" style="margin:0.5px" class="row div-whiteback " role="form" [formGroup]="GmpAppSelectionfrm"
+  (ngSubmit)="onGmpAppSelection()">
+  <div class="col-lg-12" style="margin-bottom: 30px;">
+    <h6 class="main-title col-lg-12">Guideline to start GMP Inspection Application</h6>
+  
+    <span>Select GMP Inspection facility location and then click start Application .</span>
+    <br/>
+  </div>
+  <div class="col-lg-6 apptype-selection bg-light text-dark">
+      <label>Facility Location</label>
+
+
+        <dx-select-box [dataSource]="gmpLocationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Manufacturing Facility Location" 
+          formControlName="gmp_type_id">
+          <div *dxTemplate="let name of 'item'">
+            <div>{{name.name}}</div>
+        </div>
+      </dx-select-box>
+  <input type="hidden" formControlName="sub_module_id" value=5/>
+  
+  </div>
+  <div class="col-lg-12 ">
+    <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left' }" icon="fa fa-dashboard"  text="Back to GMP Dashboard" 
+    type="default" (onClick)="onGmpBackToDashboard()">
+    </dx-button>
+    <dx-button  [elementAttr]="{ class: 'btn btn-primary  pull-left' }"    icon="fa fa-arrow-right" text="Start GMP Application" 
+    [disabled]="!GmpAppSelectionfrm.valid" 
+      type="success" (onClick)="onGmpAppSelection()">
+    </dx-button>
+    
+  </div>
+</form>
+
+<div class="row div-backwhite" style="margin:0.5px">
+  <h6 class="main-title float-left">Gmp Inspection Application Guidelines/Definations</h6>
+  <div style="height: 100% !important; " class="col-lg-12">
+
+      <dx-data-grid [columnHidingEnabled]="true" class="table row-border hover" [dataSource]="dtAppGuidelinesData" keyExpr="ID">
+          <dxo-filter-row [visible]="false"></dxo-filter-row>
+          <dxo-search-panel 
+              [visible]="true" 
+            >
+          </dxo-search-panel>
+          <dxo-paging [enabled]="true">
+          </dxo-paging>
+          <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+          </dxo-pager>
+          <dxo-export [enabled]="true" fileName="dtAppGuidelinesData" [allowExportSelectedData]="true"></dxo-export>
+    
+          <dxo-group-panel [visible]="true"></dxo-group-panel>
+          <dxi-column width=180 dataField="application_type" [groupIndex]="0"></dxi-column>
+         
+          <dxi-column name="command-editing" [width] = 50  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+              <div *dxTemplate="let data of 'cellTemplate'">
+                  <div [innerHTML]="data.data.step"></div>
+                 
+                  <div [innerHTML]="data.data.guideline"></div>
+                 
+              </div>
+              </dxi-column>
+          <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+        </dx-data-grid>
+  </div>
+</div>

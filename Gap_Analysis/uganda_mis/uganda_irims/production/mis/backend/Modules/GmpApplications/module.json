@@ -1,0 +1,11 @@
+{
+    "name": "GmpApplications",
+    "alias": "gmpapplications",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GmpApplications\\Providers\\GmpApplicationsServiceProvider"
+    ],
+    "files": []
+}

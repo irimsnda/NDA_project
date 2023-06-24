@@ -1,0 +1,84 @@
+
+ <form enctype="multipart/form-data" role="form" [formGroup]="trader_profile" >
+  <div class="row div-nopadding col-lg-12">
+    <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+      <label class="control-label">Account Type</label>
+      <dx-select-box [dataSource]="accountTypesData" [readOnly]="true" valueExpr="id" displayExpr="name" placeholder="Select Account Type"
+         [searchEnabled]="true" formControlName="traderaccount_type_id">
+      </dx-select-box>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+
+      <label class="control-label">Trader Name</label>
+
+      <dx-text-box formControlName="name" [readOnly]= "isReadOnly" placeholder="Trader Name">
+      </dx-text-box>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+      <label for="ti" class="control-label">Email Address</label>
+      <dx-text-box  formControlName="email"  [readOnly]= "isReadOnly"  placeholder="Email Address">
+      </dx-text-box>
+    </div>
+    
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+      <label class="control-label">Country</label>
+
+      <dx-select-box [dataSource]="countries"  [readOnly]= "isReadOnly" valueExpr="id" displayExpr="name" placeholder="Select Country"
+        (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+      </dx-select-box>
+    </div>
+   
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+      <label class="control-label">Region/City</label>
+
+      <dx-select-box [dataSource]="regions"  [readOnly]= "isReadOnly" valueExpr="id" displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)"
+        [searchEnabled]="true" formControlName="region_id">
+      </dx-select-box>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+      <label for="ti" class="control-label">District(Optional)</label>
+
+      <dx-select-box [dataSource]="districts"  [readOnly]= "isReadOnly" valueExpr="id" placeholder="Select District" displayExpr="name"
+        [searchEnabled]="true" formControlName="district_id">
+      </dx-select-box>
+    </div>
+
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+      <label for="ti" class="control-label">Postal  Address</label>
+      <dx-text-box formControlName="postal_address"  [readOnly]= "isReadOnly" placeholder="Postal Address">
+      </dx-text-box>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+      <label for="ti" class="control-label">Telephone No</label>
+
+      <dx-text-box formControlName="telephone_no"  [readOnly]= "isReadOnly" placeholder="Telephone No">
+      </dx-text-box>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+      <label class="control-label col-lg-12">Mobile No</label>
+
+      <dx-text-box formControlName="mobile_no"  placeholder="Mobile No">
+      </dx-text-box>
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4 " *ngIf="isTPinNumberEnabled">
+      <label for="ti" class="control-label col-lg-12">TPIN No</label>
+
+      <dx-text-box formControlName="tpn_no"  [readOnly]= "isReadOnly" placeholder="TPIN NO">
+      </dx-text-box>
+
+    </div>
+    <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4 " *ngIf="isPacroNumberEnabled">
+      <label for="ti" class="control-label col-lg-12">Pacra No(Company)</label>
+      <dx-text-box formControlName="pacra_no"  [readOnly]= "isReadOnly" placeholder="Pacra No">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-12">
+      <label class="control-label">Physical Address</label>
+
+      <dx-text-area [height]="60" formControlName="physical_address"  [readOnly]= "isReadOnly" placeholder="Physical Address">
+      </dx-text-area>
+    </div>
+    <input type="hidden"  formControlName="id"/>
+  </div>  
+ 
+</form>

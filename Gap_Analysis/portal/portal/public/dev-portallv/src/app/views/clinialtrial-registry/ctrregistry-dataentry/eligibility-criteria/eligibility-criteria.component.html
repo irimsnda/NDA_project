@@ -1,0 +1,73 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="ctrEligibilityCriteriaFrm">
+
+  <div class="row wizard-content">
+  
+    <div class="col-lg-6">
+      <label class="control-label">List Inclusion criteria </label>
+      <dx-text-area  formControlName="inclusion_criteria"  [readOnly]="is_readonly"  placeholder="" >
+      </dx-text-area>
+    </div>
+    <div class="col-lg-6">
+      <label class="control-label">List Exclusion criteria </label>
+      <dx-text-area  formControlName="exclusion_criteria"  [readOnly]="is_readonly"  placeholder="" >
+      </dx-text-area>
+    </div>
+    <div class="col-lg-6">
+      <label class="control-label">Age group</label>
+      <dx-tag-box
+          [items]="ageGroupData"
+          formControlName="age_groups"
+          placeholder="Age group"
+          valueExpr="id"
+          [searchEnabled]="true"
+          [readOnly]="is_readonly" 
+          [showSelectionControls]="true"
+          applyValueMode="useButtons"
+          displayExpr="name">
+    
+      </dx-tag-box>
+    </div>
+    <div class="col-lg-6">
+      <label>Sex</label>
+      <dx-select-box [dataSource]="sexData"  [readOnly]="is_readonly"  valueExpr="id" displayExpr="name"
+        placeholder="Select Sex" [searchEnabled]="true"
+        formControlName="sex_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-6  row">
+      <div class="col-lg-6 ">
+        <label class="control-label">Minimum Age</label>
+       
+        <dx-number-box formControlName="minimum_age"  [readOnly]="is_readonly"  placeholder="Minimum Age" [showClearButton]="true">
+          </dx-number-box>
+      </div>
+      <div class="col-lg-6">
+        <label class="control-label">Min Age Description</label>
+       
+        <dx-select-box [dataSource]="durationDescData"  [readOnly]="is_readonly"  valueExpr="id" displayExpr="name"
+          placeholder="Min Duration Description" [searchEnabled]="true"
+          formControlName="minage_duration_desc">
+        </dx-select-box>
+      </div>
+  
+    </div>
+    <div class="col-lg-6  row">
+      <div class="col-lg-6 ">
+        <label class="control-label">Maximum  Age</label>
+       
+        <dx-number-box formControlName="maximum_age"  [readOnly]="is_readonly"  placeholder="Minimum Age" [showClearButton]="true">
+          </dx-number-box>
+      </div>
+      <div class="col-lg-6">
+        <label class="control-label">Max Age Description</label>
+       
+        <dx-select-box [dataSource]="durationDescData"  [readOnly]="is_readonly"  valueExpr="id" displayExpr="name"
+          placeholder="Max Duration Description" [searchEnabled]="true"
+          formControlName="maxage_duration_desc">
+        </dx-select-box>
+      </div>
+    </div>
+    
+    </div>
+
+    </form>

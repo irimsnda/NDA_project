@@ -1,0 +1,849 @@
+<div class="row">
+    <div class="col-xl-12">
+        <div class="breadcrumb-holder">
+            <h1 class="main-title float-left">Process: {{process_title}}</h1>
+            <ol class="breadcrumb float-right">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item active">Dashboard</li>
+                <li class="breadcrumb-item active">Drug Shop Application</li>
+            </ol>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+    <div class="row">
+        <div class="col-lg-4">
+            <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">   Tracking No: <i> {{tracking_no}}</i>   </label>
+        </div>
+        <div class="col-lg-4">
+            <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application Status:<i> {{status_name}}</i> </label>
+        </div>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12" *ngIf="status_id === 57">
+        <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+            <wizard-step stepTitle="Request for CAPA Submission(Identified Issues)" class="wizardStep-height">
+                <div class="col-lg-12 wizard-content">
+                      
+                        <div class="accordion" id="CaPaResponsesDiv">
+
+                            <div class="card">
+                            <div class="card-headerdefined" id="headingTwo">
+                        
+                                <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#identified_capa"
+                                aria-expanded="false" aria-controls="identified_capa">
+                                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                Request for CAPA Submission(Identified Issues)
+                                </button>
+                            </div>
+                            <div id="identified_capa" class="collapse show" aria-labelledby="headingTwo" data-parent="#CaPaResponsesDiv">
+                                <div class="card-body no-padding">
+                                <div class="no-padding">
+                                    <dx-data-grid class="table row-border hover row"  [wordWrapEnabled]="true"  [columnHidingEnabled]="false" [dataSource]="applicationCAPARequestsData" (onToolbarPreparing)="onAppQueryPreparing($event)"
+                                    [showBorders]="true">
+                                        <dxo-filter-row [visible]="false"></dxo-filter-row>
+                                        <dxo-load-panel [enabled]="true">
+                                        </dxo-load-panel>
+                                        <dxo-paging [enabled]="true">
+                                        </dxo-paging>
+                                        <dxo-selection mode="single"></dxo-selection>
+                                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+                                        infoText="Page #{0}. Total: {1} ({2} items)">
+                                        </dxo-pager>
+                                        <dxo-search-panel  [visible]="true" 
+                                        >
+                                        </dxo-search-panel>
+                                            <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                                            cellTemplate="cellTemplate">
+                                            <div *dxTemplate="let data of 'cellTemplate'">
+                                                <dx-button text="CAPA Response" (click)="funcInitCAPAResponse(data)"
+                                                type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+                                            </dx-button>
+                                            <a (click)="funcPrintcapaRequestsLetter(data)" class="action-btn"><i class="fa fa-download"></i>DownLoad CAPA Request Letter</a>&nbsp;
+                                        </div>
+                                        </dxi-column>
+                                        
+                                        <dxi-column name="command-editing"  caption="Deficiencies" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate1">
+                                            <div *dxTemplate="let data of 'cellTemplate1'">
+                                                <div [innerHTML]="data.data.deficiencies"></div>
+                                            </div>
+                                        </dxi-column> 
+                                        <dxi-column name="command-editing"  caption="Deficiencies" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate2">
+                                            <div *dxTemplate="let data of 'cellTemplate2'">
+                                                <div [innerHTML]="data.data.deficiency_references"></div>
+                                            </div>
+                                        </dxi-column> 
+                                        <dxi-column name="command-editing"  caption="Root cause Analysis" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate3">
+                                            <div *dxTemplate="let data of 'cellTemplate3'">
+                                                <div [innerHTML]="data.data.root_causeanalysis"></div>
+                                            </div>
+                                        </dxi-column> 
+                                        <dxi-column name="command-editing"  caption="Correction and proposed corrective actions" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate4">
+                                            <div *dxTemplate="let data of 'cellTemplate4'">
+                                                <div [innerHTML]="data.data.corrective_actions"></div>
+                                            </div>
+                                        </dxi-column> 
+
+                                        <dxi-column name="command-editing"  caption="The steps that have or will be taken for the demonstration of the effectiveness of the actions taken" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate5">
+                                            <div *dxTemplate="let data of 'cellTemplate5'">
+                                                <div [innerHTML]="data.data.corrective_actionssteps"></div>
+                                            </div>
+                                        </dxi-column> 
+
+
+                                        <dxi-column name="command-editing"  caption="Completion Date Timeline" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate6">
+                                            <div *dxTemplate="let data of 'cellTemplate6'">
+                                                <div [innerHTML]="data.data.completion_date"></div>
+                                            </div>
+                                        </dxi-column> 
+                                        
+                                    </dx-data-grid>
+                        
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+            </div>
+            <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                <button (click)="onProductDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                class="fa fa-dashboard"></i>
+                &nbsp; Dashboard</button>
+               
+                <button type="button" class="btn btn-primary" (click)="funcValidateApplicationQueryresponse(1)" >Next(Document Upload) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+            </div>
+            </wizard-step>
+            <wizard-step stepTitle="Documents" class="wizardStep-height">
+                <div class=" wizard-content">
+                    <app-application-documents [section_id]="section_id" [module_id]="module_id" [status_id]="status_id" [sub_module_id]="sub_module_id" [premise_type_id]="premise_type_id" [application_code]="application_code"></app-application-documents>
+                </div>
+                <div class="wizard-divbottom">
+                    <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Previous</button>
+                  
+                    <button type="button" class="btn btn-primary" (click)="funcValidatePremDocumentsUpload(2)">Next Application Submission<i class="fa fa-angle-double-right"></i></button>
+
+                </div>
+
+            </wizard-step>
+                <wizard-step stepTitle="CAPA responses Submission">
+                        <div class="row" >
+
+                                <div class="col-lg-12">
+                                    <b><h4>Declaration</h4></b>
+                                    <ul>
+                                        <li *ngFor="let guide of terms_conditions;">
+                                            <p>{{guide.no}} {{guide.term_conditiondetails}}</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-lg-12">
+                                   <b> <h4>Submission Comments(Optional)</h4></b>
+                                    <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+                                </div>
+                                <div class="col-lg-12">
+                                    <dx-check-box text="Agree to the Declaration" [value]="undefined" (onValueChanged)="newPremTermscheckbox($event)">
+                                    </dx-check-box>
+                                </div>
+                            </div>
+            
+                    <div class="wizard-divbottom">
+                      <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                    <!-- <app-invoice-appgeneration  [onApplicationSubmissionFrm] ="onApplicationSubmissionFrm" [module_id] ="module_id"  [status_id] ="status_id" [application_code]="application_code" ></app-invoice-appgeneration>--> 
+                                    <button class="btn btn-primary" type="button" [disabled]="!checkPremisesSubmission" (click)="onPremisesApplicationSubmit()">Submit Premises
+                            Application</button>
+                    </div>
+                  </wizard-step>
+    
+          </wizard>
+
+</div>
+<div class="col-lg-12" *ngIf="status_id === 52">
+    <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+        <wizard-step stepTitle="Request for Re-Inspection Information(Identified Issues)" class="wizardStep-height">
+            <div class="col-lg-12 wizard-content">
+                  
+                    <div class="accordion" id="ReinspectionResponsesDiv">
+
+                        <div class="card">
+                        <div class="card-headerdefined" id="headingTwo">
+                    
+                            <button class="btn btn-link " type="button" data-toggle="collapse" data-target="#identified_capa"
+                            aria-expanded="false" aria-controls="identified_capa">
+                            <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                            Request for Re-Inspection(Identified Issues)
+                            </button>
+                        </div>
+                        <div id="identified_capa" class="collapse show" aria-labelledby="headingTwo" data-parent="#ReinspectionResponsesDiv">
+                            <div class="card-body no-padding">
+                            <div class="no-padding">
+                                <dx-data-grid class="table row-border hover row"  [columnHidingEnabled]="false" [dataSource]="applicationReinspectionRequestsData"  [wordWrapEnabled]="true"  (onToolbarPreparing)="onAppQueryPreparing($event)"
+                                [showBorders]="true">
+                                    <dxo-filter-row [visible]="false"></dxo-filter-row>
+                                    <dxo-load-panel [enabled]="true">
+                                    </dxo-load-panel>
+                                    <dxo-paging [enabled]="true">
+                                    </dxo-paging>
+                                    <dxo-selection mode="single"></dxo-selection>
+                                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+                                    infoText="Page #{0}. Total: {1} ({2} items)">
+                                    </dxo-pager>
+                                    <dxo-search-panel  [visible]="true" 
+                                    >
+                                    </dxo-search-panel>
+                                    <dxi-column [width]="210" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                                        cellTemplate="cellTemplate">
+                                        <div *dxTemplate="let data of 'cellTemplate'">
+                                           
+                                        <a (click)="funcPrintReinspectionRequestsLetter(data)" class="action-btn"><i class="fa fa-download"></i>Print Letter of Re-Inspection Documents</a>&nbsp;
+                                    </div>
+                                    </dxi-column>
+                                   
+                                    <dxi-column name="command-editing"  caption="Query/Finding Details" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate1">
+                                        <div *dxTemplate="let data of 'cellTemplate1'">
+                                            <div [innerHTML]="data.data.comments"></div>
+                                        </div>
+                                    </dxi-column> 
+                                    <dxi-column   [width] = 150 caption="Requested On" dataField="added_on"></dxi-column>
+                                </dx-data-grid>
+                    
+                            </div>
+                            </div>
+                        </div>
+                       
+                       
+                        </div>
+                    </div>
+        </div>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+            <button (click)="onProductDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+            class="fa fa-dashboard"></i>
+            &nbsp; Dashboard</button>
+           
+            <button type="button" class="btn btn-primary" (click)="funcValidateApplicationQueryresponse(1)" >Next(Document Upload) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+        </wizard-step>
+        <wizard-step stepTitle="Documents" class="wizardStep-height">
+            <div class=" wizard-content">
+                <app-application-documents [section_id]="section_id" [module_id]="module_id" [status_id]="status_id" [sub_module_id]="sub_module_id" [premise_type_id]="premise_type_id" [application_code]="application_code"></app-application-documents>
+            </div>
+            <div class="wizard-divbottom">
+                <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Previous</button>
+              
+                <button type="button" class="btn btn-primary" (click)="funcValidatePremDocumentsUpload(2)">Next Application Submission<i class="fa fa-angle-double-right"></i></button>
+            </div>
+        </wizard-step>
+            <wizard-step stepTitle="Re-Inspection Request Response Submission">
+                    <div class="row" >
+
+                            <div class="col-lg-12">
+                                <b><h4>Declaration</h4></b>
+                                <ul>
+                                    <li *ngFor="let guide of terms_conditions;">
+                                        <p>{{guide.no}} {{guide.term_conditiondetails}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-12">
+                               <b> <h4>Submission Comments(Optional)</h4></b>
+                                <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+                            </div>
+                            <div class="col-lg-12">
+                                <dx-check-box text="Agree to the Declaration" [value]="undefined" (onValueChanged)="newPremTermscheckbox($event)">
+                                </dx-check-box>
+                            </div>
+                        </div>
+                <div class="wizard-divbottom">
+                  <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                  <app-invoice-appgeneration  [onApplicationSubmissionFrm] ="onApplicationSubmissionFrm" [module_id] ="module_id"  [status_id] ="status_id" [application_code]="application_code" ></app-invoice-appgeneration>
+                                <button class="btn btn-primary" type="button" [disabled]="!checkPremisesSubmission" (click)="onPremisesApplicationSubmit()">Submit Premises
+                        Application</button>
+                </div>
+              </wizard-step>
+
+      </wizard>
+
+</div>
+        <div class="col-lg-12" *ngIf="( status_id !== 52 && status_id !== 57) && (status_id === 6 || status_id === 8)">
+                <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;"  navigationMode="free" navBarLayout ="large-filled-symbols">
+                    <wizard-step stepTitle="Application Queries" class="wizardStep-height">
+                        <div class="col-lg-12 wizard-content">
+                              
+                        <dx-data-grid class="table row-border hover row"   [wordWrapEnabled]="true"  [columnHidingEnabled]="false" [dataSource]="applicationPreckingQueriesData" (onToolbarPreparing)="onProdAppQueryPreparing($event)"
+                        [showBorders]="true">
+                        <dxo-filter-row [visible]="false"></dxo-filter-row>
+                        <dxo-load-panel [enabled]="true">
+                        </dxo-load-panel>
+                        <dxo-paging [enabled]="true">
+                        </dxo-paging>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+                          infoText="Page #{0}. Total: {1} ({2} items)">
+                        </dxo-pager>
+                        <dxo-search-panel  [visible]="true" 
+                          >
+                        </dxo-search-panel>
+                        <dxo-export [enabled]="true" fileName="Query Details" [allowExportSelectedData]="true"></dxo-export>
+                        <dxi-column [width]="210" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                            cellTemplate="cellTemplate">
+                            <div *dxTemplate="let data of 'cellTemplate'">
+                                <dx-button text="Query Response" (click)="funcInitQueryResponse(data)"
+                                type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+                              </dx-button>
+                             <!-- <a (click)="funcDownloadQueryLetter(data)" class="action-btn"><i class="fa fa-download"></i>DownLoad Query Letter</a>&nbsp;-->-->
+                          </div>
+                        </dxi-column>
+                        <dxi-column   [width] = 120 caption="Queried On" dataField="added_on"></dxi-column>
+                        
+                        <dxi-column name="command-editing"  caption="Query Details" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate1">
+                            <div *dxTemplate="let data of 'cellTemplate1'">
+                                <div [innerHTML]="data.data.queries_remarks"></div>
+                            </div>
+                        </dxi-column> 
+                        <dxi-column name="command-editing"  caption="Query Response" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate2">
+                            <div *dxTemplate="let data of 'cellTemplate2'">
+                                <div [innerHTML]="data.data.response_txt"></div>
+                            </div>
+                        </dxi-column> 
+                       
+                    </dx-data-grid>
+                    
+    </div>
+    <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+        <button (click)="onProductDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+          class="fa fa-dashboard"></i>
+        &nbsp; Dashboard</button>
+      <button type="button" class="btn btn-primary" (click)="funcValidateApplicationQueryresponse(1)" >Next(Query Responses) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+    </div>
+</wizard-step>
+            
+                        <wizard-step stepTitle="Query Response Submission">
+                                <div class="row" >
+
+                                        <div class="col-lg-12">
+                                            <b><h4>Declaration</h4></b>
+                                            <ul>
+                                                <li *ngFor="let guide of terms_conditions;">
+                                                    <p>{{guide.no}} {{guide.term_conditiondetails}}</p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-lg-12">
+                                           <b> <h4>Submission Comments(Optional)</h4></b>
+                                            <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <dx-check-box text="Agree to the Declaration" [value]="undefined" (onValueChanged)="newPremTermscheckbox($event)">
+                                            </dx-check-box>
+                                        </div>
+                                    </div>
+                    
+                            <div class="wizard-divbottom">
+                              <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                             
+                                            <button class="btn btn-primary" type="button" [disabled]="!checkPremisesSubmission" (click)="onPremisesApplicationSubmit()">Submit Premises
+                                    Application</button>
+                            </div>
+                          </wizard-step>
+            
+                  </wizard>
+
+    </div>
+      
+
+
+ 
+<div class="col-lg-12"  *ngIf="( status_id !== 52 && status_id !== 57) && (status_id !== 8 && status_id !== 6)">
+    <wizard style="background: #fff !important; height: 100% !important;" navigationMode="strict" navBarLayout ="large-filled-symbols">
+        <wizard-step stepTitle="Drug Shops Application Details"  navigationSymbol="Step 1" class="wizardStep-height">
+                <app-drugshop-generaldetails  [premisesGeneraldetailsfrm] ="premisesGeneraldetailsfrm"  
+                [sectionsData] ="sectionsData"  
+                [premisesTypeData] ="premisesTypeData"  
+                [countries] ="countries"  
+                [regions] ="regions"
+                [classificationData] ="classificationData"
+                [districts] ="districts"  
+                [businessTypesData] ="businessTypesData" 
+                [businessScaleData] ="businessScaleData"  
+                [businessCategoryData] ="businessCategoryData"  
+                [zoneData] ="zoneData"  
+                [confirmDataParam] ="confirmDataParam"
+                [sub_module_id] ="sub_module_id" 
+                [module_id] ="module_id" 
+                [application_code] ="application_code"
+                [tra_premise_id] ="tra_premise_id" 
+                [registered_id] ="registered_id"
+                [isReadOnlyTraderasContact] ="isReadOnlyTraderasContact" 
+                [premisesGeneraldetailsfrm] ="premisesGeneraldetailsfrm" 
+                [payingCurrencyData] ="payingCurrencyData" 
+                [fastTrackOptionsData] ="fastTrackOptionsData" 
+                [newPremisesPersonnelDetailsFrm] ="newPremisesPersonnelDetailsFrm"
+                (businessTypeEvent)="business_type_id=$event"
+                [is_readonly] ="is_readonly" >
+  
+                </app-drugshop-generaldetails>
+                <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+                    <dx-button
+                        text="Dashboard"
+                        type="success"
+                        icon="fa fa-eraser"
+                        [elementAttr]="{  class: 'pull-left' }"
+                        (onClick)="onPremisesDashboard()">
+                    </dx-button>
+                    <button type="submit" (click)="onSavePremisesApplication()" class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Drug Shop
+          Application && Drug Shop Documents  Next </button>
+
+                </div>
+        </wizard-step>
+          <wizard-step stepTitle=" Directors or Partner Details && License to Operate Pharmaceutical Business"   navigationSymbol="Step 2" class="wizardStep-height">
+            
+            <div class="accordion" id="premisesInfo" >
+                <div class="card" >
+                    <div class="card-headerdefined" id="headingTwo">
+                        <button class="btn btn-link " type="button" 
+                            data-toggle="collapse" data-target="#premises_otherdetails"
+                             aria-expanded="false" aria-controls="premises_otherdetails">
+                             Directors or Partner Details applying on Behalf of Company
+                        </button>
+                    </div>
+                <div id="premises_otherdetails" class="collapse show" 
+                    aria-labelledby="headingTwo" data-parent="#premisesInfo">
+                    <div class="card-body no-padding">
+                        <div class="no-padding">
+                            <app-drugshop-personneldetails
+                                [premisesDirectorsDetailsfrm] ="premisesDirectorsDetailsfrm"  
+                                [newPremisesDirectorsDetailsFrm] ="newPremisesDirectorsDetailsFrm"  
+                                [premDirectorsDetailsData] ="premDirectorsDetailsData"  
+                                [isBusinessPersonnelPopupVisible] ="isBusinessPersonnelPopupVisible"  
+                                [qualificationsData] ="qualificationsData"  
+                                [personnelPositionData] ="personnelPositionData"  
+                                [studyFieldsData] ="studyFieldsData"  
+                                [personnel_informationData] ="personnel_informationData"  
+                                [isaddNewPremisesDirectorsDetails] ="isaddNewPremisesDirectorsDetails"  
+                                [is_readonly] ="is_readonly"  
+                                [premise_id] ="premise_id"  
+                                [premisesGeneraldetailsfrm] ="premisesGeneraldetailsfrm"  
+                                >
+                             </app-drugshop-personneldetails>          
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-headerdefined" id="headingTwo">
+                      <button class="btn btn-link " type="button" 
+                        data-toggle="collapse" data-target="#premises_staffdetails"
+                        aria-expanded="false" aria-controls="premises_staffdetails">
+                        Does The Applicant or Director hold License to Operate Pharmaceutical Business
+                      </button>
+                    </div>
+                    <div id="premises_staffdetails" class="collapse show" 
+                        aria-labelledby="headingTwo" data-parent="#premisesInfo">
+                        <div class="card-body no-padding">
+                            <div class="no-padding">
+                                <app-drugshop-licensedetails 
+                                [premisesStafflDetailsfrm] ="premisesStafflDetailsfrm"  
+                                [newPremisesStafflDetailsfrm] ="newPremisesStafflDetailsfrm"  
+                                [premPersonnelDetailsData] ="premPersonnelDetailsData" 
+                                [countries] ="countries"  
+                                [regions] ="regions"  
+                                [districts] ="districts"
+                                [traderAccountsDetailsData] ="traderAccountsDetailsData"
+                                [isBusinessPersonnelPopupVisible] ="isBusinessPersonnelPopupVisible"  
+                                [qualificationsData] ="qualificationsData"  
+                                [personnelPositionData] ="personnelPositionData"  
+                                [studyFieldsData] ="studyFieldsData"  
+                                [personnel_informationData] ="personnel_informationData"  
+                                [isaddNewPremisesPersonnelDetails] ="isaddNewPremisesPersonnelDetails"  
+              
+                                [is_readonly] ="is_readonly"  
+
+                                [premise_id] ="premise_id"  
+                                [premisesGeneraldetailsfrm] ="premisesGeneraldetailsfrm"  
+                                >
+                                </app-drugshop-licensedetails>   
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </div>  
+            <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                <button type="button" class="btn btn-primary" previousStep>&nbsp;<i class="fa fa-angle-double-left"></i>Previous
+        Premises Information</button>
+                <button type="button" class="btn btn-primary" (click)="funcValidatePremBusinessDetails(2+initWizardPanel)">Next Drug Shop Documents &nbsp;<i class="fa fa-angle-double-right"></i></button>
+            </div>
+        </wizard-step>
+        <wizard-step stepTitle="Documents" class="wizardStep-height"  navigationSymbol="Step 3">
+            <div class="wizard-divtop">
+                <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Previous
+                    Drug Shops Documents</button>
+                            <button type="button" class="btn btn-primary" (click)="funcValidatePremDocumentsUpload(3+initWizardPanel)">Next Application Submission<i class="fa fa-angle-double-right"></i></button>
+        
+            </div>
+            <div class=" wizard-content">
+                <app-application-documents   [business_type_id]="business_type_id" [section_id]="section_id" [module_id]="module_id" [status_id]="status_id" [sub_module_id]="sub_module_id" [application_code]="application_code"></app-application-documents>
+            </div>
+            <div class="wizard-divbottom">
+                <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Previous
+        Premises Documents</button>
+
+                <button type="button" class="btn btn-primary" (click)="funcValidatePremDocumentsUpload(3+initWizardPanel)">Next Application Submission<i class="fa fa-angle-double-right"></i></button>
+
+            </div>
+
+        </wizard-step>
+        <wizard-step stepTitle="Completion & Submission"  class="wizardStep-height"  navigationSymbol="Submit">
+            <div class="row" >
+
+                            <form [formGroup]="onApplicationSubmissionFrm"  style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onPremisesApplicationSubmit()">
+                                <div class="row  wizard-content wizard-contentfieldset">
+                                    <div class="col-lg-12">
+                                        <b><h4>Declaration</h4></b>
+                                        <ul>
+                                            <li *ngFor="let guide of terms_conditions;">
+                                                <p>{{guide.no}} {{guide.term_conditiondetails}}</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                    <b> <h4>Submission Comments(Optional)</h4></b>
+                                        <dx-text-area formControlName="submission_comments" placeholder="Enter Comments(optional)"></dx-text-area>
+                                    </div>
+                                    <div class="col-lg-12">
+                                    <dx-check-box text="Agree to the Declaration" [value]="undefined" (onValueChanged)="newPremTermscheckbox($event)">
+                                    </dx-check-box>
+                                    </div>
+                            </div>
+                    </form>
+            </div>
+            
+                <div class="wizard-divbottom">
+                    <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                    <app-invoice-appgeneration  [app_routing] ="app_routing"   [onApplicationSubmissionFrm] ="onApplicationSubmissionFrm" [module_id] ="module_id"  [status_id] ="status_id" [application_code]="application_code" ></app-invoice-appgeneration>
+                    <button class="btn btn-primary" type="button" [disabled]="!checkPremisesSubmission" (click)="onPremisesApplicationSubmit()">Submit
+                       Application</button>
+                </div>
+
+        </wizard-step>
+        
+    </wizard>
+</div>
+</div>
+<!--Upload POP Up -->
+<dx-popup class="popup"  [width]="funcpopWidth(40)" height="auto" [showTitle]="true" title="Premises Registration Documents Upload" [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isDocumentUploadPopupVisible">
+    <div *dxTemplate="let data of 'content'">
+        <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="premisesDocumentUploadfrm" (ngSubmit)="onpremisesDocumentUpload()">
+            <div class="col-lg-12">
+                <label>Document Requirement</label>
+                <dx-select-box [dataSource]="premDocumentsUploadRequirement" valueExpr="document_requirement_id" displayExpr="document_requirement" placeholder="Select Document Upload" [searchEnabled]="true" formControlName="document_requirement_id">
+
+                </dx-select-box>
+            </div>
+
+            <div class="col-lg-12">
+                <label>File Upload</label>
+                <input type="file" (change)="onFileChange($event)" placeholder="Upload Premises Document" />
+            </div>
+            <div class="col-lg-12">
+                <label>Description</label>
+                <dx-text-area [height]="60" formControlName="description" placeholder="Description" [(value)]="value">
+                </dx-text-area>
+            </div>
+            <input type="hidden" formControlName="id" />
+            <input type="hidden" formControlName="node_ref" />
+            <div class="col-lg-12">
+                <dx-button text="Upload Premises Document" [disabled]="!premisesDocumentUploadfrm.valid" (onClick)="onpremisesDocumentUpload()" type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                </dx-button>
+            </div>
+        </form>
+    </div>
+</dx-popup>
+<!-- personnel documetn -->
+
+<ng-http-loader spinner="sk-wave"></ng-http-loader>
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(75)" height="auto" [showTitle]="true" title="Document Preview" [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isDocumentPreviewDownloadwin">
+    <div *dxTemplate="let data of 'content'" class="row">
+        <iframe [src]="document_previewurl" class="col-lg-12" height="650"></iframe>
+
+    </div>
+
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(60)" height="auto" [showTitle]="true" title="Documents Version Preview" [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isDocumentVersionPreviewDownloadwin">
+    <div *dxTemplate="let data of 'content'" class="row">
+        <dx-data-grid class="table row-border hover" [dataSource]="premDocumentsVersionsUploadData" keyExpr="id" (onToolbarPreparing)="onPremisesDocumentToolbar($event)" [wordWrapEnabled]="true" >
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+
+            <dxo-paging [enabled]="true">
+            </dxo-paging>
+            <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+            </dxo-pager>
+            <dxo-export [enabled]="true" fileName="premDocumentsVersionUploadData" [allowExportSelectedData]="true"></dxo-export>
+
+            <dxo-selection mode="multiple"></dxo-selection>
+            <dxo-group-panel [visible]="true"></dxo-group-panel>
+            <dxi-column dataField="name"></dxi-column>
+            <dxi-column dataField="nodeType"></dxi-column>
+            <dxi-column dataField="node_ref"></dxi-column>
+            <dxi-column dataField="modifiedAt"></dxi-column>
+            <dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+                <div *dxTemplate="let data of 'cellTemplate'">
+
+                    <dx-menu (onItemClick)="premDocumentsActionColClick($event,data)" [items]="documentVersionMenuItems"></dx-menu>
+
+                </div>
+            </dxi-column>
+
+            <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+        </dx-data-grid>
+
+    </div>
+
+</dx-popup>
+
+
+
+<dx-popup  class="popup"  [width]="funcpopWidth(80)" [height]="850" [showTitle]="true" title="Application Registration Query Response"
+    [dragEnabled]="false"  [closeOnOutsideClick]="false" [(visible)]="isInitalQueryResponseFrmVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view>
+
+                <wizard navBarLayout ="large-filled-symbols" [navigationMode]='free' style="background: #fff !important; height: 100% !important;">
+                    
+                    <wizard-step stepTitle="Application Queries" navigationSymbol="Step 1"  class="wizardStep-height">
+            
+                        <div class="col-lg-12 wizard-content">
+                                <form role="form" class="row" style="background:#fff;" enctype="multipart/form-data" role="form" [formGroup]="initqueryresponsefrm"
+                                (ngSubmit)="onSaveinitqueryresponse()">
+                                <div class="col-lg-12">
+                                <label>Query</label>
+                                
+                                <dx-html-editor [height]="200" readOnly ="true"  formControlName="queries_remarks"  placeholder="Query">
+                                    <dxo-toolbar>
+                                        <dxi-item formatName="separator"></dxi-item>
+                                        <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                                        <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                                        <dxi-item formatName="separator"></dxi-item>
+                                        <dxi-item formatName="bold"></dxi-item>
+                                        <dxi-item formatName="italic"></dxi-item>
+                                        
+                                        <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                                       
+                                    </dxo-toolbar>
+                                    <dxo-media-resizing
+                                        [enabled]=true>
+                                    </dxo-media-resizing>
+                                    
+                                </dx-html-editor>
+                                </div>
+                               
+                                <input type="hidden" formControlName="id"/>
+                                
+                                <input type="hidden" formControlName="query_id"/>
+                            </form>
+                        
+                        </div>
+                        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                            
+                            <button type="button"  [disabled]="!initqueryresponsefrm.valid"  class="btn btn-primary  pull-right" nextStep>Next(Query Responses) &nbsp;<i class="fa fa-angle-double-right"></i>
+                            
+                           </button> <!--
+                            <dx-button text="Download Query Letter" (onClick)="funcDownloadUploadedDoc()" type="success" icon="download" [elementAttr]="{ class:'btn btn-primary; pull-right'}">
+                            </dx-button>-->
+
+                        </div>
+                    </wizard-step>
+                    <wizard-step stepTitle="Premises Application Details" navigationSymbol="Step 2"  class="wizardStep-height">
+                            <app-drugshop-generaldetails  [premisesGeneraldetailsfrm] ="premisesGeneraldetailsfrm"  
+                            [sectionsData] ="sectionsData"  
+                            [premisesTypeData] ="premisesTypeData"  
+                            [countries] ="countries"  
+                            [regions] ="regions"  
+                            [districts] ="districts"  
+                            [businessTypesData] ="businessTypesData" 
+                            [businessScaleData] ="businessScaleData"
+                            [classificationData] ="classificationData"  
+                            [businessCategoryData] ="businessCategoryData"  
+                            [zoneData] ="zoneData"  
+                            [confirmDataParam] ="confirmDataParam"
+                            [sub_module_id] ="sub_module_id" 
+                            [module_id] ="module_id" 
+                            [application_code] ="application_code"
+                            [tra_premise_id] ="tra_premise_id" 
+                            [registered_id] ="registered_id"
+                            [isReadOnlyTraderasContact] ="isReadOnlyTraderasContact" 
+                            [premisesGeneraldetailsfrm] ="premisesGeneraldetailsfrm" 
+                            [payingCurrencyData] ="payingCurrencyData" 
+                            [fastTrackOptionsData] ="fastTrackOptionsData" 
+                            [newPremisesPersonnelDetailsFrm] ="newPremisesPersonnelDetailsFrm" 
+                            (businessTypeEvent)="business_type_id=$event"
+
+                            [is_readonly] ="is_readonly" >
+            
+                            </app-drugshop-generaldetails>
+                            <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+                            
+                                <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!premise_id" nextStep type="button">
+                    &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+                                <button type="submit" (click)="onSavePremisesApplication()" class="btn btn-primary  pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save Drug Shop
+                    Application &&  Documents Next</button>
+
+                            </div>
+                    
+                    </wizard-step>
+                    
+                    <wizard-step stepTitle="Documents" class="wizardStep-height" navigationSymbol="Step 5" >
+                        <div class=" wizard-content">
+                            <app-application-documents   [business_type_id]="business_type_id" [section_id]="section_id" [module_id]="module_id" [status_id]="status_id" [sub_module_id]="sub_module_id" [application_code]="application_code"></app-application-documents>
+                        </div>
+                        <div class="wizard-divbottom">
+                            <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Previous
+                     Documents</button>
+
+
+                            <button type="button" class="btn btn-primary" nextStep>Close<i class="fa fa-angle-double-right"></i></button>
+
+                        </div>
+
+                    </wizard-step>
+
+                    <wizard-step stepTitle="Application Queries & Response" navigationSymbol="Query Response"  class="wizardStep-height">
+            
+                        <div class="col-lg-12 wizard-content">
+                                <form role="form" class="row" style="background:#fff;" enctype="multipart/form-data" role="form" [formGroup]="initqueryresponsefrm"
+                                (ngSubmit)="onSaveinitqueryresponse()">
+                                <div class="col-lg-12">
+                                <label>Query</label>
+                                
+                                <dx-html-editor [height]="200" readOnly ="true"  formControlName="queries_remarks"  placeholder="Query">
+                                    <dxo-toolbar>
+                                        <dxi-item formatName="separator"></dxi-item>
+                                        <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                                        <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                                        <dxi-item formatName="separator"></dxi-item>
+                                        <dxi-item formatName="bold"></dxi-item>
+                                        <dxi-item formatName="italic"></dxi-item>
+                                        
+                                        <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                                       
+                                    </dxo-toolbar>
+                                    <dxo-media-resizing
+                                        [enabled]=true>
+                                    </dxo-media-resizing>
+                                    
+                                </dx-html-editor>
+                                </div>
+                                <div class="col-lg-12">
+                                <label>Query Response</label>
+                    
+                                <dx-html-editor [height]="200" formControlName="response_txt"  placeholder="Query Response">
+                                    <dxo-toolbar>
+                                        <dxi-item formatName="separator"></dxi-item>
+                                        <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                                        <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                                        <dxi-item formatName="separator"></dxi-item>
+                                        <dxi-item formatName="bold"></dxi-item>
+                                        <dxi-item formatName="italic"></dxi-item>
+                                        
+                                        <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                                        <dxi-item formatName="separator"></dxi-item>
+                                       
+                                    </dxo-toolbar>
+                                    <dxo-media-resizing
+                                        [enabled]=true>
+                                    </dxo-media-resizing>
+                                    
+                                </dx-html-editor>
+                                </div>
+                                <input type="hidden" formControlName="id"/>
+                                
+                                <input type="hidden" formControlName="query_id"/>
+                            </form>
+                        
+                        </div>
+                        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                            <dx-button text="Save Response" [disabled]="!initqueryresponsefrm.valid" (onClick)="onSaveinitqueryresponse()"
+                                type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                            </dx-button>
+                            <button type="button" class="btn btn-primary" (click)="funcCloseQueryWindow()">Close<i class="fa fa-angle-double-right"></i></button>
+                          
+                        </div>
+                    </wizard-step>
+            </wizard>
+
+</dx-scroll-view>
+</div>
+</dx-popup>
+
+<dx-popup  class="popup"  [width]="funcpopWidth(80)" [height]="850" [showTitle]="true" title="Application CAPA Request Response"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isInitalCapaResponseFrmVisible">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view>
+    <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+          
+        <wizard-step stepTitle="Application CAPA Deficiencies & Findings" class="wizardStep-height">
+  
+            <div class="col-lg-12 wizard-content">
+                    <form role="form" class="row" style="background:#fff;" enctype="multipart/form-data" role="form" [formGroup]="initcaparesponsefrm"
+                    (ngSubmit)="onSaveinitCAPAresponses()">
+                    <div class="col-lg-12">
+                      <label>Deficiencies</label>
+                      <dx-html-editor [height]="100" readOnly ="true"  formControlName="deficiencies"  placeholder="Deficiencies">
+                          <dxo-media-resizing
+                              [enabled]=true>
+                          </dxo-media-resizing>
+                      </dx-html-editor>
+                    </div>
+                    <div class="col-lg-6">
+                      <label>Root Cause Analysis</label>
+                      <dx-text-area [height]="60" formControlName="root_causeanalysis" placeholder="Root Cause Analysis">
+                      </dx-text-area>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Corrective Analysis</label>
+                        <dx-text-area [height]="60" formControlName="corrective_actions" placeholder="Corrective Analysis">
+                        </dx-text-area>
+                      </div>
+                      <div class="col-lg-6">
+                        <label>Corrective Action Steps Analysis</label>
+                        <dx-text-area [height]="60" formControlName="corrective_actionssteps" placeholder="Corrective Action Steps Analysis">
+                        </dx-text-area>
+                      </div>
+                      <div class="col-lg-6">
+                        <label>Completion Date/Timeline</label>
+                        <dx-text-box formControlName="completion_date" placeholder="Completion Date" [showClearButton]="true">
+                        </dx-text-box>
+                      </div>
+                    <input type="hidden" formControlName="id"/>
+                    
+                    <input type="hidden" formControlName="inspection_capa_id"/>
+                  </form>
+            
+              </div>
+              <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                  <dx-button text="Save Response"  (onClick)="onSaveinitCAPAresponses()"
+                    type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                  </dx-button>
+              </div>
+        </wizard-step>
+        
+  </wizard>
+
+</dx-scroll-view>
+</div>
+</dx-popup>
+
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+<div *dxTemplate="let data of 'content'">
+    <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+</div>
+</dx-popup>

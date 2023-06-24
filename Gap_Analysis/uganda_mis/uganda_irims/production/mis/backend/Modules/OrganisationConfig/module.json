@@ -1,0 +1,11 @@
+{
+    "name": "OrganisationConfig",
+    "alias": "organisationconfig",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\OrganisationConfig\\Providers\\OrganisationConfigServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,228 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">{{application_title}}</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+      <div class="clearfix">
+
+        <dx-button
+        text= "{{app_renewalduenotifications}} Application Due for Renewal"
+        type="default"
+        icon="fa fa-eraser"
+        [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+        (onClick)="onLoadApplicationDetailsDueforRenewal()">
+    </dx-button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <!-- Content Header (Page header) -->
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-warning">
+      <i class="fa fa-clock-o float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Pending Submission</h6>
+      <h1 class="m-b-20 text-white counter">{{pending_submission}}</h1>
+    </div>
+    <div class="card-box noradius noborder bg-warning">
+      <a class="reg_routerlink"  (click) ="reloadPromotionAlderrApplication({application_status_id:'1', sub_module_id: 33})"><span>View Applications</span></a>
+
+    </div>
+  </div>
+
+
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-success">
+      <i class="fa fa-clock-o float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Submitted Applications</h6>
+      <h1 class="m-b-20 text-white counter">{{submitted_application}}</h1>
+    </div>
+    <div class="card-box noradius noborder bg-success">
+      <a class="reg_routerlink"  (click) ="reloadPromotionAlderrApplication({application_status_id:'2,3', sub_module_id: 33})"><span>View Applications</span></a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-info">
+      <i class="fa fa-question-circle float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Queried & Responses </h6>
+      <h1 class="m-b-20 text-white counter">{{queried_applications}}</h1>
+      </div>
+    <div class="card-box noradius noborder bg-info">
+      <a class="reg_routerlink"  (click) ="reloadPromotionAlderrApplication({application_status_id:'17,6,7,8, 13,14,15', sub_module_id: 33})"><span>View Queried Applications</span></a>
+   
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-default">
+      <i class="fa fa-check float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Approved Applications</h6>
+      <h1 class="m-b-20 text-white counter">{{approved_applications}}</h1>
+       </div>
+    <div class="card-box noradius noborder bg-default">
+      <a class="reg_routerlink" (click) ="reloadPromotionAlderrApplication({application_status_id:'10,33,26,39', sub_module_id: 33})"><span>View Approved Applications</span></a>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-danger">
+      <i class="fa fa-ban float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Rejected Applications</h6>
+      <h1 class="m-b-20 text-white counter">{{rejected_applications}}</h1>
+          </div>
+    <div class="card-box noradius noborder bg-danger">
+      <a class="reg_routerlink" (click) ="reloadPromotionAlderrApplication({application_status_id:11, sub_module_id: 33})"><span>View Rejected Applications</span></a>
+   
+      </div>
+  </div>
+  <!-- /.col -->
+</div>
+
+
+<div class="row div-nopadding">
+  <!--[dtTrigger]="dtTrigger" -->
+      <form role="form" class="col-lg-12 row" enctype="multipart/form-data" role="form" [formGroup]="FilterDetailsFrm">
+       
+      <div class="col-lg-3">
+          <dx-select-box  [dataSource]="sectionsData" valueExpr="id" displayExpr="name" 
+          (onSelectionChanged)="onSelectApplicationsFilters()"   [searchEnabled]="true" placeholder="Select Product Type/Category" formControlName="section_id">
+          </dx-select-box>
+      </div>
+      <div class="col-lg-3">
+          <dx-select-box  [dataSource]="applicationStatusData" valueExpr="id" displayExpr="name" 
+          (onSelectionChanged)="onSelectApplicationsFilters()" [searchEnabled]="true" placeholder="Select Status" formControlName="application_status_id">
+          </dx-select-box>
+      </div>
+      <div class="col-lg-3">
+          <dx-button
+            text="Clear Filter"
+            type="danger"
+            icon="fa fa-eraser"
+            [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+            (onClick)="onClearApplicaitonFilters()">
+        </dx-button>
+    
+      </div>
+    </form>
+    <dx-data-grid class="table row-border hover " [showRowLines] = "true"  [allowColumnResizing]="true" [columnHidingEnabled]="false" [dataSource]="dtPromotionApplicationData" (onCellPrepared)="onCellPrepared($event)"   [wordWrapEnabled]="true"
+      [showBorders]="true" (onToolbarPreparing)="onPromotionalappsToolbarPreparing($event)" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-load-panel [enabled]="true">
+      </dxo-load-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+    
+      <dxo-search-panel 
+          [visible]="true">
+      </dxo-search-panel>
+      <dxo-export [enabled]="true" fileName="PromotionAdvertisement" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="single"></dxo-selection>
+      <dxi-column [width]=200 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplateSingle">
+        <div *dxTemplate="let d of 'cellTemplateSingle'">
+          <dx-button text="{{d.data.action_name}}" (click)="singleApplicationActionColClick(d.data)"
+          type="success" icon="{{d.data.iconCls}}">
+        </dx-button>
+        </div>
+      </dxi-column>
+      <dxi-column  caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let d of 'cellTemplate'">
+          <dx-menu [items] = "d.data.contextMenu"  displayExpr="text"
+            (onItemClick)="applicationActionColClick($event,d)" >
+          </dx-menu>
+        </div>
+      </dxi-column>
+      <dxi-column  dataField="tracking_no"></dxi-column>
+
+      <dxi-column  dataField="reference_no"></dxi-column>
+      <dxi-column [groupIndex]="1" dataField="section" caption="Advertisement Products Types"></dxi-column>
+      <dxi-column dataField="advertisement_type" ></dxi-column>
+      <dxi-column dataField="advertisement_type" caption="Advertisement Description"></dxi-column>
+
+      <dxi-column  [groupIndex]="0" dataField="application_type"></dxi-column>
+      <dxi-column  dataField="applicant_name"></dxi-column>
+      <dxi-column  dataField="name_of_sponsor"></dxi-column>
+      <dxi-column [allowFiltering]="false" dataField="date_added"></dxi-column>
+      <dxi-column [allowFiltering]="false" dataField="submission_date"></dxi-column>
+      <dxi-column  dataField="status_name"></dxi-column>
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid>
+
+</div>
+
+
+<dx-popup class="popup" [width]="500" [height]="450" [showTitle]="true" title="Preview Product Details"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewProductsDetails">
+<div *dxTemplate="let data of 'content'" style="background:#fff;">
+<form role="form" class="col-lg-12" enctype="multipart/form-data" role="form" [formGroup]="frmPreviewProductsDetails">
+  <div class="row">
+      <div class="col-lg-12">
+        <label class="control-label">Tracking No</label>
+        <dx-text-box formControlName="tracking_no" readOnly=true [showClearButton]="true">
+        </dx-text-box>
+      </div>
+     
+    
+      <div class="col-lg-12">
+        <label class="control-label">Application Type</label>
+
+        <dx-text-box formControlName="application_type" readOnly=true  placeholder="" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-12">
+        <label class="control-label">Current Status</label>
+
+        <dx-text-box formControlName="status" readOnly=true  [showClearButton]="true">
+        </dx-text-box>
+      </div>
+</div>
+</form>
+</div>
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="850" [height]="450" [showTitle]="true" title="Preview Product Application Processing"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewApplicationProcessing">
+
+<div *dxTemplate="let data of 'content'" style="background:#fff;">
+    <div class="row">
+      <dx-data-grid class="table row-border hover div-backwhite" [columnHidingEnabled]="true" [dataSource]="productApplicationProcessingData"
+      [showBorders]="true" [allowColumnResizing]="true" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-load-panel [enabled]="true">
+      </dxo-load-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+        infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-export [enabled]="true" fileName="ProductApplications" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="single"></dxo-selection>
+      <dxi-column  dataField="tracking_no"></dxi-column>
+      <dxi-column  dataField="reference_no"></dxi-column>
+      <dxi-column dataField="process_name"></dxi-column>
+      <dxi-column  dataField="prev_stage"></dxi-column>
+      <dxi-column  dataField="current_stage"></dxi-column>
+      <dxi-column  [groupIndex]="0" dataField="processing_date"></dxi-column>
+     
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid> 
+    </div>
+</div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="1050" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+<div *dxTemplate="let data of 'content'">
+    <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+</div>
+</dx-popup>

@@ -1,0 +1,114 @@
+.labelsign-in{
+    font-size: 20px !important;
+    font-weight: bold;font-family: 'Open Sans', sans-serif;
+}
+.main-container{
+    min-height: 390px;
+    height: 100% !important;
+    background: #fff !important;
+}
+.div-module_description{
+    cursor: pointer;
+}
+.div-services{
+   background: rgb(204,204,204);
+background: linear-gradient(90deg, rgba(204,204,204,1) 0%, rgba(97,97,98,0.03963592272846639) 54%, rgba(204,204,204,1) 98%);
+
+background:#0099D0;
+background: linear-gradient(119deg, #ddedf3 0%, rgba(255,255,255,0.9500000683867297) 100%);
+    padding: 10px !important;
+    border-radius: 10px !important;
+   margin:5px !important;
+}
+.div-innerservices{
+    min-height: 80px !important;
+    border-bottom:1px solid #ccc;
+}
+
+    .works--item {
+        box-sizing: unset !important;
+     }
+.div-servicesguidelines{
+    border-top:  1px solid #ccc !important;
+    padding: 3px !important;
+    float: right !important; box-sizing: ''  !important;
+}
+.div-servicesguidelines::after, .div-servicesguidelines::before {
+    box-sizing: unset  !important;
+}
+.div-services::after, .div-services::before {
+    box-sizing: ''  !important;
+}
+
+.div-module_name{
+    border-left: 1px solid #ccc !important;
+}
+.div-module_description{
+    border-left: 1px solid #ccc !important;
+}
+.btn {
+    border-radius: 0px  !important;
+    margin:0px !important;
+    color: #fff !important;
+}.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+    outline: none  !important;
+}
+.btn-link:hover, .btn-link:focus {
+    color: #2c3e50;
+    text-decoration: none;
+}
+.home-breadcrumbs{
+    margin-top: 2px;
+    border-bottom: 2px solid #ccc;
+
+}
+.form-control{
+    border-radius: 10px !important;
+}
+.center-page{
+    border-right: 1px solid #ccc;
+}
+.is-invalid{
+    border: 1px solid #ff0000;
+}
+.login-div{
+    margin: 8px !important;
+    border-bottom: 1px solid #ccc  !important;
+    font-size: 15px  !important;
+    font-weight:bold  !important;
+}
+.div-userimg{
+   height: 100px !important;
+   
+   background-repeat: no-repeat;
+    border:0px solid #ccc;
+    text-align: center;
+    margin: 5px auto;
+    background: url('../../../../assets/images/login.jpeg') no-repeat;
+} .col-lg-4 {
+    flex: 30.000 25 25.666667%;
+        max-width: 100% !important;
+    }
+@media (min-width: 768px) {
+    .col-lg-4 {
+       
+        flex: 30.000 25 25.666667%; 
+        max-width: 22.66667%  !important;
+        
+    }
+  
+}
+
+@media (min-width: 576px) {
+    .col-lg-2 {
+        flex: 30.000 25 25.666667%;
+        max-width: 17.66667% !important;
+        
+        }
+
+}

@@ -1,0 +1,358 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">{{application_title}}</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item">Dashboard</li>
+
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <!-- Content Header (Page header) -->
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-warning">
+      <i class="fa fa-clock-o float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Pending Submission</h6>
+      <h1 class="m-b-20 text-white counter">{{pending_submission}}</h1>
+    </div>
+    <div class="card-box noradius noborder bg-warning">
+      <a class="reg_routerlink"  (click) ="reloadPermitApplicationsApplications({application_status_id:'1', sub_module_id: 12})"><span>View Applications</span></a>
+
+    </div>
+  </div>
+
+
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-success">
+      <i class="fa fa-clock-o float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Submitted Applications</h6>
+      <h1 class="m-b-20 text-white counter">{{submitted_application}}</h1>
+    </div>
+    <div class="card-box noradius noborder bg-success">
+      <a class="reg_routerlink"  (click) ="reloadPermitApplicationsApplications({application_status_id:'2,3', sub_module_id: 12})"><span>View Applications</span></a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-info">
+      <i class="fa fa-question-circle float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Queried & Responses </h6>
+      <h1 class="m-b-20 text-white counter">{{queried_applications}}</h1>
+      </div>
+    <div class="card-box noradius noborder bg-info">
+      <a class="reg_routerlink"  (click) ="reloadPermitApplicationsApplications({application_status_id:'17,6,7,8, 13,14,15', sub_module_id: 12})"><span>View Queried Applications</span></a>
+   
+    </div>
+  </div>
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-default">
+      <i class="fa fa-check float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Approved Applications</h6>
+      <h1 class="m-b-20 text-white counter">{{approved_applications}}</h1>
+       </div>
+    <div class="card-box noradius noborder bg-default">
+      <a class="reg_routerlink" (click) ="reloadPermitApplicationsApplications({application_status_id:'10,33,26,39', sub_module_id: 12})"><span>View Approved Applications</span></a>
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-2_5 div-nopadding">
+    <div class="card-box noradius noborder bg-danger">
+      <i class="fa fa-ban float-right text-white"></i>
+      <h6 class="text-white text-uppercase m-b-20">Rejected Applications</h6>
+      <h1 class="m-b-20 text-white counter">{{rejected_applications}}</h1>
+          </div>
+    <div class="card-box noradius noborder bg-danger">
+      <a class="reg_routerlink" (click) ="reloadPermitApplicationsApplications({application_status_id:11, sub_module_id: 12})"><span>View Rejected Applications</span></a>
+   
+      </div>
+  </div>
+  <!-- /.col -->
+</div>
+
+
+<div class="row div-nopadding">
+
+      <form role="form" class="row col-lg-12" enctype="multipart/form-data" role="form" [formGroup]="FilterDetailsFrm">
+        
+        <div class="col-lg-3">
+          <dx-select-box  [dataSource]="productappTypeData" [hidden]="true" valueExpr="id" displayExpr="name" 
+          (onSelectionChanged)="onSelectProdutFilters($event)" [readOnly]="true"  [searchEnabled]="true" placeholder="Select Application Type " formControlName="sub_module_id">
+          </dx-select-box>
+      </div>
+      <div class="col-lg-3">
+          <dx-select-box  [dataSource]="sectionsData" valueExpr="id" displayExpr="name" 
+          (onSelectionChanged)="onSelectProdutFilters($event)"   [searchEnabled]="true" placeholder="Select Product Type/Category" formControlName="section_id">
+          </dx-select-box>
+      </div>
+      <div class="col-lg-3">
+          <dx-select-box  [dataSource]="applicationStatusData" valueExpr="id" displayExpr="name" 
+          (onSelectionChanged)="onSelectProdutFilters($event)" [searchEnabled]="true" placeholder="Select Status" formControlName="application_status_id">
+          </dx-select-box>
+      </div>
+      <div class="col-lg-3">
+          <dx-button
+            text="Clear Filter"
+            type="danger"
+            icon="fa fa-eraser"
+            [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+            (onClick)="onClearProdutFilters()">
+        </dx-button>
+
+      </div>
+</form>
+
+    <dx-data-grid class=" row-border hover " (onCellPrepared)="onCellPrepared($event)" [showRowLines] = "true"  [allowColumnResizing]="true" [columnHidingEnabled]="false"   [wordWrapEnabled]="true"
+      [dataSource]="dtImportExpApplicationData" [showBorders]="true"
+      (onToolbarPreparing)="onImportappsToolbarPreparing($event)" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-load-panel [enabled]="true">
+      </dxo-load-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true"
+        [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-export [enabled]="true" fileName="ImportExport" [allowExportSelectedData]="true"></dxo-export>
+      <dxo-selection mode="single"></dxo-selection>
+      <dxi-column [width]=200 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplateSingle">
+      <div *dxTemplate="let d of 'cellTemplateSingle'">
+        <dx-button text="{{d.data.action_name}}" (click)="singleApplicationActionColClick(d.data)"
+        type="success" icon="{{d.data.iconCls}}">
+      </dx-button>
+      </div>
+    </dxi-column>
+      <dxi-column caption="More Actions" [width] = 150 name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let d of 'cellTemplate'">
+          <dx-menu [items]="d.data.contextMenu" displayExpr="text" (onItemClick)="applicationActionColClick($event,d)" >
+          </dx-menu>
+        </div>
+      </dxi-column>
+      <dxi-column dataField="reference_no" caption="Application Reference"></dxi-column>
+      <dxi-column [width] = 90 [groupIndex]="0" dataField="section" caption="Product Type"></dxi-column>
+      <dxi-column dataField="application_type"></dxi-column>
+      <dxi-column [width] = 150  dataField="permit_category"></dxi-column>
+      <dxi-column  [width] = 100  dataField="proforma_invoice_no"></dxi-column>
+      <dxi-column dataField="proforma_invoice_date"></dxi-column>
+      <dxi-column dataField="sender_receiver" caption="Sender(Supplier)"></dxi-column>
+      
+      <dxi-column dataField="premises_name" caption="Premises Name"></dxi-column>
+      
+      <dxi-column [width] = 100  [allowFiltering]="false" dataField="date_added"></dxi-column>
+      <dxi-column  [groupIndex]="1"  dataField="status_name"></dxi-column>
+      <dxi-column   dataField="status_name" caption="Application Status"></dxi-column>
+      <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid>
+ 
+</div>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="450" [showTitle]="true" title="Preview  Application Processing"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewApplicationProcessing">
+
+  <div *dxTemplate="let data of 'content'" style="background:#fff;">
+      <div class="row">
+        <dx-data-grid class="table row-border hover div-backwhite" [columnHidingEnabled]="true" [dataSource]="productApplicationProcessingData"
+        [showBorders]="true" [allowColumnResizing]="true" keyExpr="id">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-load-panel [enabled]="true">
+        </dxo-load-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+          infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-export [enabled]="true" fileName="ProductApplications" [allowExportSelectedData]="true"></dxo-export>
+  
+        <dxo-selection mode="single"></dxo-selection>
+        <dxi-column  dataField="tracking_no"></dxi-column>
+        <dxi-column  dataField="reference_no"></dxi-column>
+        <dxi-column dataField="process_name"></dxi-column>
+        <dxi-column  dataField="prev_stage"></dxi-column>
+        <dxi-column  dataField="current_stage"></dxi-column>
+        <dxi-column  [groupIndex]="0" dataField="processing_date"></dxi-column>
+       
+        <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+      </dx-data-grid> 
+      </div>
+  </div>
+</dx-popup>
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(40)" [height]="500" [showTitle]="true" title="Preview Application Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPreviewApplicationDetails">
+  <div *dxTemplate="let data of 'content'" style="background:#fff;">
+    <dx-scroll-view>
+    <form role="form" class="col-lg-12" enctype="multipart/form-data" role="form" [formGroup]="frmPreviewAppDetails">
+      <div class="row">
+          <div class="col-lg-12">
+            <label class="control-label">Reference No</label>
+            <dx-text-box formControlName="reference_no" readOnly=true [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Invoice No/</label>
+            <dx-text-box formControlName="proforma_invoice_no" placeholder="" readOnly=true [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6 ">
+            <label for="ti" class="control-label">Invoice Date</label>
+
+            <dx-text-box formControlName="proforma_invoice_date" readOnly=true  [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6 ">
+            <label for="ti" class="control-label">Sender/Receiver</label>
+
+            <dx-text-box formControlName="sender_receiver" readOnly=true  [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6 ">
+            <label for="ti" class="control-label">Premises Name</label>
+
+            <dx-text-box formControlName="premises_name" readOnly=true  [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          
+          <div class="col-lg-6">
+            <label class="control-label">Application Type</label>
+
+            <dx-text-box formControlName="application_type" readOnly=true  placeholder="" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6">
+            <label class="control-label">Current Status</label>
+
+            <dx-text-box formControlName="status" readOnly=true  [showClearButton]="true">
+            </dx-text-box>
+          </div>
+    </div>
+    </form>
+    <div class="row wizard-content col-lg-12">
+      <dx-data-grid [dataSource]="permitProductsData" [allowColumnResizing]="true" [columnHidingEnabled]="false" 
+        [showBorders]="true">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+        <dxo-selection mode="single"></dxo-selection>
+       
+        <dxi-column dataField="brand_name" caption="Brand Name/Product Name"></dxi-column>
+        <dxi-column dataField="product_type"></dxi-column>
+        <dxi-column dataField="product_subcategory"></dxi-column>
+        <dxi-column dataField="quantity"></dxi-column>
+        <dxi-column dataField="packaging_units"></dxi-column>
+        <dxi-column dataField="currency_name"></dxi-column>
+        <dxi-column dataField="unit_price"></dxi-column>
+        <dxi-column dataField="total_value" caption="FOB Value"></dxi-column>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+    
+        <dxo-summary>
+          
+          <dxi-total-item
+              column="total_value"
+              summaryType="sum">
+          </dxi-total-item>
+      </dxo-summary>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+      </dx-data-grid>
+    </div>
+  </dx-scroll-view>
+  </div>
+</dx-popup>
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Application Rejection Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isApplicationRejectionVisible">
+  <div *dxTemplate="let data of 'content'">
+      <dx-data-grid class="table row-border hover "  [columnHidingEnabled]="true" [dataSource]="applicationRejectionData"
+      [showBorders]="true">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-load-panel [enabled]="true">
+      </dxo-load-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+        infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-search-panel  [visible]="true" 
+        >
+      </dxo-search-panel>
+      <dxo-export [enabled]="true" fileName="Rejection Details" [allowExportSelectedData]="true"></dxo-export>
+     
+      <dxi-column [width] = 100 dataField="tracking_no"></dxi-column>
+      <dxi-column   [width] = 90  dataField="added_on"></dxi-column>
+      <dxi-column  [width] = 200  cssClass= 'WrappedColumnClass' dataField="rejection_remarks" ></dxi-column>
+     
+     
+    </dx-data-grid>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="1050" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+      <div class="col-lg-12" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="500" [showTitle]="true" title="{{guidelines_title}}"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="is_popupguidelines">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+  <app-application-processguidelines  [sub_module_id]="sub_module_id" [module_id]="module_id" [guidelines_title] ="guidelines_title">
+  </app-application-processguidelines>
+</dx-scroll-view>
+  </div>
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(45)" [height] = 550 [showTitle]="true" title="Visa Application"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPermitInitialisation">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+    <form enctype="multipart/form-data" style="margin:0.5px" class="row div-whiteback " role="form" [formGroup]="applicationSelectionfrm"
+    (ngSubmit)="onApplicationSelection()">
+    <div class="col-lg-12" style="margin-bottom: 30px;">
+      <h6>Import Visa is a permit issued after verifying whether products to be imported comply with applicable legal and regulatory requirements (standards) for quality, safety, and effectiveness:</h6>
+      <h6>Import Visa means an authorization/permit issued to the importer after confirmation by the Authority that the manufacturer(s)/suppliers of pharmaceutical products or medical devices or their respective raw materials to be imported comply with international and national standards. The Import visa gives the right to the importer to confirm an order/purchase order of the products and to apply for an import license.</h6>
+    </div>
+    <div class="col-lg-12">
+      <label class="control-label">Does Import Proforma Invoice contain Only registered Products?</label>
+      <dx-select-box [dataSource]="confirmDataParam" valueExpr="id" displayExpr="name"
+         placeholder="Select"  (onSelectionChanged)="onSelectionHasRegistered($event)" 
+        [searchEnabled]="true" formControlName="has_registered_products">
+      </dx-select-box> 
+    </div>
+    
+    <div class="col-lg-12"  *ngIf="!is_approvedVisaPermit">
+      <h3 class='apptype-selection'>Select Product Category/Type</h3>
+      <dx-select-box [dataSource]="sectionsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Select Product Types/Category" 
+        formControlName="section_id">
+        <div *dxTemplate="let name of 'item'">
+          <div>{{name.name}}</div>
+      </div>
+    </dx-select-box>
+  </div>
+    <div class="col-lg-12 ">
+      
+      <dx-button  [elementAttr]="{ class: 'btn btn-primary  pull-left' }"  icon="fa fa-arrow-right"  text="Initiate Permit Application" 
+      [disabled]="!applicationSelectionfrm.valid" 
+        type="success" (onClick)="onApplicationSelection()">
+      </dx-button>
+    </div>
+  </form>
+</dx-scroll-view>
+  </div>
+</dx-popup>

@@ -1,0 +1,15 @@
+<div id="main">
+    <app-appheader></app-appheader>
+     <app-appmenu></app-appmenu>
+    <div class="content-page"> 
+        <!-- Start content -->
+        <div class="content">
+            <div class="container-fluid">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+    <app-appfooter></app-appfooter>
+</div>
+<ng-http-loader spinner="sk-wave" [filteredMethods]="['POST', 'PuT','GET']"></ng-http-loader>
+<ng-http-loader [filteredMethods]="['gEt', 'POST', 'PuT']"></ng-http-loader>

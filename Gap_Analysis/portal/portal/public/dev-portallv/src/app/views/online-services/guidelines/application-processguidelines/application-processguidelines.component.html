@@ -1,0 +1,42 @@
+
+<div class="row div-backwhite div-nopadding" style="margin:0.5px">
+  <h6 class="main-title float-left">{{guidelines_title}}</h6>
+  <div style="height: 100% !important; " class="col-lg-12">
+    <dx-data-grid [columnHidingEnabled]="true" class="table row-border hover" [dataSource]="dtAppGuidelinesData" (onToolbarPreparing)="onAppGuidelinesToolbarPreparing($event)" >
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel 
+          [visible]="true" 
+        >
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="dtAppGuidelinesData" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column width=180 dataField="application_type" [groupIndex]="0"></dxi-column>
+     
+      <dxi-column name="command-editing" [width] = 50  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+              <div [innerHTML]="data.data.step"></div>
+               
+              <div [innerHTML]="data.data.guideline"></div>
+              
+
+          </div>
+        </dxi-column> 
+        
+        <dx-button
+                  text="Download Guidelines"
+                  type="danger"
+                  icon="fa fa-download"
+                  [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                  (onClick)="onApplicationGuidelinesDownload()">
+              </dx-button>
+      <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
+    </dx-data-grid>
+    
+  </div>
+</div>
+

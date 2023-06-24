@@ -1,0 +1,591 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Process: {{process_title}}</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Dashboard</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+  <div class="row">
+    <div class="col-lg-3">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+        Tracking No: <i> {{tracking_no}}</i> </label>
+    </div>
+    <div class="col-lg-2">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application
+        Status:<i> {{status_name}}</i> </label>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12" *ngIf="status_id === 6 || status_id === 8">
+    <wizard [navigationMode]='strict' navBarLayout ="large-filled-symbols"  style="background: #fff !important; height: 100% !important;">
+
+            <wizard-step stepTitle="Request for Additional Information" class="wizardStep-height">
+      
+                <div class="col-lg-12 wizard-content">
+                     
+                    <dx-data-grid class="table row-border hover row"  [columnHidingEnabled]="true" [dataSource]="applicationPreckingQueriesData"
+                    [showBorders]="true">
+                    <dxo-filter-row [visible]="false"></dxo-filter-row>
+                    <dxo-load-panel [enabled]="true">
+                    </dxo-load-panel>
+                    <dxo-paging [enabled]="true">
+                    </dxo-paging>
+                    <dxo-selection mode="single"></dxo-selection>
+                    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+                      infoText="Page #{0}. Total: {1} ({2} items)">
+                    </dxo-pager>
+                    <dxo-search-panel  [visible]="true" 
+                      >
+                    </dxo-search-panel>
+                    <dxo-export [enabled]="true" fileName="Query Details" [allowExportSelectedData]="true"></dxo-export>
+                    <dxi-column [width]="150" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                        cellTemplate="cellTemplate">
+                        <div *dxTemplate="let data of 'cellTemplate'">
+                            <dx-button text="Query Response" (click)="funcInitQueryResponse(data)"
+                            type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+                          </dx-button>
+                          
+                      </div>
+                    </dxi-column>
+                    <dxi-column   [width] = 120 caption="Queried On" dataField="added_on"></dxi-column>
+                    
+                    <dxi-column name="command-editing"  caption="Query Details" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate1">
+                        <div *dxTemplate="let data of 'cellTemplate1'">
+                            <div [innerHTML]="data.data.queries_remarks"></div>
+                        </div>
+                    </dxi-column> 
+                    <dxi-column name="command-editing"  caption="Query Response" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate2">
+                        <div *dxTemplate="let data of 'cellTemplate2'">
+                            <div [innerHTML]="data.data.response_txt"></div>
+                        </div>
+                    </dxi-column> 
+                   
+                </dx-data-grid>
+                  </div>
+                  <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                      <button (click)="onApplicationDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                        class="fa fa-dashboard"></i>
+                      &nbsp; Dashboard</button>
+                      <button class="btn btn-primary" type="button" (click)="printAppREquestforAdditionalInformation()"><i class="fa fa-print"></i> Letter for Request of Addition Information</button>
+                     
+                    <button type="button" class="btn btn-primary" (click)="funcValidateApplicationQueryresponse(1)" >Next(Permit Submission) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                  </div>
+            </wizard-step>
+            
+            <wizard-step stepTitle="Query Response Submission">
+                <div class="col-lg-12">
+                  <label>Submission Comments(Optional)</label>
+                  <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+                </div>
+                <div class="col-lg-12">
+                        <dx-check-box text="Agree to the Terms & Conditions" [value]="undefined" (onValueChanged)="submissionsTermscheckbox($event)">
+                            </dx-check-box>
+                </div>
+        
+                <div class="wizard-divbottom">
+                  <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                  
+                  <button class="btn btn-primary" type="button" [disabled]="!termscheckbox"
+                  (click)="onPermitsApplicationSubmit()">Submit Permit
+                  Application</button>
+                </div>
+              </wizard-step>
+
+      </wizard>
+
+</div>
+<div class="col-lg-12"  *ngIf="status_id !== 8 && status_id !== 6">
+    <wizard navBarLayout ="large-filled-symbols"  style="background: #fff !important; height: 100% !important;">
+     
+      <wizard-step  navigationSymbol="Step 1" stepTitle="Application Details" class="wizardStep-height">
+        <app-disposal-generaldetails [dispapplicationGeneraldetailsfrm]="dispapplicationGeneraldetailsfrm" [section_id] ="section_id"  
+        [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-disposal-generaldetails>
+
+          <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            <dx-button
+            text="Dashboard"
+            type="success"
+            icon="fa fa-eraser"
+            [elementAttr]="{  class: 'pull-left' }"
+            (onClick)="onApplicationDashboard()">
+        </dx-button>
+            <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" nextStep
+              type="button">
+              Next Documents Upload(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+            <button type="button" (click)="onSaveDisposalApplication()"
+              class="btn btn-primary  pull-right"
+              style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+              Application</button>
+          </div>
+      </wizard-step>
+      <wizard-step navigationSymbol="Step 2" stepTitle="Product Information " class="wizardStep-height">
+        <div class="row wizard-content">
+          <dx-data-grid [dataSource]="permitProductsData" (onToolbarPreparing)="onPermitProductGridToolbar($event)"
+                  [showBorders]="true">
+                  <dxo-filter-row [visible]="false"></dxo-filter-row>
+                  <dxo-search-panel [visible]="true">
+                  </dxo-search-panel>
+                  <dxo-paging [enabled]="true">
+                  </dxo-paging>
+                  <dxo-selection mode="single"></dxo-selection>
+                  <dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false"
+                  [allowSorting]="false" cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+              
+                      <dx-menu (onItemClick)="permitProductsActionColClick($event,data)" [items]="permitProductMenuItems">
+              
+                      </dx-menu>
+              
+                    </div>
+                  </dxi-column>
+              
+                  <dxi-column dataField="brand_name" caption="Brand Name/Trade Name"></dxi-column>
+                  <dxi-column dataField="common_name" caption="Common Name"></dxi-column>
+                  <dxi-column dataField="product_strength" caption="Product description"></dxi-column>
+                  <dxi-column dataField="dosage_form" caption="Dosage Form/Product Form"></dxi-column>
+                  <dxi-column dataField="pack_size" caption="Dosage Form/Product Form"></dxi-column>
+                  <dxi-column dataField="batch_no" caption="Batch No's"></dxi-column>
+                  <dxi-column dataField="quantity"></dxi-column>
+                  <dxi-column dataField="packaging_units"></dxi-column>
+                  <dxi-column dataField="estimated_value"></dxi-column>
+                  <dxi-column dataField="currency_name"></dxi-column>
+                  <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                  </dxo-pager>
+                  <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+                </dx-data-grid>
+              </div>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitProductDetails('Add Permit Product Details to proceed',2)">Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step navigationSymbol="Step 3" stepTitle="Documents" class="wizardStep-height">
+        <div class=" wizard-content">
+          <app-application-documents [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+        </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Applications Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitDocumentsDetails(3)">Next
+            Application Submission<i class="fa fa-angle-double-right"></i></button>
+
+        </div>
+      </wizard-step>
+
+       
+      <wizard-step  navigationSymbol="Submission" stepTitle="Completion & Submission">
+        
+        <form [formGroup]="onApplicationSubmissionFrm" class="col-lg-12 row div-nopadding wizard-content" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onDisposalApplicationSubmit()">
+        
+          
+          <div class="col-lg-12">
+            <b><label>Declaration</label></b>
+            <ul>
+                <p *ngFor="let guide of terms_conditions;">
+                  <span>{{guide.no}} {{guide.term_conditiondetails}}</span>
+                </p>
+            </ul>
+        </div>
+              <div class="col-lg-12">
+                <b> <label>Submission Comments(Optional)</label></b>
+                  <dx-text-area formControlName="submission_comments" placeholder="Enter Comments(optional)"></dx-text-area>
+              </div>
+                
+          <div class="col-lg-12">
+            <dx-check-box text="Agree to the Declaration" [value]="undefined"
+              (onValueChanged)="submissionsTermscheckbox($event)">
+            </dx-check-box>
+          </div>
+  
+          <div class="wizard-divbottom">
+            <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+            <app-invoice-appgeneration  [onApplicationSubmissionFrm] ="onApplicationSubmissionFrm" [sub_module_id] ="sub_module_id" [module_id] ="module_id" [status_id] ="status_id" [application_code]="application_code" ></app-invoice-appgeneration>
+            
+            <button class="btn btn-primary" type="button" 
+              (click)="onDisposalApplicationSubmit()">Submit 
+              Application</button>
+          </div>
+</form>
+      </wizard-step>
+    </wizard>
+  </div>
+</div>
+<!--query  modal structure-->
+
+<dx-popup  class="popup" [width]="funcpopWidth(80)" [height]="850" [showTitle]="true" title="Application Registration Query Response"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isInitalQueryResponseFrmVisible">
+    <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+
+    <wizard [navigationMode]='strict' navBarLayout ="large-filled-symbols"  style="background: #fff !important; height: 100% !important;">
+          
+        <wizard-step stepTitle="Disposal Application Queries" class="wizardStep-height">
+  
+            <div class="col-lg-12 wizard-content">
+                <form role="form" class="row" style="background:#fff;" enctype="multipart/form-data" role="form" [formGroup]="initqueryresponsefrm"
+                (ngSubmit)="onSaveinitqueryresponse()">
+                <div class="col-lg-12">
+                  <label>Query</label>
+                  
+                  <dx-html-editor [height]="200" readOnly ="true"  formControlName="queries_remarks"  placeholder="Query">
+                      <dxo-toolbar>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                          <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="bold"></dxi-item>
+                          <dxi-item formatName="italic"></dxi-item>
+                         
+                          <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="orderedList"></dxi-item>
+                          <dxi-item formatName="bulletList"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="color"></dxi-item>
+                          <dxi-item formatName="link"></dxi-item>
+                          <dxi-item formatName="image"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="clear"></dxi-item>
+                      </dxo-toolbar>
+                      <dxo-media-resizing
+                          [enabled]=true>
+                      </dxo-media-resizing>
+                      
+                  </dx-html-editor>
+                </div>
+                <div class="col-lg-12">
+                  <label>Query Response</label>
+    
+                  <dx-html-editor [height]="200" formControlName="response_txt"  placeholder="Query Response">
+                      <dxo-toolbar>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="size" [formatValues]="['8pt', '10pt', '12pt', '14pt', '18pt', '24pt', '36pt']"></dxi-item>
+                          <dxi-item formatName="font" [formatValues]="['Arial', 'Courier New', 'Georgia', 'Impact', 'Lucida Console', 'Tahoma', 'Times New Roman', 'Verdana']"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="bold"></dxi-item>
+                          <dxi-item formatName="italic"></dxi-item>
+                         
+                          <dxi-item formatName="header" [formatValues]="[false, 1, 2, 3, 4, 5]"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="orderedList"></dxi-item>
+                          <dxi-item formatName="bulletList"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="color"></dxi-item>
+                          <dxi-item formatName="link"></dxi-item>
+                          <dxi-item formatName="image"></dxi-item>
+                          <dxi-item formatName="separator"></dxi-item>
+                          <dxi-item formatName="clear"></dxi-item>
+                      </dxo-toolbar>
+                      <dxo-media-resizing
+                          [enabled]=true>
+                      </dxo-media-resizing>
+                      
+                  </dx-html-editor>
+                </div>
+                <input type="hidden" formControlName="id"/>
+                
+                <input type="hidden" formControlName="query_id"/>
+              </form>
+            
+              </div>
+              <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                
+                  <button type="button"   class="btn btn-primary  pull-right" nextStep>Next(Query Responses/Application Details) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+                  <dx-button text="Save Query Response(s) " [disabled]="!initqueryresponsefrm.valid" (onClick)="onSaveinitqueryresponse()"
+                      type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                    </dx-button>
+
+              </div>
+        </wizard-step>
+
+        <wizard-step stepTitle="Application Details" class="wizardStep-height">
+          <app-disposal-generaldetails [dispapplicationGeneraldetailsfrm]="dispapplicationGeneraldetailsfrm" [section_id] ="section_id"  
+        [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-disposal-generaldetails>
+            <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+              
+              <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" nextStep
+                type="button">
+                Next Permit Product(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+  
+              <button type="button" (click)="onSaveDisposalApplication()"
+                [disabled]="!dispapplicationGeneraldetailsfrm.valid" class="btn btn-primary  pull-right"
+                style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+                Application</button>
+            </div>
+        </wizard-step>
+        
+        <wizard-step stepTitle="Documents" class="wizardStep-height">
+          <div class=" wizard-content">
+            <app-application-documents [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+          </div>
+          <div class="wizard-divbottom">
+            <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+               Details</button>
+              <button type="button" class="btn btn-primary" (click)="onCloseQueryMode()">Close for Submission<i class="fa fa-angle-double-right"></i></button>
+  
+          </div>
+        </wizard-step>
+  </wizard>
+</dx-scroll-view>
+
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Registered Premises"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="ispremisesSearchWinVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-data-grid [dataSource]="registered_premisesData"  [height]="500" (onToolbarPreparing)="onPremisesPerGridToolbar($event)"
+      [showBorders]="true">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+
+      <dxi-column dataField="name"></dxi-column>
+
+      <dxi-column dataField="premise_reg_no"></dxi-column>
+      <dxi-column dataField="permit_no"></dxi-column>
+      <dxi-column dataField="physical_address"></dxi-column>
+      <dxi-column dataField="postal_address"></dxi-column>
+      <dxi-column dataField="region_name"></dxi-column>
+      <dxi-column dataField="validity_status"></dxi-column>
+
+      <dxi-column [width]="60" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+        cellTemplate="cellTemplate">
+        <div *dxTemplate="let data of 'cellTemplate'">
+          <a style="cursor: pointer;" (click)="funcSelectPremiseDetails(data)"><i class="fa fa-edit"></i>Select
+            Premises</a>&nbsp;
+        </div>
+      </dxi-column>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="registeredPremises" [allowExportSelectedData]="true"></dxo-export>
+
+    </dx-data-grid>
+
+  </div>
+</dx-popup>
+
+
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Permits Products" [dragEnabled]="false"
+  [closeOnOutsideClick]="false" [(visible)]="isPermitproductsPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+    <div class="row">
+      <div class="col-lg-12 no-padding">
+        <dx-data-grid [dataSource]="registeredProductsData"  [height]="450" [remoteOperations]='true'
+          (onToolbarPreparing)="onRegisteredProductGridToolbar($event)" [showBorders]="true">
+          <dxo-filter-row [visible]="false"></dxo-filter-row>
+          <dxo-search-panel [visible]="true">
+          </dxo-search-panel>
+          <dxo-paging [enabled]="true">
+          </dxo-paging>
+          <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+          </dxo-pager>
+          
+          <dxo-selection mode="single"></dxo-selection>
+          <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false"
+          [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+            <a (click)="funcSelectRegisteredProduct(data)" class="action-btn"><i class="fa fa-check"></i>Select Product</a>&nbsp;
+          </div>
+        </dxi-column>
+          <dxi-column dataField="brand_name" caption="Brand Name/Device Name"></dxi-column>
+          <dxi-column dataField="certificate_no"></dxi-column>
+          <dxi-column dataField="common_name" caption="Common Name/INN Name/API"></dxi-column>
+          <dxi-column dataField="validity_status"></dxi-column>
+         
+         
+        <dxo-paging [pageSize]="25"></dxo-paging> 
+          <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+
+        </dx-data-grid>
+      </div>
+      
+    </div>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" height="auto" [showTitle]="true" title="Permit Products Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPermitproductsAddPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+      <div class="row ">
+          <form role="form" class="col-lg-12 row" enctype="multipart/form-data" role="form" [formGroup]="permitProductsFrm"
+          (ngSubmit)="onsaveDisposalPermitProductdetails()">
+
+              <div class="col-lg-6 no-padding">
+              <label>Brand Name</label>
+              <dx-text-box placeholder="Brand Name"  formControlName="brand_name">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-6 no-padding">
+              <label>Common Name</label>
+              <dx-text-box placeholder="Common Name"  formControlName="common_name">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-6 no-padding">
+              <label>Product strength</label>
+              <dx-text-box placeholder="Product strength"  formControlName="product_strength">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-6 no-padding">
+              <label>Dosage Form</label>
+              <dx-text-box placeholder="Dosage Form"  formControlName="dosage_form">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-6 no-padding">
+              <label>Pack_size</label>
+              <dx-text-box placeholder="Pack_size"  formControlName="pack_size">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-12 no-padding">
+              <label>Batch Nos</label>
+              <dx-text-area placeholder="Batch Nos"  formControlName="batch_no">
+              </dx-text-area>
+            </div>
+            <div class="col-lg-6 no-padding">
+              <label>Reason for Disposal</label>
+              <dx-text-box placeholder="Reason for Disposal"  formControlName="reason_for_disposal">
+              </dx-text-box>
+            </div>
+            
+            <div class="col-lg-6 no-padding">
+              <label>Item Quantity</label>
+              <dx-text-box placeholder="Item Quantity"  [value]="quantity"  formControlName="quantity">
+              </dx-text-box>
+            </div>
+            
+            <div class="col-lg-6 no-padding">
+              <label>Estimated Value</label>
+              <dx-text-box placeholder="estimated_value" formControlName="estimated_value">
+              </dx-text-box>
+            </div>
+           
+            <div class="col-lg-6 no-padding">
+              <label>Currency</label>
+              <dx-select-box [dataSource]="currencyData" valueExpr="name" placeholder="Select Currency" displayExpr="name"
+                [searchEnabled]="true" formControlName="currency_name">
+              </dx-select-box>
+            </div>
+            <div class="col-lg-12 no-padding">
+              <input type="hidden" formControlName="id" />
+              <input type="hidden" formControlName="product_id" />
+            </div>
+            <dx-button text="Save Disposal Product" 
+              (onClick)="onsaveDisposalPermitProductdetails()" type="success" icon="save"
+              [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+            </dx-button>
+          
+        </form>
+      </div>
+
+    </div>
+</dx-popup>
+   
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Add New Product Information"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isnewproductAddWinVisible">
+<div *dxTemplate="let data of 'content'">
+  <form role="form" enctype="multipart/form-data" role="form" [formGroup]="productGeneraldetailsfrm" (ngSubmit)="onAddNewProductinformation()">
+
+        <div class="row  wizard-content">
+          <div class="col-lg-12">
+            <label class="control-label">Brand Name/</label>
+            <dx-text-box formControlName="brand_name" placeholder="Enter Brand Name" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-12 ">
+            <label for="ti" class="control-label">Classification</label>
+
+            <dx-select-box [dataSource]="classificationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+              placeholder="Select Classification" formControlName="classification_id">
+            </dx-select-box>
+          </div>
+          <div class="col-lg-12 ">
+            <label for="ti" class="control-label">Generic Name</label>
+
+            <dx-select-box [dataSource]="commonNamesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+              placeholder="Select Common name" formControlName="common_name_id">
+            </dx-select-box>
+          </div>
+
+          <div class="col-lg-12">
+            <label class="control-label">Category</label>
+
+            <dx-select-box [dataSource]="productCategoryData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+              placeholder=" Cosmetics Category" formControlName="product_category_id">
+            </dx-select-box>
+          </div>
+          <div class="col-lg-12">
+            <label class="control-label">Product Physical Description</label>
+
+            <dx-text-area [height]="60" formControlName="physical_description"  placeholder="Physical description"
+              >
+            </dx-text-area>
+            <input type="hidden" value="{{section_id}}"  formControlName="section_id"  />
+          </div>
+      </div>
+      <dx-button
+                text="Save Product Details"
+                [disabled]="!productGeneraldetailsfrm.valid"
+                type="default"
+                icon="fa fa-save"
+                [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                (onClick)="onAddNewProductinformation()">
+            </dx-button>
+    </form>
+</div>
+</dx-popup>
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+<div *dxTemplate="let data of 'content'">
+    <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+</div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="500" [height]="400" [showTitle]="true" title="Upload Option (Form for Unfit Pharmaceutical Products)"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isonunfitProductsUploadVisable">
+  <div *dxTemplate="let data of 'content'">
+    <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="unfitProductsUploadFrm"
+      (ngSubmit)="onunfitProductsUpload()">
+      <div class="col-lg-12">
+        <dx-button text="Download Excel Document to Fill" (onClick)="onDownloadunfitProductstemplate()"
+          type="danger" icon="download" [elementAttr]="{ class: 'btn btn-primary; col-lg-12 pull-left' }">
+        </dx-button>
+      </div>
+      <div class="col-lg-12">
+        <div class="col-lg-12">
+          <label>Upload Filled Form(Excel)</label>
+          <input type="file" (change)="fileChangeEvent($event)" />
+        </div>
+      </div>
+      <div class="col-lg-12">
+        <label>Description</label>
+        <dx-text-area [height]="60" formControlName="description"  placeholder="Description"
+          [(value)]="value">
+        </dx-text-area>
+      </div>
+      <div class="col-lg-12">
+        
+        <dx-button text="Upload Excel Document" [disabled]="!unfitProductsUploadFrm.valid" (onClick)="onunfitProductsUpload()"
+          type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+        </dx-button>
+      </div>
+    </form>
+  </div>
+</dx-popup>

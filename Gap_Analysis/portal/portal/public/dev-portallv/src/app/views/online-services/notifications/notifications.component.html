@@ -1,0 +1,44 @@
+<div class="col-xl-12">
+  <div class="breadcrumb-holder">
+    <h1 class="main-title float-left">System Notifications</h1>
+    <ol class="breadcrumb float-right">
+      <li class="breadcrumb-item">Home</li>
+      <li class="breadcrumb-item active">Dashboard</li>
+      <li class="breadcrumb-item active"> {{process_title}}</li>
+
+    </ol>
+    <div class="clearfix"></div>
+  </div>
+</div><form >
+<div class="row">
+  
+        <div class="col-lg-12">
+       
+          <button type="button" class="btn btn-success btn-round "><i class="fa fa-print">
+              Print</i></button>
+          <button type="button" class="btn btn-danger btn-round "><i class="fa fa-trash">
+              Reset</i></button>
+        
+        </div>
+  </div>
+</form>
+  <div class="col-lg-12 no-padding">
+    <dx-data-grid class="table row-border hover" [dataSource]="" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="true">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="Notification" [allowExportSelectedData]="true"></dxo-export>
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column dataField="reference_no"></dxi-column>
+      <dxi-column dataField="notification_subject"></dxi-column>
+      <dxi-column dataField="notification"></dxi-column>
+      <dxi-column dataField="sent_on"></dxi-column>
+    </dx-data-grid>
+    
+  </div>
+

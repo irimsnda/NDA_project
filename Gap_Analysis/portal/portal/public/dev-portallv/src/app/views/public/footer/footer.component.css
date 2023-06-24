@@ -1,0 +1,9 @@
+.botton-section{
+    border-top: 1px solid #ccc;
+    margin-top:5px;
+    padding-top:5px;
+    line-height: 1.8;
+    background: #0099D0;
+    min-height: 80px;
+    color: #000;
+}

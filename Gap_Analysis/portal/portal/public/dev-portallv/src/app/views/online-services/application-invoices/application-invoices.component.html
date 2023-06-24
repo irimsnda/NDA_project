@@ -1,0 +1,36 @@
+<div class="row">
+  <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true" 
+  [dataSource]="appInvoiceDeTailsData" keyExpr="id">
+  <dxi-column [width]=180 caption="Print" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplateSingle">
+      <div *dxTemplate="let d of 'cellTemplateSingle'">
+        <dx-button text="Print Proforma Invoice" (click)="funcPrintProformaInvoice(d.data)"
+        type="success" icon="print" [elementAttr]="{ class: 'btn btn-primary' }">
+        </dx-button>
+      </div>
+    </dxi-column>
+    <dxi-column dataField="tracking_no" ></dxi-column>
+    <dxi-column dataField="invoice_description" ></dxi-column>
+    <dxi-column dataField="invoice_number" ></dxi-column>
+    <dxi-column dataField="date_of_invoicing" ></dxi-column>
+    <dxi-column dataField="element_costs" ></dxi-column>
+    <dxi-column dataField="total_invoice_amount" ></dxi-column>
+    <dxi-column dataField="currency" ></dxi-column>
+</dx-data-grid>
+</div>
+
+<dx-popup class="popup"  [width]="funcpopWidth(60)" [height]="600" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+
+      <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+      <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+  </div>
+</dx-popup>

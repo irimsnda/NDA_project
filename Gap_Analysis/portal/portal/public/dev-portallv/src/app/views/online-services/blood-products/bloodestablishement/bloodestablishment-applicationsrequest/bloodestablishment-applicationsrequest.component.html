@@ -1,0 +1,181 @@
+<!--
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Process: {{process_title}}</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active">Import/Export Application</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+  <div class="row">
+    <div class="col-lg-3">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+        Tracking No: <i> {{tracking_no}}</i> </label>
+    </div>
+    <div class="col-lg-2">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application
+        Status:<i> {{status_name}}</i> </label>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <wizard style="background: #fff !important; height: 100% !important;">
+      
+      <wizard-step stepTitle="Application Details" class="wizardStep-height">
+        <form role="form" enctype="multipart/form-data" role="form" [formGroup]="bloodEstablishmentGeneraldetailsfrm" >
+
+          <div class="row wizard-content">
+              <div class="col-lg-6">
+                  <label>Blood Establishment Name</label>
+                  <dx-text-box [height]="60" formControlName="name_of_establishment" placeholder="Blood Establishment Name">
+                  </dx-text-box>
+                </div>
+            <div class="col-lg-6">
+              <label>Blood Establishment</label>
+              <dx-text-area [height]="60" formControlName="establishment_description" placeholder="Blood Establishment Name">
+              </dx-text-area>
+            </div>
+            
+            <div class="col-lg-6">
+              <label for="ti" class="control-label">Certificate/Permit Issue Place</label>
+          
+              <dx-select-box [dataSource]="zoneData" valueExpr="id" placeholder="Certificate/Permit Issue Place"
+                displayExpr="name" [searchEnabled]="true" formControlName="zone_id">
+              </dx-select-box>
+            </div>
+          
+            <div class="col-lg-4 form-group" style="margin:1px;">
+          
+            </div>
+            <div class="col-lg-12">
+              <input type="hidden" value={{module_id}} formControlName="module_id" />
+              <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+          
+              
+              <input type="hidden" value={{application_code}} formControlName="application_code" />
+            </div>
+          </div>
+          </form>
+          <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            <button (click)="onApplicationDashboard()" class="btn btn-primary pull-left" style="margin:5px;"
+              type="button"><i class="fa fa-dashboard"></i>
+              &nbsp; Dashboard</button>
+            <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" nextStep
+              type="button">
+              Next Permit Product(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+            <button type="button" (click)="onSaveBloodEstablishmentApplication()"
+              [disabled]="!bloodEstablishmentGeneraldetailsfrm.valid" class="btn btn-primary  pull-right"
+              style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+              Application</button>
+          </div>
+      </wizard-step>
+      <wizard-step stepTitle="Establishment/Site Information" class="wizardStep-height">
+        <div class="row wizard-content">
+         
+            </div>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitProductDetails('Add Permit Product Details to proceed',2)">Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step stepTitle="ESTABLISHMENT/SITE ACTIVITY" class="wizardStep-height">
+        <div class="row wizard-content">
+         
+            </div>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitProductDetails('Add Permit Product Details to proceed',2)">Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step stepTitle="Site Personnel" class="wizardStep-height">
+        <div class="row wizard-content">
+         
+            </div>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitProductDetails('Add Permit Product Details to proceed',2)">Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step stepTitle="Establishment/Site Processes" class="wizardStep-height">
+        <div class="row wizard-content">
+         
+            </div>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitProductDetails('Add Permit Product Details to proceed',2)">Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step stepTitle="Documents" class="wizardStep-height">
+        <div class=" wizard-content">
+          <app-application-documents [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+        </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+            Products Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitDocumentsDetails(3)">Next
+            Application Submission<i class="fa fa-angle-double-right"></i></button>
+
+        </div>
+      </wizard-step>
+
+      <wizard-step stepTitle="Declaration & Submission">
+        <div class="row wizard-content">
+
+          <div class="col-lg-12">
+            <h4>Terms & Conditions</h4>
+            <ul>
+              <li *ngFor="let guide of terms_conditions;">
+                <span>{{guide.no}} {{guide.term_conditiondetails}}</span>
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-12">
+            <label>Submission Comments(Optional)</label>
+            <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+          </div>
+          <div class="col-lg-12">
+            <dx-check-box text="Agree to the Terms & Conditions" [value]="undefined"
+              (onValueChanged)="submissionsTermscheckbox($event)">
+            </dx-check-box>
+          </div>
+        </div>
+        <div class="wizard-divbottom">
+          <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+          <button class="btn btn-primary" type="button" (click)="onPermitsApplicationPrint()">Print Permit
+            Application</button>
+          <button class="btn btn-primary" type="button" [disabled]="!termscheckbox"
+            (click)="onPermitsApplicationSubmit()">Submit Permit
+            Application</button>
+        </div>
+      </wizard-step>
+    </wizard>
+  </div>
+</div>-->
+<!--query  modal structure-->

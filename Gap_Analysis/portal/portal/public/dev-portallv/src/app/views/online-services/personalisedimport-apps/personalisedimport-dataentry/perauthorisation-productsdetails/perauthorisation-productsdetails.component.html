@@ -1,0 +1,281 @@
+<div class="row wizard-content">
+    <dx-data-grid [dataSource]="permitProductsData" (onToolbarPreparing)="onPermitProductGridToolbar($event)"  [allowColumnResizing]="true" [columnHidingEnabled]="false" 
+    [showBorders]="true">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-selection mode="single"></dxo-selection>
+    <dxi-column [width]="150" caption="Action(Edit/Delete)" name="command-editing" [allowFiltering]="false"
+      [allowSorting]="false" cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+       
+        <dx-menu (onItemClick)="permitProductsActionColClick($event,data)" [items]="permitProductMenuItems">
+
+        </dx-menu>
+      </div>
+    </dxi-column>
+    <dxi-column dataField="brand_name" caption="Brand Name"></dxi-column>
+    <dxi-column dataField="common_name" caption="Common Name"></dxi-column>
+    <dxi-column dataField="classification_name" caption="Product Classification"></dxi-column>
+    <dxi-column dataField="product_strength" caption="Product Strength"></dxi-column>
+    <dxi-column dataField="product_category"></dxi-column>
+    <dxi-column dataField="manufacturer_name" caption="Manufacturer Name"></dxi-column>
+   
+    <dxo-paging [enabled]="true">
+    </dxo-paging>
+    <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+  </dx-data-grid>
+
+</div>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" height="funcpopHeight(60)" [showTitle]="true" title="Permit Products Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPermitproductsAddPopupVisible">
+  <div *dxTemplate="let data of 'content'">
+
+    <dx-scroll-view>
+      <div class="row col-lg-12">
+          <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="permitProductsFrm"
+          (ngSubmit)="onsavepersonalAuthorisedProductsData()">
+          <div class="col-lg-12 row row-no-margin ">
+            <div class="col-lg-6 ">
+              <label>Product/Brand Name</label>
+              <dx-text-box placeholder="Brand Name/Devices Name" formControlName="brand_name">
+              </dx-text-box>
+            </div>
+            <div class=" col-xs-12 col-md-6 col-lg-6 col-xl-6 input-group">
+              <div class="col-lg-8">
+                  <label class="control-label">{{common_name_title}}</label>
+                  <dx-select-box [dataSource]="commonNameData" valueExpr="id" displayExpr="name" 
+                   [searchEnabled]="true" formControlName="common_name_id">
+                  </dx-select-box>
+              </div>
+              <div class="col-lg-4">
+                  
+                  <dx-button
+                      text="Add"
+                      type="success"
+                      icon="fa fa-plus"
+                      [disabled] ="is_brandreadonly"
+                      [elementAttr]="{  class: 'pull-left' }"
+                      (onClick)="onAddNewGenericDetails()">
+                  </dx-button>
+            </div>
+          </div>
+
+          
+          <div class="col-lg-6" >
+            <label>Product Classification</label>
+            <dx-select-box [dataSource]="classificationData" valueExpr="id" placeholder="Select Classification" 
+              displayExpr="name" formControlName="classification_id" [searchEnabled]="true">
+            </dx-select-box>
+          </div>
+          
+            <div class="col-lg-6" >
+              <label>Product Category</label>
+              <dx-select-box [dataSource]="productCategoryData" valueExpr="id"  placeholder="Select Category" 
+                displayExpr="name" formControlName="product_category_id" [searchEnabled]="true">
+              </dx-select-box>
+            </div>
+            <div class="col-lg-6"  *ngIf="!isFoodPermitProducts">
+              <label>Product Strength</label>
+              <dx-text-box placeholder="Product Stength"   formControlName="product_strength">
+              </dx-text-box>
+            </div>
+           
+            <div class="col-lg-6"  *ngIf="isFoodPermitProducts">
+
+              <label>Product Sub-Category</label>
+              <dx-select-box [dataSource]="productSubCategoryData"  (onSelectionChanged)="onProductCategoryCboSelect($event)" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+              placeholder=" Sub-Product Category" formControlName="product_subcategory_id">
+            </dx-select-box>
+            </div>
+
+            <div class="col-lg-6 " *ngIf="device_type_visible">
+              <label>Device Type</label>
+              <dx-select-box [dataSource]="deviceTypeData" valueExpr="id" placeholder="Select device Type"
+                displayExpr="name" formControlName="device_type_id" [searchEnabled]="true">
+              </dx-select-box>
+            </div>
+            
+            <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4 input-group">
+              <div class="col-lg-10">
+                  <label class="control-label">Manufacturer</label>
+                  <dx-text-box  formControlName="manufacturer_name" readOnly=true [showClearButton]="true">
+      
+                  </dx-text-box>
+              </div>    
+              <div class="col-lg-2">
+                <dx-button  [elementAttr]="{ class: 'btn btn-primary pull-left'}" style="margin-top:25px  !important;"  text="Search Manufacturing Details"  type="default" (onClick)="funcSearchManufacturingSite()">
+                    <i class="fa fa-search"></i>Search Details
+                </dx-button>
+              </div>
+            </div> 
+            <div class="col-lg-6 ">
+              <label>Country of Origin</label>
+              <dx-select-box [dataSource]="countries" readOnly=true valueExpr="id" placeholder="Select Country" displayExpr="name"
+                [searchEnabled]="true" formControlName="country_oforigin_id">
+              </dx-select-box>
+            </div>
+            
+            <div class="col-lg-12">
+                    <label class="control-label">Product Physical Description</label>
+                    <dx-text-area [height]="60" formControlName="productphysical_description" [readOnly]= "isReadOnly" placeholder="Physical description"
+                      >
+                    </dx-text-area>
+            </div>
+            
+            <div class="col-lg-12 ">
+              <input type="hidden" formControlName="id" />
+              <input type="hidden" formControlName="product_id" />
+            </div>
+            <dx-button text="Save Products Details" 
+              (onClick)="onsavepersonalAuthorisedProductsData()" type="success" icon="save"
+              [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+            </dx-button>
+          </div>
+        </form>
+      </div>
+
+    </dx-scroll-view>
+    </div>
+    </dx-popup>
+   
+<dx-popup class="popup"  [width]="funcpopWidth(40)" [height]="400" [showTitle]="true" title="Add Details" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="addproductCommonNameModal">
+  
+  <div *dxTemplate="let data of 'content'" >
+  <dx-scroll-view>
+        <form [formGroup]="addProductParamsdetailsfrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveNewGenericDetails()">
+            <div class="col-lg-12">
+              <label class="control-label">Name</label>
+              <dx-text-box formControlName="name" placeholder="name" [showClearButton]="true">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-12">
+              <label class="control-label">Description</label>
+              <dx-text-area formControlName="description" placeholder="description" >
+              </dx-text-area>
+            </div>
+            <input type='hidden' value='{{section_id}}' formControlName="section_id"/>
+            <input type='hidden' value = 'par_common_names' formControlName="tablename"/>
+
+            <div class="col-lg-12">
+                <dx-button
+                    text="Save Details"
+                    type="success"
+                    icon="fa fa-plus"
+                    [elementAttr]="{  class: 'pull-left' }"
+                    (onClick)="onSaveNewGenericDetails()">
+                </dx-button>
+              </div>
+          </form>
+        </dx-scroll-view>
+  </div>
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(65)" [height]=620 [showTitle]="true" title="Add Manufacturer" [dragEnabled]="false" [closeOnOutsideClick]="" [(visible)]="isnewmanufacturerModalShow">
+  
+  <div *dxTemplate="let data of 'content'" class="row">
+    <dx-scroll-view>
+      <div class="col-lg-12">
+          <form enctype="multipart/form-data" role="form" [formGroup]="manufacturerFrm" (ngSubmit)="onAddManufacturerDetails()">
+
+              <div class="row">
+
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+
+                      <label class="control-label">FPP Manufacturer</label>
+                      <dx-text-box formControlName="name">
+                      </dx-text-box>
+
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label class="control-label">Country</label>
+
+                      <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+                      </dx-select-box>
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label for="ti" class="control-label">Region/City (Optional)</label>
+
+                      <dx-select-box [dataSource]="regions" valueExpr="id" displayExpr="name" [searchEnabled]="true" formControlName="region_id">
+                      </dx-select-box>
+
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label for="ti" class="control-label">Email Address</label>
+                      <dx-text-box formControlName="email_address" placeholder="Email Address">
+                      </dx-text-box>
+                  </div>
+                  <div class="col-xs-12 col-md-6 col-lg-6 col-xl-6">
+                      <label for="ti" class="control-label">Postal Address</label>
+                      <dx-text-box formControlName="postal_address" placeholder="Postal Address">
+                      </dx-text-box>
+                  </div>
+                  <div class="col-lg-12">
+                    <label class="control-label">Physical Address</label>
+
+                    <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+                    </dx-text-area>
+                </div>
+                  <div class="col-lg-12 btn-margin-5">
+                      <br />
+                      <button type="submit" (submit)="onAddManufacturerDetails()" [disabled]="!manufacturerFrm.valid" class="btn btn-primary"><i
+                        class="fa fa-user"></i> Save Manufacturer</button>
+                  </div>
+              </div>
+          </form>
+      </div>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Manufacturing Site Details"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isManufacturerSitePopupVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+      <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true"   (onToolbarPreparing)="onManufacturerPreparing($event)" [dataSource]="manufacturersData" [remoteOperations]='true'   keyExpr="id">
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-search-panel [visible]="true">
+                </dxo-search-panel>
+                <dxo-paging [enabled]="true">
+                </dxo-paging>
+                <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+                </dxo-pager>
+                <dxo-export [enabled]="true" fileName="manufacturingFile" [allowExportSelectedData]="true"></dxo-export>
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-group-panel [visible]="true"></dxo-group-panel>
+                <dxi-column [width]="150" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+                    <div *dxTemplate="let data of 'cellTemplate'">
+                        
+                        <dx-button text="Select Manufacturer" (click)="funcSelectManufacturer(data)"
+                        type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+                      </dx-button>
+                    </div>
+                </dxi-column>
+                <dxi-column dataField="manufacturer_name"></dxi-column>
+                <dxi-column dataField="country"></dxi-column>
+                <dxi-column dataField="region"></dxi-column>
+                <dxi-column dataField="district"></dxi-column>
+                <dxi-column dataField="physical_address"></dxi-column>
+                <dxi-column dataField="postal_address"></dxi-column>
+                <dxi-column dataField="email_address"></dxi-column>
+              
+            <dxo-paging [pageSize]="50"></dxo-paging>
+      </dx-data-grid>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+
+
+<dx-popup class="popup" [width]="800" [height]="650" [showTitle]="true" title="Document Preview" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDocumentPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <iframe [src]="document_previewurl" class="col-lg-12" height="650" ></iframe> 
+  </div>
+</dx-popup>

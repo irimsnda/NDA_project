@@ -1,0 +1,88 @@
+<div class="row no-padding">
+  <div class="col-lg-12 top-header">
+    {{title}}
+  </div>
+
+  <div class="col-lg-12 no-padding" style="min-height: 500px;background: #fff;">
+    <form role="form" enctype="multipart/form-data" role="form" [formGroup]="registeredGmpFrm" (ngSubmit)="onSearchRegisteredgmp()">
+
+    <div class="row">
+        <div class="col-lg-3">
+            <label class="control-label">GMP Facility Registration/Certificate No</label>
+            <dx-text-box placeholder="Registration No" formControlName ="registration_no"[showClearButton]="true">
+            </dx-text-box>
+          </div>
+      <div class="col-lg-3">
+        <label class="control-label">GMP Facility Name</label>
+        <dx-text-box placeholder="GMP Facility Name" formControlName="manufacturer_name" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-3">
+        <label for="ti" class="control-label">GMP Type/Category</label>
+        <dx-select-box [dataSource]="sectionsData" formControlName="section_id" valueExpr="id" displayExpr="name" [searchEnabled]="true" placeholder="Select GMP Type/Category"
+        (onValueChanged)="onSectionsCboSelect($event)" >
+        </dx-select-box>
+      </div>
+     <!-- <div class="col-lg-3">
+        <label for="ti" class="control-label">Business Type</label>
+
+        <dx-select-box [dataSource]="businessTypeData" formControlName="business_type_id" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        (onValueChanged)="onBusinessTypeCboSelect($event)"   placeholder="Select Business Type" >
+        </dx-select-box>
+      </div>
+      <div class="col-lg-3">
+        <label for="ti" class="control-label">Business Type Details</label>
+        <dx-select-box [dataSource]="businessTypeDetailsData" formControlName="business_typedetails_id" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Business Type details">
+        </dx-select-box>
+      </div>
+    -->
+      <div class="col-lg-3">
+        <label>Registrant Holder</label>
+        <dx-text-box  placeholder="Registrant" formControlName="registrant"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      
+
+      <div class="col-lg-12">
+        <!--  <button type="button" class="btn btn-primary btn-round pull-right "><i class="fa fa-file-excel-o">
+              Export Details</i></button>
+        <button type="button" class="btn btn-success btn-round pull-right "><i class="fa fa-print">
+            Print</i></button>
+        -->
+        <button type="button" (click)="onResetRegisteredGMP()"  class="btn btn-danger btn-round pull-right "><i class="fa fa-trash">
+            Clear</i></button>
+        <button type="submit" (submit)="onSearchRegisteredgmp()"  class="btn btn-primary btn-round pull-right "><i class="fa fa-search">
+            Search GMP Details</i></button>
+
+      </div>
+
+    </div></form>
+    <dx-data-grid class="table row-border hover" [wordWrapEnabled]="true"  [dataSource]="registeredGMPData" [remoteOperations]='true'  keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="false">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true" [pageSize]="50">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)"  [showPageSizeSelector]="true"
+      [allowedPageSizes]="[50,100]"></dxo-pager>
+      <dxo-export [enabled]="true" fileName="registeredPremises" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+
+      <dxi-column  dataField="gmp_facility_name"></dxi-column>
+      <dxi-column dataField="certificate_no"></dxi-column>
+      <dxi-column   dataField="country_name"></dxi-column>
+      <dxi-column dataField="region_name"></dxi-column>
+      <dxi-column dataField="district_name"></dxi-column>
+      <dxi-column dataField="postal_address"></dxi-column>
+      <dxi-column dataField="email"></dxi-column>
+      <dxi-column dataField="physical_address"></dxi-column>
+      <dxi-column   dataField="registrant_name"></dxi-column>
+      <dxi-column dataField="date_of_registration"></dxi-column>
+  
+    </dx-data-grid>
+  </div>
+</div>

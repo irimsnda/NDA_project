@@ -1,0 +1,60 @@
+<div class=" wizard-content">
+<form [formGroup]="onApplicationSubmissionFrm" class="col-lg-12 row div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onProductApplicationSubmit()">
+  <div class="col-lg-12">
+      <b><label>Declaration</label></b>
+      <ul>
+          <li *ngFor="let guide of terms_conditions;">
+              <p>{{guide.no}} {{guide.term_conditiondetails}}</p>
+          </li>
+      </ul>
+  </div>
+
+  <div class="col-lg-12">
+    <b> <label>Submission Comments(Optional)</label></b>
+      <dx-text-area formControlName="submission_comments" placeholder="Enter Comments(optional)"></dx-text-area>
+  </div>
+  <div class="col-lg-12">
+    <dx-check-box text="Agree to the Declaration" class="agreetoterms" [value]="undefined" (onValueChanged)="newProductTermscheckbox($event)">
+    </dx-check-box>
+  </div>
+
+  <div class="wizard-divbottom">
+    <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+   
+      <div class="col-lg-4"  >
+        <dx-button text="Print Proforma Invoice(Additional for Request for Information Invoice)" (click)="funcPrintProformaInvoice()"
+              type="success" icon="print" [elementAttr]="{ class: 'btn btn-primary' }">
+              </dx-button>
+      </div> 
+    <button class="btn btn-primary" type="button" [disabled]="!checkProductsSubmission" (click)="onProductApplicationSubmit()">Submit
+      Product Application</button>
+  </div>
+</form>
+</div>
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="600" [showTitle]="true" title="Preview Product Details"
+  [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPreviewProductsDetails">
+  <div *dxTemplate="let data of 'content'" style="background:#fff;">
+    <dx-scroll-view>
+        <app-product-application-preview [applicationcheckcode]="applicationcheckcode" [tracking_no]="tracking_no" [childVar]="variable" [status_name]="status_name"></app-product-application-preview>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(60)" [height]="600" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+    <dx-scroll-view>
+
+      <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+    </dx-scroll-view>
+  </div>
+</dx-popup>
+
+<dx-popup  class="popup" [width]="funcpopWidth(60)"  [height]="450" [showTitle]="true" title="Proforma Invoice"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isInvoiceGenerationWin">
+    <div *dxTemplate="let data of 'content'">
+        <dx-scroll-view>
+          <app-application-invoices [application_code]="application_code"  [application_feetype_id]="2" [tracking_no]="tracking_no" ></app-application-invoices>
+        </dx-scroll-view>
+    </div>
+</dx-popup>

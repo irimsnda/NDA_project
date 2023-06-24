@@ -1,0 +1,70 @@
+<div class="row no-padding">
+  <div class="col-lg-12 top-header">
+    {{title}}
+  </div>
+ 
+  <div class="col-lg-12 no-padding" style="min-height: 500px;background: #fff;">
+    <form role="form" enctype="multipart/form-data" role="form" [formGroup]="registeredPremisessFrm" (ngSubmit)="onSearchRegisteredpremises()">
+
+    <div class="row">
+        <div class="col-lg-3">
+            <label class="control-label">License No</label>
+            <dx-text-box placeholder="Registration No" formControlName ="registration_no" [showClearButton]="true">
+            </dx-text-box>
+          </div>
+      <div class="col-lg-3">
+        <label class="control-label">Premises Name</label>
+        <dx-text-box placeholder="Premises Name" formControlName="premises_name" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-3">
+        <label for="ti" class="control-label">Premises Type</label>
+        <dx-select-box [dataSource]="businessTypeData" formControlName="business_type_id" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Premises Type" >
+        </dx-select-box>
+      </div>
+
+      <div class="col-lg-12">
+         <input type="hidden" value="{{section_id}}" name="section_id"/>
+         
+        <button type="button" (click)="onResetRegisteredpremises()"  class="btn btn-danger btn-round pull-right "><i class="fa fa-trash">
+            Clear</i></button>
+        <button type="submit" (submit)="onSearchRegisteredpremises()"  class="btn btn-primary btn-round pull-right "><i class="fa fa-search">
+            Search Premises</i></button>
+
+      </div>
+
+    </div></form>
+    <dx-data-grid class="table row-border hover" [wordWrapEnabled]="true" [dataSource]="registeredPremisesData" (onInitialized)="saveGridInstance($event)" [remoteOperations]='true'  [remoteOperations]='true'   [showBorders]="true" [allowColumnResizing]="true" [columnHidingEnabled]="true"  keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="false">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)"  [showPageSizeSelector]="true"
+      [allowedPageSizes]="[50,100]">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="registeredPremises" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column dataField="premises_name"></dxi-column>
+      <dxi-column dataField="premise_reg_no" caption="Premises Registration No"></dxi-column>
+      
+      <dxi-column dataField="permit_no" caption="License No"></dxi-column>
+      <dxi-column  dataField="business_type" caption="Premises Type/Category"></dxi-column>
+      <dxi-column  dataField="product_details" caption="Product details"></dxi-column>
+      <dxi-column dataField="region_name" caption="Province"></dxi-column>
+      <dxi-column dataField="district_name"></dxi-column>
+      <dxi-column dataField="sector"></dxi-column>
+      <dxi-column dataField="cell"></dxi-column>
+      <dxi-column dataField="email"></dxi-column>
+      <dxi-column dataField="telephone_no"></dxi-column>
+      <dxi-column dataField="date_of_registration"></dxi-column>
+      <dxi-column dataField="expiry_date"></dxi-column>
+     
+      <dxo-paging [pageSize]="50"></dxo-paging>
+     
+    </dx-data-grid>
+  </div>
+</div>

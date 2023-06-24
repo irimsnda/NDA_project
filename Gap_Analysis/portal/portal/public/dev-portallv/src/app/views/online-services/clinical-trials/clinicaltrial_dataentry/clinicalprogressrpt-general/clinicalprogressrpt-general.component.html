@@ -1,0 +1,146 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="clinicaltrialReportingdetailsfrm">
+
+  <div class="row wizard-content">
+  
+    <div class="col-lg-8">
+      <label class="control-label">Study Title</label>
+      <dx-text-area  formControlName="study_title"  [readOnly]="true"  placeholder="Study Title" >
+      </dx-text-area>
+    </div>
+    <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4">
+        <label class="control-label">Clinical Study Phase</label>
+        <dx-select-box [dataSource]="clinicalStudyPhaseData"  valueExpr="id" displayExpr="name"  
+         [searchEnabled]="true" formControlName="phase_id">
+        </dx-select-box>
+      </div>
+    <div class="col-lg-4">
+      <label class="control-label">Protocol No</label>
+      <dx-text-box formControlName="protocol_no"  [readOnly]="true"  placeholder="Protocol No" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Version No</label>
+      <dx-text-box formControlName="version_no"  [readOnly]="true"  placeholder="Version No" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+
+    <div class="col-lg-4">
+      <label class="control-label">Date of Protocol</label>
+      <dx-date-box [elementAttr]="{class:'form-control'}"  [readOnly]="true" formControlName="date_of_protocol">
+      </dx-date-box>
+    </div>
+    <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4">
+      <label class="control-label">Clinical Study Reporting Type</label>
+      <dx-select-box [dataSource]="clinicalStudyReportTypeData"  valueExpr="id" displayExpr="name"  
+       [searchEnabled]="true" formControlName="clinicalreport_type_id">
+      </dx-select-box>
+    </div>
+    <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4">
+      <label class="control-label">Clinical Study Statuse</label>
+      <dx-select-box [dataSource]="clinicalStudyStatusesData"  valueExpr="id" displayExpr="name"  
+       [searchEnabled]="true" formControlName="clinicalstudy_status_id">
+      </dx-select-box>
+    </div>
+    <div class=" col-xs-12 col-md-4 col-lg-4 col-xl-4">
+      <label class="control-label">Clinical Study Site</label>
+      <dx-select-box [dataSource]="clinicalStudySitesData"  valueExpr="id" displayExpr="name"  
+       [searchEnabled]="true" formControlName="study_site_id">
+      </dx-select-box>
+    </div>
+    
+    <div class="col-lg-4">
+        <label class="control-label">Reporting Period Start Date</label>
+        <dx-date-box     formControlName="reporting_start_date">
+        </dx-date-box>
+  
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Reporting Period Start Date</label>
+        <dx-date-box    formControlName="reporting_end_date">
+        </dx-date-box>
+  
+      </div>
+     
+      <div class="col-lg-4">
+        <label class="control-label">Screened Participants(#)</label>
+        <dx-number-box     formControlName="screen_participants">
+        </dx-number-box>
+  
+      </div>
+    
+      <div class="col-lg-4">
+        <label class="control-label">Date Of First Screening</label>
+        <dx-date-box      formControlName="dateof_first_screening">
+        </dx-date-box>
+  
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Target Participants</label>
+        <dx-number-box      formControlName="target_sample_size">
+        </dx-number-box>
+  
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Enrolled Participants</label>
+        <dx-number-box      formControlName="enrolled_participants">
+        </dx-number-box>
+  
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Date Of First Enrollment</label>
+        <dx-date-box      formControlName="dateof_first_enrollment">
+        </dx-date-box>
+  
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Number of Withdrawals /Dropouts</label>
+        <dx-number-box      formControlName="number_of_dropouts">
+        </dx-number-box>
+  
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Number lost to follow up</label>
+        <dx-number-box      formControlName="number_lost_tofollow_ups">
+        </dx-number-box>
+  
+      </div>
+      <div class="col-lg-12">
+        <label class="control-label">Inclusion Criteria</label>
+        <dx-text-area      formControlName="inclusion_criteria">
+        </dx-text-area>
+  
+      </div>
+      <div class="col-lg-12">
+        <label class="control-label">Exclusion Criteria</label>
+        <dx-text-area      formControlName="exclusion_criteria">
+        </dx-text-area>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Number of SAEs /SUSARs that have occurred</label>
+        <dx-number-box      formControlName="number_of_saes">
+        </dx-number-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Number of Events of medical importance that have occurred</label>
+        <dx-number-box      formControlName="events_of_medialimportance">
+        </dx-number-box>
+      </div>
+      <div class="col-lg-4">
+        <label class="control-label">Number of protocol deviations that have occurred</label>
+        <dx-number-box      formControlName="protocol_deviations">
+        </dx-number-box>
+      </div>
+      
+    <div class="col-lg-12">
+      <input type="hidden" value={{sub_module_id}} formControlName="sub_module_id" />
+      <input type="hidden" value="{{module_id}}" formControlName="appmodule_id" />
+      <input type="hidden" value={{application_code}} formControlName="application_code" />
+      <input type="hidden"  formControlName="section_id" />
+      <input type="hidden" value=2 formControlName="zone_id" />
+      
+      <input type="hidden" value={{reg_clinical_trial_id}} formControlName="reg_clinical_trial_id" />
+      
+    </div>
+  </div> 
+  </form>
+  

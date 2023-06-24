@@ -1,0 +1,90 @@
+<div class="row">
+    <div class="col-xl-12">
+      <div class="breadcrumb-holder">
+        <h1 class="main-title float-left">Product Retention Invoices</h1>
+        <ol class="breadcrumb float-right">
+  
+          <a href="#"><li class="fa fa-dashboard">Home</li></a> &nbsp;
+  
+        </ol>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+<div class=" row  div-nopadding  div-backwhite"> 
+    <form role="form" class="row div-nopadding " enctype="multipart/form-data" role="form" [formGroup]="retetentionPaymentFilterDetailsFrm">
+      <div class="col-lg-4">
+          <label>Retention Year From</label>
+          <dx-select-box  [dataSource]="yearData" valueExpr="id" displayExpr="name" 
+          (onSelectionChanged)="onSelectRetentionPaymentFilters()"   [searchEnabled]="true" placeholder="Retention Year From" formControlName="retention_yearfrom">
+          </dx-select-box>
+    </div>
+    <div class="col-lg-4">
+        <label>Retention Year To</label>
+        <dx-select-box  [dataSource]="yearData" valueExpr="id" displayExpr="name" 
+        (onSelectionChanged)="onSelectRetentionPaymentFilters()"   [searchEnabled]="true" placeholder="Retention Year From" formControlName="retention_yearto">
+        </dx-select-box>
+      </div>
+    <div class="col-lg-4">
+        <label>Section</label>
+        <dx-select-box  [dataSource]="sectionsData" valueExpr="id" displayExpr="name" 
+        (onSelectionChanged)="onSelectRetentionPaymentFilters()"   [searchEnabled]="true" placeholder="Product category/section" formControlName="section_id">
+        </dx-select-box>
+    </div>
+    
+    <div class="col-lg-12 row pull-right">
+        <dx-button
+          text="Clear Filter"
+          type="danger"
+          icon="fa fa-eraser"z
+          [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+          (onClick)="onClearRetetionPaymentsFilters()">
+      </dx-button>
+     <!---- <dx-button
+          text="Print Retention Payment Statement"
+          type="default"
+          icon="fa fa-print"
+          [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+          (onClick)="onPrintRetetionPaymentApplicaitonState()">
+      </dx-button>
+      -->
+    </div>
+  </form>
+</div>
+
+  <div class="row div-nopadding">
+    <dx-data-grid class="table row-border hover" [dataSource]="dtretentionPaymentsData" keyExpr="ID">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="Retention Payments" [allowExportSelectedData]="true"></dxo-export>
+
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+
+    <dxi-column dataField="retention_year" [groupIndex]="0"></dxi-column>
+    <dxi-column dataField="brand_name"></dxi-column>
+    <dxi-column dataField="invoice_no"></dxi-column>
+    <dxi-column dataField="invoice_amount"></dxi-column>
+    <dxi-column dataField="currency_name"></dxi-column>
+    <dxi-column dataField="totalinvoice_amount" caption="Total Invoice Amount(Tshs)"></dxi-column>
+    <dxi-column dataField="receipt_no" caption="Receipt No"></dxi-column>
+    <dxi-column dataField="trans_date" caption="Payment Date"></dxi-column>
+    <dxi-column dataField="payment_currency" caption="Payment Currency"></dxi-column>
+    <dxi-column dataField="amount_paid" caption="Amount Paid"></dxi-column>
+    <dxi-column dataField="amount_paidtshs" caption="Amount Paid (Tshs)"></dxi-column>
+<!--
+    <dxi-column name="command-editing"  [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+      <div *dxTemplate="let data of 'cellTemplate'">
+        <button (click)="funcPrintRetentionReceipt(data)" class="btn btn-link"><i class="fa fa-edit"></i>Print Receipt</button>
+      </div>
+    </dxi-column>
+-->
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+  </dx-data-grid>
+  </div>

@@ -1,0 +1,161 @@
+<div class="row">
+  <div class="col-xl-12">
+      <div class="breadcrumb-holder">
+          <h1 class="main-title float-left">Process: {{process_title}}</h1>
+          <ol class="breadcrumb float-right">
+              <li class="breadcrumb-item">Home</li>
+              <li class="breadcrumb-item active">Dashboard</li>
+              <li class="breadcrumb-item active">GMP Inspection Application</li>
+          </ol>
+          <div class="clearfix"></div>
+      </div>
+  </div>
+</div>
+<div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+  <div class="row">
+      <div class="col-lg-3">
+          <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+              Tracking No: <i> {{tracking_no}}</i> </label>
+      </div>
+      <div class="col-lg-2">
+          <label style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application
+              Status:<i> {{status_name}}</i> </label>
+      </div>
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+      <wizard  style="background: #fff !important; height: 100% !important;">
+          <wizard-step *ngIf="status_id === 17 || status_id === 6" stepTitle="Queries" class="wizardStep-height">
+              <div class="col-lg-12 wizard-content">
+                <app-application-queries [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-queries>
+                </div>
+                <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                    <button (click)="onPremisesDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                      class="fa fa-dashboard"></i>
+                    &nbsp; Dashboard</button>
+                  <button type="button" class="btn btn-primary" nextStep>Next(Query Responses) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                </div>
+            </wizard-step>
+
+          <wizard-step stepTitle="Manufacturing Site Application Details" class="wizardStep-height">
+            <app-gmp-generaldetails  [gmpapplicationGeneraldetailsfrm] ="gmpapplicationGeneraldetailsfrm"  
+            [assessmentProcedureData] ="assessmentProcedureData"  
+            [sectionsData] ="sectionsData"  
+            [manufacturingSiteLocationSet] ="manufacturingSiteLocationSet"  
+            [countries] ="countries"  
+            [gmpLocationData] ="gmpLocationData"  
+            [regions] ="regions" 
+            [districts] ="districts"  
+            [businessTypesData] ="businessTypesData"  
+            [zoneData] ="zoneData"  
+            [confirmDataParam] ="confirmDataParam"
+            [sub_module_id] ="sub_module_id" 
+            [module_id] ="module_id" 
+            [man_site_id] ="man_site_id"
+            [ltr_id] ="ltr_id" 
+            [manufacturing_site_id] ="manufacturing_site_id"
+            [premise_id] ="premise_id" 
+            [registered_id] ="registered_id"
+            [isReadOnlyTraderasContact] ="isReadOnlyTraderasContact"
+            
+            [isPersonnelPopupVisible] ="isPersonnelPopupVisible"
+            
+            [personnel_informationData] ="personnel_informationData"
+            
+            [isaddNewPremisesPersonnelDetails] ="isaddNewPremisesPersonnelDetails"
+            
+            [traderAccountsDetailsData] ="traderAccountsDetailsData"
+            [ispremisesSearchWinVisible] ="ispremisesSearchWinVisible"
+            [isManufacturerPopupVisible] ="isManufacturerPopupVisible"
+            [registered_premisesData] ="registered_premisesData"
+            [manufacturersSiteData] ="manufacturersSiteData"
+            [newPremisesPersonnelDetailsFrm] ="newPremisesPersonnelDetailsFrm"
+            
+            [fastTrackOptionsData] ="fastTrackOptionsData"
+            [section_id] ="section_id"
+            [gmp_type_id] ="gmp_type_id"
+            
+  
+             
+            (businessTypeEvent)="business_type_id=$event"
+  
+            [payingCurrencyData] ="payingCurrencyData"
+            [is_readonly] ="is_readonly" >
+    
+  
+            </app-gmp-generaldetails>
+                  <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+                      <button (click)="onGMPDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                              class="fa fa-dashboard"></i>
+                          &nbsp; Dashboard</button>
+                    
+                      <button type="submit" (click)="onSaveGMPApplication()"
+                          class="btn btn-primary pull-right" style="margin:5px;"><i class="fa fa-save"></i>&nbsp;ext Reason for Withdrawal
+                      </button>
+
+                  </div>
+              
+          </wizard-step>
+          <wizard-step stepTitle="Reasons for Withrawal" class="wizardStep-height">
+            <div class="row wizard-content">
+                <app-application-withdrawal-details [section_id] ="section_id"  [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code">
+        
+                </app-application-withdrawal-details>
+    
+            </div>
+            <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+                    class="fa fa-angle-double-left"></i>Previous
+                 Previous</button>
+                <button type="button" class="btn btn-primary" (click)="funcValidateApplicationWithdrawalDetails(2)">Next Submission &nbsp;<i class="fa fa-angle-double-right"></i></button>
+              </div>
+        </wizard-step>  
+         
+          <wizard-step stepTitle="Documents" class="wizardStep-height">
+              <div class="row wizard-content">
+                  <app-application-documents [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+              </div>
+              <div class="wizard-divbottom">
+                  <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Previous
+                      Premises Documents</button>
+                  <button type="button" class="btn btn-primary" click="funcValidatePremDocumentsDetails(5)" nextStep>Next
+                      Application Submission<i class="fa fa-angle-double-right"></i></button>
+              </div>
+
+          </wizard-step>
+
+          <wizard-step stepTitle="Completion & Submission">
+              <div class="row wizard-content">
+
+                  <div class="col-lg-12">
+                      <h4>Terms & Conditions</h4>
+                      <ul>
+                          <li *ngFor="let guide of terms_conditions;">
+                              <span>{{guide.no}} {{guide.term_conditiondetails}}</span>
+                          </li>
+                      </ul>
+                  </div>
+                  <div class="col-lg-12">
+                      <label>Submission Comments(Optional)</label>
+                      <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+                  </div>
+                  <div class="col-lg-12">
+                      <dx-check-box text="Agree to the Terms & Conditions" [value]="undefined" (onValueChanged)="newPremTermscheckbox($event)">
+                      </dx-check-box>
+                  </div>
+              </div>
+              <div class="wizard-divbottom">
+                  <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                  <button class="btn btn-primary" type="button" (click)="onGMPApplicationPrint()">Print Premises
+                      Application</button>
+                  <button class="btn btn-primary" type="button" [disabled]="!checkPremisesSubmission" (click)="onGmpApplicationSubmit()">Submit
+                      GMP
+                      Withdrawal Request</button>
+              </div>
+          </wizard-step>
+      </wizard>
+  </div>
+</div>
+

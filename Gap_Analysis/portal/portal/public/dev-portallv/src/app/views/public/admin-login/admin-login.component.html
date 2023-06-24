@@ -1,0 +1,51 @@
+<div class="row account-details">
+   
+    <div class="col-lg-6 guidelines-section col-center-block">
+  
+      <form enctype="multipart/form-data" role="form" [formGroup]="onAdminAccessFrm" (ngSubmit)="onAdminAccessLoginKeyPress($event)">
+        <wizard  style="background: #fff !important; height: 100% !important;">
+          <wizard-step class="wizardStep-height">
+            <div class="row">
+              <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                <label for="ti" class="control-label">Email Address<br/>(Enter the valid Email Address for you to receive the One Time password in your email account for access!!)</label>
+                <dx-text-box (onFocusOut)="onValidateAdminAccess($event)" formControlName="email_address" placeholder="Email Address">
+                </dx-text-box>
+              </div>
+            <!--  Or
+              <div class="col-xs-12 col-md-6 col-lg-6 col-xl-4">
+                  <label for="ti" class="control-label">Telephone No</label>
+                  <dx-text-box (onFocusOut)="onValidateAdminAccess($event)"  (onValueChanged) = 'onValidateAdminAccess($event)' formControlName="phone_no" placeholder="Telephone No">
+                  </dx-text-box>
+                </div>
+              -->
+              
+                <div class="col-xs-12 col-md-12 col-lg-12 col-xl-12">
+                    <label>Enter One Time Password</label>
+                    <input type="password" [readonly] = "isReadOnly"  [disabled] = "isReadOnly" formControlName="user_password" class="form-control" name="user_password"
+                      placeholder="Password" required />
+                  </div>
+
+           
+                <div class="col-lg-12 btn-margin-5">
+  
+                      <dx-button
+                        text="Validate(Login)"
+                        type="success"
+                        icon="fa fa-right"
+                        [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+                        (onClick)="onAdminAccessLoginKeyPress($event)">
+                    </dx-button>
+                </div>
+           
+              </div>
+          </wizard-step>
+        
+        </wizard>
+  
+      </form>
+  
+    </div>
+  </div>
+  
+  <ng-http-loader spinner="sk-wave" [filteredMethods]="['POST', 'PuT','GET']"></ng-http-loader>
+  

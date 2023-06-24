@@ -1,0 +1,187 @@
+<dx-data-grid [dataSource]="permitProductsData"  (onCellPrepared)="onCellPrepared($event)" (onToolbarPreparing)="onPermitProductGridToolbar($event)"  [allowColumnResizing]="true" [columnHidingEnabled]="false" 
+[showBorders]="true">
+<dxo-filter-row [visible]="false"></dxo-filter-row>
+<dxo-search-panel [visible]="true">
+</dxo-search-panel>
+<dxo-paging [enabled]="true">
+</dxo-paging>
+<dxo-selection mode="single"></dxo-selection>
+<dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false"
+  [allowSorting]="false" cellTemplate="cellTemplate">
+  <div *dxTemplate="let data of 'cellTemplate'">
+    <dx-button text="Update Details(Quanties)" (click)="funcUpdateLicenseVisaprod(data.data)" 
+    type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+    </dx-button>
+  </div>
+</dxi-column>
+<dxi-column [width]="160" caption="Action" name="command-editing" [allowFiltering]="false"
+  [allowSorting]="false" cellTemplate="cellTemplate2">
+  <div *dxTemplate="let data of 'cellTemplate2'">
+    <dx-button text="Remove product" (click)="funcREmoveProductDetails(data.data)" 
+    type="success" icon="trash" [elementAttr]="{ class: 'btn btn-danger' }">
+    </dx-button>
+  </div>
+</dxi-column>
+<dxi-column dataField="brand_name" caption="Brand Name"></dxi-column>
+<dxi-column dataField="quantity" caption="License Quantity(Balance)"></dxi-column>
+<dxi-column dataField="consignment_quantity"></dxi-column>
+<dxi-column dataField="product_batch_no" caption="Product Batch #(License Permit)"></dxi-column>
+<dxi-column dataField="product_manufacturing_date" caption="Mgf Date"></dxi-column>
+<dxi-column dataField="product_expiry_date" caption="Product Expiry Date"></dxi-column>
+<dxi-column dataField="currency_name"></dxi-column>
+<dxi-column dataField="unit_price"></dxi-column>
+<dxi-column dataField="total_value" caption="FOB Value"></dxi-column>
+<dxi-column dataField="permitprod_inspectionstatus" caption="Permit Inspection Status"></dxi-column>
+
+<dxo-paging [enabled]="true">
+</dxo-paging>
+<dxo-summary>
+  <dxi-total-item
+      column="total_value"
+      summaryType="sum">
+  </dxi-total-item>
+</dxo-summary>
+<dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+</dxo-pager>
+<dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+</dx-data-grid>
+
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" height="funcpopHeight(60)" [showTitle]="true" title="Permit Products Details"
+[dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isPermitVisaLicProductsAddPopupVisible">
+<div *dxTemplate="let data of 'content'">
+
+  <dx-scroll-view>
+    <div class="row col-lg-12">
+        <form role="form" class="row" enctype="multipart/form-data" role="form" [formGroup]="permitProductsFrm"
+        (ngSubmit)="onsavePermitProductdetails()">
+        <div class="col-lg-12 row row-no-margin ">
+          <div class="col-lg-6 ">
+            <label>Product Name</label>
+            <dx-text-box placeholder="Brand Name/Devices Name" [readOnly]="true" formControlName="brand_name">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-8">
+              <label class="control-label">{{common_name_title}}</label>
+              <dx-select-box [dataSource]="commonNameData" valueExpr="id" [readOnly]="true" displayExpr="name" 
+              [searchEnabled]="true" formControlName="common_name_id">
+              </dx-select-box>
+          </div>
+          
+          <div class="col-lg-6">
+            <label>Product Unit Pack Size</label>
+            <dx-number-box placeholder="Unit Pack Size"  [readOnly]="true"  formControlName="unitpack_size">
+            </dx-number-box>
+          </div>
+          
+          <div class="col-lg-12 ">
+            <label>Product Batch No(s)</label>
+            <dx-text-box placeholder="Batch Nos"  [readOnly]="true" formControlName="product_batch_no">
+            </dx-text-box>
+          </div>
+          <div class="col-lg-6 input-group" >
+            <div class="col-lg-6"> 
+              <label>Manufacturing Date</label>
+              <dx-date-box placeholder="Manufacturing Date"  [readOnly]="true" formControlName="product_manufacturing_date">
+              </dx-date-box>
+            </div>
+            <div class="col-lg-6"> 
+              <label>Expiry Date</label>
+              <dx-date-box placeholder="Expiry Date"  [readOnly]="true" formControlName="product_expiry_date">
+              </dx-date-box>
+            </div>
+
+          </div>
+          <div class="col-lg-6 input-group">
+            <div class="col-lg-6">
+              <label>Consignment Quantity</label>
+              <dx-number-box placeholder="Product Consignment Quantity" (onValueChanged) = 'onValidateConsignmentQty($event)'  [value]="consignment_quantity"   formControlName="consignment_quantity">
+              </dx-number-box>
+            </div>
+            <div class="col-lg-6">
+              <label>Product Packaging Unit</label>
+              <dx-select-box [dataSource]="packagingUnitsData" valueExpr="id" placeholder="Select Packaging Units"
+                displayExpr="name" formControlName="packaging_unit_id" [searchEnabled]="true">
+              </dx-select-box>
+          </div>
+        </div>
+        
+          <div class="col-lg-6 input-group">
+            <div class="col-lg-6"> 
+              <label>Unit Price</label>
+              <dx-number-box placeholder="Unit Price"  [readOnly]="true" formControlName="unit_price">
+              </dx-number-box>
+            </div>
+            <div class="col-lg-6 ">
+              <label>Currency</label>
+              <dx-select-box [dataSource]="currencyData"  [readOnly]="true" valueExpr="id" placeholder="Select Currency" displayExpr="name"
+                [searchEnabled]="true" formControlName="currency_id">
+              </dx-select-box>
+            </div>
+          </div>
+          <div class="col-lg-12 ">
+            
+            <input type="hidden" formControlName="id" />
+            <input type="hidden" formControlName="product_id" />
+            <input type="hidden" formControlName="visa_quantity" />
+            <input type="hidden" formControlName="prodcertificate_no" />
+          </div>
+          <dx-button text="Save Consignment Product Details" [disabled]="!permitProductsFrm.valid"
+            (onClick)="onsavePermitProductdetails()" type="success" icon="save"
+            [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+          </dx-button>
+        </div>
+      </form>
+    </div>
+
+  </dx-scroll-view>
+  </div>
+  </dx-popup>
+
+  
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="550" [showTitle]="true" title="Approved Visa Product Details" [dragEnabled]="false"  
+[closeOnOutsideClick]="false" [(visible)]="isApprovedLicenseproductsPopupVisible">
+<div *dxTemplate="let data of 'content'">
+  <dx-scroll-view>
+        <dx-data-grid [dataSource]="approvedlicensesProducts"  (onCellPrepared)="onBookingProductCellPrepared($event)"  [allowColumnResizing]="true" [columnHidingEnabled]="false" 
+        [showBorders]="true">
+        <dxo-filter-row [visible]="false"></dxo-filter-row>
+        <dxo-search-panel [visible]="true">
+        </dxo-search-panel>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxi-column [width]="150" caption="Action(Edit/Delete)" name="command-editing" [allowFiltering]="false"
+          [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+            <dx-button text="Add/Select Product" (click)="funcSelectApprovedLicenseProduct(data.data)"
+          type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+        </dx-button>
+          </div>
+        </dxi-column>
+        <dxi-column dataField="brand_name" caption="Brand Name"></dxi-column>
+        <dxi-column dataField="quantity" caption="Visa Quantity"></dxi-column>
+        
+        <dxi-column dataField="licensebalance_quantity" caption="Balance (Quantity)"></dxi-column>
+        <dxi-column dataField="packaging_units"></dxi-column>
+        <dxi-column dataField="pack_size" caption="Pack Size"></dxi-column>
+        <dxi-column dataField="currency_name"></dxi-column>
+        <dxi-column dataField="unit_price"></dxi-column>
+        <dxi-column dataField="total_value" caption="FOB Value"></dxi-column>
+        <dxi-column dataField="permitprod_recommendation" caption="Product Acceptance"></dxi-column>
+        <dxo-paging [enabled]="true">
+        </dxo-paging>
+
+        <dxo-summary>
+          <dxi-total-item
+              column="total_value"
+              summaryType="sum">
+          </dxi-total-item>
+      </dxo-summary>
+        <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <dxo-export [enabled]="true" fileName="permitProducts" [allowExportSelectedData]="true"></dxo-export>
+      </dx-data-grid>
+
+
+  </dx-scroll-view>
+</div>
+</dx-popup>

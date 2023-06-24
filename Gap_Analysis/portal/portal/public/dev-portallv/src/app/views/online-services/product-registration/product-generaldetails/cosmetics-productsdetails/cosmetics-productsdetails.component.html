@@ -1,0 +1,378 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="productGeneraldetailsfrm">
+  <div class="row wizard-content">
+    <div class="col-lg-4">
+      <label>Product Type</label>
+
+        <dx-select-box [readOnly]="true" [dataSource]="sectionsData" valueExpr="id" displayExpr="name" placeholder="Select Product Type"  [searchEnabled]="true" formControlName="section_id">
+        </dx-select-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Trade/Proprietary Name/</label>
+      <dx-text-box formControlName="brand_name" placeholder="Enter Brand Name" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-4 ">
+      <label for="ti" class="control-label">Classification</label>
+
+      <dx-select-box [dataSource]="classificationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Select Classification" formControlName="classification_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4 input-group" >
+      <div class="col-lg-10">
+       <label for="ti" class="control-label">Common Name(Optional)</label>
+
+       <dx-select-box [dataSource]="commonNamesData"   [readOnly]= "isReadOnly"  valueExpr="id" displayExpr="name" [searchEnabled]="true"
+         placeholder="Select Common name"  formControlName="common_name_id">
+       </dx-select-box>
+      </div>
+
+       <div class="col-lg-2">
+         <dx-button
+             text="Add "
+             type="success"
+             icon="fa fa-plus"
+             [elementAttr]="{  class: 'pull-left' }"
+             (onClick)="onAddNewCommonNameDetails()">
+         </dx-button>
+       </div>
+     </div>
+     <div class="col-lg-12"  *ngIf="is_antiseptic_product">
+      <label class="control-label">Product Strength(Active Ingredients)</label>
+      <dx-text-box formControlName="product_strength"  placeholder="Product Strength(Active Ingredients)"
+        >
+      </dx-text-box>
+    </div>
+
+    <div class="col-lg-4"  *ngIf="is_medicated_cosmetics || is_antiseptic_product">
+      <label class="control-label">Product Form</label>
+      
+      <dx-tag-box
+        [items]="productFormData"
+        formControlName="product_form_id"
+        placeholder="Product Form..."
+        valueExpr="id"
+        [showSelectionControls]="true"
+        applyValueMode="useButtons"
+        displayExpr="name">
+        
+    </dx-tag-box>
+    </div>
+
+    <div class="col-lg-12" >
+      <label class="control-label">Product Physical/Visual Description</label>
+
+      <dx-text-area [height]="60" formControlName="physical_description"  placeholder="Physical description"
+        >
+      </dx-text-area>
+    </div>
+
+    <div class="col-lg-4"  *ngIf="is_medicated_cosmetics">
+      <label class="control-label">Area of application of cosmetic</label>
+      
+      <dx-tag-box
+        [items]="methodOfUseData"
+        formControlName="method_ofuse_id"
+        placeholder="Area of application of cosmetic..."
+        valueExpr="id"
+        [showSelectionControls]="true"
+        applyValueMode="useButtons"
+        displayExpr="name">
+        
+    </dx-tag-box>
+    </div>
+
+    <div class="col-lg-12"  *ngIf="is_medicated_cosmetics">
+      <label class="control-label">Contraindication/</label>
+     
+      <dx-text-area [height]="60" formControlName="contraindication"  placeholder="Enter contraindication"
+      >
+    </dx-text-area>
+    </div>
+    <div class="col-lg-12"  *ngIf="is_medicated_cosmetics">
+      <label class="control-label">Application method:</label>
+
+      <dx-text-area [height]="60" formControlName="application_method"  placeholder="Application method"
+        >
+      </dx-text-area>
+    </div>
+    
+    <div class="col-lg-12"  *ngIf="is_medicated_cosmetics  || is_antiseptic_product">
+      <label class="control-label">Pack size(s):</label>
+      <dx-text-box formControlName="pack_sizes"  placeholder="Pack Sizes"
+        >
+      </dx-text-box>
+    </div>
+
+    <div class="col-lg-4"  *ngIf="is_medicated_cosmetics  || is_antiseptic_product">
+      <label class="control-label">Recommended/Proposed storage conditions</label>
+      <dx-text-box formControlName="storage_condition" [readOnly]= "isReadOnly" [showClearButton]="true">
+      </dx-text-box>
+      
+    </div>
+    <div class="col-lg-4"  *ngIf="is_antiseptic_product">
+      <label class="control-label">Proposed storage conditions after first opening</label>
+      <dx-text-box formControlName="storage_conditionafter_opening" [readOnly]= "isReadOnly" [showClearButton]="true">
+      </dx-text-box>
+      
+    </div>
+      <div class="col-lg-4"  *ngIf="is_antiseptic_product">
+       <label for="ti" class="control-label">Distribution category:</label>
+
+       <dx-select-box [dataSource]="distributionCategoryData"   [readOnly]= "isReadOnly"  valueExpr="id" displayExpr="name" [searchEnabled]="true"
+         placeholder="Select Common name"  formControlName="distribution_category_id">
+       </dx-select-box>
+      </div>
+    
+    <div class="col-lg-8"  *ngIf="is_medicated_cosmetics  || is_antiseptic_product">
+      <label class="control-label">Intended Use</label>
+      <dx-text-box formControlName="intended_use" placeholder="Enter Intended Use" [showClearButton]="true">
+      </dx-text-box>
+    </div>  
+
+    
+    <div class="col-lg-12">
+      <label class="control-label">Brief description of the type and properties of packaging material and the seal and its liner if
+        any and provide justification for the suitability of the packaging material and the seal and its liner
+        used.:</label>
+
+      <dx-text-area [height]="60" formControlName="description_ofpackagingmaterial"  placeholder=""
+        >
+      </dx-text-area>
+    </div>
+    <div class="col-lg-12"  *ngIf="is_medicated_cosmetics">
+      <label class="control-label">Brief description of the method used to determine the shelf life.:</label>
+
+      <dx-text-area [height]="60" formControlName="descriptionofmethod_ofshelflife"  placeholder=""
+        >
+      </dx-text-area>
+    </div>
+
+    <div class="col-lg-4"  *ngIf="is_medicated_cosmetics  || is_antiseptic_product">
+      <label class="control-label">Proposed Shelf Life (Months) </label>
+      <dx-number-box formControlName="shelf_life" placeholder="Shelf Life" [showClearButton]="true">
+      </dx-number-box>
+    </div>
+    <div class="col-lg-4"  *ngIf="is_antiseptic_product">
+      <label class="control-label">Proposed shelf life (after reconstitution or dilution) (Months) </label>
+      <dx-text-box formControlName="shelf_lifeafter_reconstitution"  [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-4"  *ngIf="is_antiseptic_product">
+      <label class="control-label">Proposed shelf life (after first opening container) (Months) </label>
+      <dx-text-box formControlName="shelf_lifeafter_opening" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    
+    <div class="col-lg-4"  *ngIf="is_medicated_cosmetics">
+      <label class="control-label">Intended User</label>
+
+      <dx-select-box [dataSource]="intendedEndUserData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder=" Intended User" formControlName="intended_enduser_id">
+      </dx-select-box>
+    </div>
+  
+    <div class="col-lg-4"  *ngIf="is_pesticides_product">
+      <label class="control-label">Liquid product only specific Gravity</label>
+      <dx-text-box formControlName="liquid_gravity" placeholder="Enter Liquid Gravity" [showClearButton]="true">
+      </dx-text-box>
+    </div>    
+    <div class="col-lg-4"  *ngIf="is_pesticides_product">
+      <label class="control-label">Solid product only Density</label>
+      <dx-text-box formControlName="solid_product_density" placeholder="Enter solid density" [showClearButton]="true">
+      </dx-text-box>
+    </div>
+    <div class="col-lg-4">
+      <label class="control-label">Product Manufacturing Country</label>
+
+      <dx-select-box [dataSource]="countriesData"  valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Product Manufacturing Country" (onSelectionChanged)="onManufacturingCountryChange($event)" formControlName="manufacturing_country_id">
+      </dx-select-box>
+  </div>
+    <div class="col-lg-4" >
+        <label class="control-label">Product Origin</label>
+
+        <dx-select-box [dataSource]="productTypeData"  [readOnly]="readOnlyOrigin"  valueExpr="id" displayExpr="name" [searchEnabled]="true" (onSelectionChanged)="onProductTypeSelection($event)"
+          placeholder="Product Origin" formControlName="product_origin_id">
+        </dx-select-box>
+      </div>
+     
+          <div class="col-lg-4 "  *ngIf="is_pesticides_product">
+      <label for="ti" class="control-label">WHO Hazard class(For pestcide)</label>
+
+      <dx-select-box [dataSource]="whoHazardClassData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Select WHO class" formControlName="who_class_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4 "  *ngIf="is_pesticides_product && prodclass_category_id==16">
+      <label for="ti" class="control-label">Pesticide type</label>
+
+      <dx-select-box [dataSource]="pestCideData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Select Pesticide" formControlName="pesticide_type_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4 "  *ngIf="is_pesticides_product">
+      <label for="ti" class="control-label">Is this Product applied</label>
+
+      <dx-select-box [dataSource]="productAppliedData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Select Applied product" formControlName="applied_product_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-12"  *ngIf="is_pesticides_product">
+      <label class="control-label">Application method:</label>
+
+      <dx-text-area [height]="60" formControlName="application_method"  placeholder="Application method"
+        >
+      </dx-text-area>
+    </div>
+      <div class="col-lg-4 "  *ngIf="is_pesticides_product">
+      <label for="ti" class="control-label">Type of Formulation</label>
+
+      <dx-select-box [dataSource]="formulationData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Select Formulation" formControlName="formulation_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-8"  *ngIf="is_pesticides_product">
+      <label class="control-label">Intended Use</label>
+      <dx-text-box formControlName="intended_use" placeholder="Enter Intended Use" [showClearButton]="true">
+      </dx-text-box>
+    </div>  
+    <div class="col-lg-4 "  *ngIf="is_pesticides_product">
+      <label for="ti" class="control-label"> Label Signal Word</label>
+
+      <dx-select-box [dataSource]="labelSignalsData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Select Signal Word" formControlName="label_signal_id">
+      </dx-select-box>
+    </div>
+    <div class="col-lg-4"  *ngIf="is_pesticides_product">
+            <label class="control-label">Does this product require child-resistant packaging</label>
+            <dx-select-box [dataSource]="confirmDataParam" (onValueChanged)="onRequireChild_resistant($event)" valueExpr="id" displayExpr="name" [searchEnabled]="true"  [readOnly]= "isReadOnly" 
+              placeholder="Require Child Resistant" formControlName="require_child_resistant">
+            </dx-select-box>
+      </div>
+     
+    
+      <div class="col-lg-12"  *ngIf="is_pesticides_product">
+      <label class="control-label">Flash flame form extension of product containing more than 70% petroleum distillates </label>
+
+      <dx-text-area [height]="60" formControlName="flash_flame_form"  placeholder="Flash flame form"
+        >
+      </dx-text-area>
+    </div>
+
+    <div class="col-lg-4" >
+        <label class="control-label">Customer As Local Technical Representative(Rwanda Trader)</label>
+
+        <dx-select-box [dataSource]="confirmDataParam" (onValueChanged)="onTraderasLocalAgentChange($event)" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+         placeholder="Trader as Local Agent" formControlName="trader_aslocal_agent">
+        </dx-select-box>
+        
+      </div>
+      <div class="col-lg-4 input-group" *ngIf="!isReadOnlyTraderasLtr">
+        <div class="col-lg-10">
+          <label class="control-label">Local Technical Representative</label>
+          <dx-text-box  formControlName="local_agent_name" 
+           readOnly=true [showClearButton]="true">
+          </dx-text-box>
+          <input type="hidden" name="local_agent_id" formControlName="local_agent_id" />
+        </div>
+        <div class="col-lg-2">
+
+          <button type="button" (click)="funcSearchRegistrantDetails(1)" [disabled]="isReadOnlyTraderasLtr"
+            class="btn btn-primary  pull-right" style="margin-top:25px  !important;"><i class="fa fa-search"></i>Search
+            Local Technical Representative</button>
+        </div>
+      </div>
+      <!--
+    <div class="col-lg-4 form-group " style="margin:1px;">
+      <label class="control-label">Cerificate Issue Place</label>
+
+      <dx-select-box [dataSource]="zonesData" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+        placeholder="Select Cerificate Issue Place" formControlName="zone_id">
+      </dx-select-box>
+    </div>
+  -->
+    <div class="col-lg-4">
+      <input type="hidden" name="sub_module_id" formControlName="sub_module_id" />
+                    <input type="hidden" name="product_id" value={{product_id}} formControlName="product_id" />
+                    <input type="hidden" name="reg_product_id" value={{reg_product_id}} formControlName="reg_product_id" />
+                    <input type="hidden" name="prodclass_category_id"  formControlName="prodclass_category_id" />
+
+      <input type="hidden" name="tra_product_id" value={{tra_product_id}} formControlName="tra_product_id" />
+    </div>
+    </div>
+</form>
+
+
+<!-- Registrant Details -->
+<dx-popup class="popup" [width]="funcpopWidth(80)"  [height]="450" [showTitle]="true" title="{{trader_title}}"
+ [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isRegistrantDetailsWinshow">
+ <div *dxTemplate="let data of 'content'">
+ 
+   <dx-data-grid class="table row-border hover" [dataSource]="traderAccountsDetailsData" keyExpr="id">
+     <dxo-filter-row [visible]="false"></dxo-filter-row>
+     <dxo-search-panel [visible]="true">
+     </dxo-search-panel>
+     <dxo-paging [enabled]="true">
+     </dxo-paging>
+     <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+     </dxo-pager>
+     <dxo-export [enabled]="true" fileName="traderFile" [allowExportSelectedData]="true"></dxo-export>
+
+     <dxo-selection mode="multiple"></dxo-selection>
+     <dxo-group-panel [visible]="true"></dxo-group-panel>
+     <dxi-column [width]="100" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+     cellTemplate="cellTemplate">
+     <div *dxTemplate="let data of 'cellTemplate'">
+  
+      <dx-button
+          text="Select LTR"
+          type="success"
+          icon="fa fa-plus"
+          [elementAttr]="{  class: 'pull-left' }"
+          (onClick)="funcSelectTraderDetails(data)">
+      </dx-button>
+     </div>
+   </dxi-column>
+     <dxi-column dataField="trader_no"></dxi-column>
+     <dxi-column dataField="trader_name"></dxi-column>
+     <dxi-column dataField="country"></dxi-column>
+     <dxi-column dataField="region"></dxi-column>
+     <dxi-column dataField="physical_address"></dxi-column>
+     <dxi-column dataField="postal_address"></dxi-column>
+     <dxi-column dataField="email_address"></dxi-column>
+
+   
+   </dx-data-grid>
+ </div>
+ </dx-popup>
+ <dx-popup class="popup"  [width]="funcpopWidth(30)" [height]="450" [showTitle]="true" title="Generic Name Details" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="addproductGenericNamesModal">
+  
+  <div *dxTemplate="let data of 'content'" >
+        <form [formGroup]="addproductGenericNamesFrm" class="col-lg-12  div-nopadding" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onSaveNewGenericName()">
+            <div class="col-lg-12">
+              <label class="control-label">Generic Name</label>
+              <dx-text-box formControlName="name" placeholder="name" [showClearButton]="true">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-12">
+              <label class="control-label">Description</label>
+              <dx-text-area formControlName="description" placeholder="description" >
+              </dx-text-area>
+            </div>
+           
+            <input type='hidden' value='{{section_id}}' formControlName="section_id"/>
+            <input type='hidden' value = 'par_common_names' formControlName="tablename"/>
+
+            <div class="col-lg-12">
+                <dx-button
+                    text="Add Generic Name"
+                    type="success"
+                    icon="fa fa-plus"
+                    [elementAttr]="{  class: 'pull-left' }"
+                    (onClick)="onSaveNewGenericName()">
+                </dx-button>
+              </div>
+          </form>
+  </div>
+</dx-popup>

@@ -1,0 +1,170 @@
+<div class="row no-padding">
+  <div class="col-lg-12 top-header">
+   Registered Animal feeds
+  </div>
+ 
+  <div class="col-lg-12 no-padding" style="min-height: 500px;background: #fff;">
+    <form role="form" enctype="multipart/form-data" role="form" [formGroup]="registeredProductsFrm" (ngSubmit)="onSearchRegisteredproducts()">
+
+    <div class="row">
+          
+      <div class="col-lg-3">
+        <label class="control-label">Brand Name/Device Name</label>
+        <dx-text-box placeholder="Enter Brand Name" formControlName="brand_name" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+     
+      <div class="col-lg-3">
+        <label for="ti" class="control-label">Classification</label>
+
+        <dx-select-box [dataSource]="classificationData" formControlName="classification_id" valueExpr="id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Classification" >
+        </dx-select-box>
+      </div>
+      <div class="col-lg-3">
+        <label for="ti" class="control-label">Generic/Common Name</label>
+        <dx-text-box placeholder="Enter Common Name" formControlName="common_name_id" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-12">
+        <dx-check-box text="Advanced Search"  (onValueChanged)="advanceSearchTermscheckbox($event)">
+        </dx-check-box>
+      </div>
+      <div class="col-lg-3"  *ngIf="isAdvancedSearch">
+        <label class="control-label">Registration/Certificate No</label>
+        <dx-text-box placeholder="Registration No" formControlName ="registration_no" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+
+      <div class="col-lg-3"  *ngIf="isAdvancedSearch">
+        <label>Marketing Authorization Holder</label>
+        <dx-text-box  placeholder="Marketing Authorization Holder" formControlName="market_authorisation_holder"
+          [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-3"  *ngIf="isAdvancedSearch">
+        <label>Marketing Authorization Country</label>
+        <dx-select-box [dataSource]="countriesData" valueExpr="id" formControlName="country_id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Select Common name" >
+        </dx-select-box>
+      </div>
+      <div class="col-lg-3"  *ngIf="isAdvancedSearch">
+        <label>Manufacturer</label>
+        <dx-text-box  placeholder="Manufacturer Name" formControlName="manufacturer_name" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-3"  *ngIf="isAdvancedSearch">
+        <label>Manufacturing Country</label>
+        <dx-select-box [dataSource]="countriesData" valueExpr="id" formControlName ="man_country_id" displayExpr="name" [searchEnabled]="true"
+          placeholder="Manufacturing Country">
+        </dx-select-box>
+      </div>
+      <div class="col-lg-3"  *ngIf="isAdvancedSearch">
+        <label>Local Representative</label>
+        <dx-text-box placeholder="Local Represenative" formControlName ="local_represenatative" [showClearButton]="true">
+        </dx-text-box>
+      </div>
+      <div class="col-lg-12">
+        <!--  <button type="button" (click)="onExportRegisteredproducts()" class="btn btn-primary btn-round pull-right "><i class="fa fa-file-excel-o">
+              Export Details</i></button>
+        -->
+        <button type="button" class="btn btn-danger btn-round pull-right " (submit)="onClearRegisteredproductsFilter()"  ><i class="fa fa-trash">
+            Clear</i></button>
+        <button type="submit" (submit)="onSearchRegisteredproducts()"  class="btn btn-primary btn-round pull-right "><i class="fa fa-search">
+            Search Products</i></button>
+
+      </div>
+
+    </div></form>
+    <dx-data-grid class="table row-border hover" [wordWrapEnabled]="true" (onInitialized)="saveGridInstance($event)" [remoteOperations]='true'   [showBorders]="true" [allowColumnResizing]="true" [columnHidingEnabled]="true"  [dataSource]="registeredProductsData" keyExpr="id">
+      <dxo-filter-row [visible]="false"></dxo-filter-row>
+      <dxo-search-panel [visible]="false">
+      </dxo-search-panel>
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="traderFile" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column  [width]="180" caption="Action"  [allowFiltering]="false" [allowSorting]="false"
+      cellTemplate="cellTemplate">
+        <div *dxTemplate="let data of 'cellTemplate'">
+            <div class="row">
+                <dx-button text="SMPC & Others" (onClick)="funViewApplicationDocument(data.data)"
+                    type="success" icon="print">
+                </dx-button> 
+            </div>
+        </div>
+    </dxi-column>
+      <dxi-column dataField="section_name" caption="Product Category/Section"></dxi-column>
+      <dxi-column dataField="certificate_no"></dxi-column>
+      <dxi-column dataField="brand_name"></dxi-column>
+      <dxi-column  dataField="classification_name"></dxi-column>
+      <dxi-column  dataField="product_category"></dxi-column>
+       <dxi-column dataField="generic_name" caption="Common Name"></dxi-column>
+      
+      <dxi-column  dataField="registrant"></dxi-column>
+      <dxi-column dataField="registrant_country"></dxi-column>
+      <dxi-column dataField="localtechnical_representative"></dxi-column>
+      <dxi-column dataField="manufacturer"></dxi-column>
+      <dxi-column  dataField="manufacturer_country"></dxi-column>
+      <dxi-column dataField="certificate_issue_date"></dxi-column>
+      <dxi-column dataField="app_expiry_Date"></dxi-column>
+      <dxi-column dataField="registration_status"></dxi-column>
+      <dxi-column dataField="validity_status"></dxi-column>
+    </dx-data-grid>
+  </div>
+</div>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+     <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'">
+        
+      </div>
+      
+  </div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(65)" [height]="450" [showTitle]="true" title="Application Documents"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isViewApplicationDocuments">
+  <div *dxTemplate="let data of 'content'">
+
+    <dx-data-grid class="table row-border hover"  [allowColumnResizing]="true"  [columnHidingEnabled]="true"   [paging]="{ enabled: true, pageSize: 1000 }" [showRowLines] = "true"  [wordWrapEnabled] = "true" [dataSource]="appDocumentsUploadData" keyExpr="id" >
+     <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[1000]" [showNavigationButtons]="true" [showInfo]="true"
+     infoText="Page #{0}. Total: {1} ({2} items)">
+   </dxo-pager>
+     <dxo-export [enabled]="true" fileName="appDocumentsUploadData" [allowExportSelectedData]="true"></dxo-export>
+   
+     <dxo-selection mode="single"></dxo-selection>
+     <dxi-column [width]="200" caption="Action"  [allowFiltering]="false" [allowSorting]="false"
+     cellTemplate="cellTemplate">
+       <div *dxTemplate="let data of 'cellTemplate'">
+           <div class="row">
+               <dx-button text="Preview/Download SMPC" (onClick)="funDownloadApplicationDocument(data.data)"
+                   type="success" icon="upload">
+                 </dx-button> 
+           </div>
+       </div>
+   </dxi-column>
+     <dxi-column  dataField="document_requirement" caption="Document Name"></dxi-column>
+   
+     <dxi-column dataField="remarks" caption = "Other Details"></dxi-column>
+     
+     <dxo-group-panel [visible]="true"></dxo-group-panel>
+     <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+   </dx-data-grid>
+
+  </div>
+</dx-popup>
+
+<dx-popup class="popup" [width]="800" [height]="650" [showTitle]="true" title="Document Preview" [dragEnabled]="false"
+  [closeOnOutsideClick]="true" [(visible)]="isDocumentPreviewDownloadwin">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <iframe [src]="document_previewurl" class="col-lg-12" height="650" ></iframe> 
+
+  </div>
+
+</dx-popup>
+

@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">{{process_title}}  Application</h1>
+      <ol class="breadcrumb float-right">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Dashboard</li>
+        <li class="breadcrumb-item active">Product Application</li>
+      </ol>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+  <div class="row div-backwhite no-padding">
+      <!--[dtTrigger]="dtTrigger"   -->
+      <div class="col-lg-12  no-padding">
+      <dx-data-grid class="table row-border hover" (onToolbarPreparing)="onPromAdvsesappsToolbarPreparing($event)" [columnHidingEnabled]="false"  [dataSource]="registeredPromotionalAdvertData" keyExpr="id" >
+              <dxo-filter-row [visible]="false"></dxo-filter-row>
+              <dxo-search-panel [visible]="true">
+                </dxo-search-panel>
+              <dxo-paging [enabled]="true">
+              </dxo-paging>
+              <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+              </dxo-pager>
+          
+              <dxo-export [enabled]="true" fileName="registeredProducts" [allowExportSelectedData]="true"></dxo-export>
+          
+              <dxo-selection mode="single"></dxo-selection>
+              <dxo-group-panel [visible]="true"></dxo-group-panel>
+              <dxi-column [width]=100 caption="Actions" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                cellTemplate="cellTemplate">
+                <div *dxTemplate="let d of 'cellTemplate'">
+                  <dx-menu [items]="contextMenu" displayExpr="text" orientation="horizontal" [hideSubmenuOnMouseLeave]="false"
+                    (onItemClick)="prodApplicationActionColClick($event,d)" submenuDirection="rightToTop">
+                  </dx-menu>
+                </div>
+              </dxi-column>
+
+              <dxi-column  dataField="reference_no"></dxi-column>
+              <dxi-column [groupIndex]="1" dataField="section" caption="Advertisement Products Types"></dxi-column>
+              <dxi-column dataField="advertisement_type" ></dxi-column>
+              <dxi-column dataField="advertisement_type" caption="Advertisement Description"></dxi-column>
+
+              <dxi-column  [groupIndex]="0" dataField="application_type"></dxi-column>
+              <dxi-column  dataField="applicant_name"></dxi-column>
+              <dxi-column  dataField="name_of_sponsor"></dxi-column>
+              <dxi-column dataField="applicant_name" caption="Registrant"></dxi-column>
+              <dxi-column dataField="registration_status" caption="Registration Status"></dxi-column>
+              <dxi-column dataField="validity_status" caption="Validity Status"></dxi-column>
+              <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+            </dx-data-grid>
+          
+      </div>
+  </div>
+

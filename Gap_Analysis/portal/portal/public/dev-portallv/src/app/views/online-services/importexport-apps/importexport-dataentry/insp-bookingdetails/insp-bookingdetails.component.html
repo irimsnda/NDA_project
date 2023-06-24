@@ -1,0 +1,97 @@
+<form role="form" enctype="multipart/form-data" role="form" [formGroup]="applicationGeneraldetailsfrm" >
+  <div class="row  wizard-content wizard-contentfieldset">
+    <fieldset  class="row  col-lg-12">
+      <legend class="contentfieldset">License Application Details</legend>
+              <div class="col-lg-4">
+                <label>Registration Process/Section</label>
+                <dx-select-box [readOnly]="true" [dataSource]="sectionsData" valueExpr="id" displayExpr="name"
+                  placeholder="Select Registration Section/Process"  [searchEnabled]="true" formControlName="section_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-4">
+                <label>Application Type</label>
+                <dx-select-box [readOnly]="true" value={{sub_module_id}} [dataSource]="applicationTypeData" valueExpr="id"
+                  displayExpr="name" placeholder="Select Application Type" [searchEnabled]="true"
+                  formControlName="sub_module_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-4">
+                <label>Permit Use</label>
+                <dx-select-box [dataSource]="applicationCategoryData" valueExpr="id" displayExpr="name"
+                  placeholder="Select Application Category"  [readOnly]= "isReadOnly"  (onSelectionChanged)="onApplicationCategorySelection($event)" [searchEnabled]="true" formControlName="permit_category_id">
+                </dx-select-box>
+              </div>
+              <div class="col-lg-4">
+                <label>Product Categories</label>
+                <dx-select-box [dataSource]="permitProductsCategoryData" valueExpr="id" displayExpr="name"
+                  placeholder="Select Product Category"  [readOnly]= "isReadOnly" [searchEnabled]="true" formControlName="permit_productscategory_id">
+                </dx-select-box>
+              </div>
+
+            <div class="col-lg-4" >
+              <label>Port of Entry/Exit</label>
+              <dx-select-box [dataSource]="portOfEntryExitData"  [readOnly]= "isReadOnly" valueExpr="id" displayExpr="name"
+                placeholder="Select Port" [searchEnabled]="true" formControlName="port_id">
+              </dx-select-box>
+            </div>
+            <div class="col-lg-4">
+              <label>Mode of Transport</label>
+              <dx-select-box [dataSource]="modeOfTransportData"  [readOnly]= "isReadOnly" valueExpr="id" displayExpr="name"
+                placeholder="Select Mode of Transport" [searchEnabled]="true" formControlName="mode_oftransport_id">
+              </dx-select-box>
+            </div>
+            <div class="col-lg-4">
+              <label>Commercial Invoice No</label>
+              <dx-text-box formControlName="proforma_invoice_no"  [readOnly]= "isReadOnly" placeholder="Invoice No" [showClearButton]="true">
+              </dx-text-box>
+            </div>
+            <div class="col-lg-4">
+              <label>Commercial Invoice Date</label>
+              <dx-date-box dateSerializationFormat = "yyyy-MM-dd"  [readOnly]= "isReadOnly" formControlName="proforma_invoice_date" placeholder="Invoice Date" [showClearButton]="true">
+              </dx-date-box>
+            </div>
+            <div class="col-lg-8  ">
+              <label>Supplier Details</label>
+              <dx-text-box [readOnly]=true formControlName="sender_receiver" placeholder="Consignor Details"
+                [showClearButton]="true">
+              </dx-text-box>
+              <input type="hidden" formControlName="sender_receiver_id" />
+            </div>
+    </fieldset>
+    <fieldset class="row wizard-contentfieldset col-lg-12">
+        <legend class="contentfieldset">Inspection Details</legend>
+        <div class="col-lg-4">
+        <label>Custom Clearance/Declaration Number</label>
+          <dx-text-box formControlName="custom_declaration_no" placeholder="Custom Clearance Number"
+            [showClearButton]="true">
+          </dx-text-box>
+      </div>
+      <div class="col-lg-4">
+        <label>Clearing Agent</label>
+          <dx-text-box formControlName="clearing_agent" placeholder="Clearing Agent"
+            [showClearButton]="true">
+          </dx-text-box>
+      </div>
+        <div class="col-lg-4">
+          <label>Consignment Shipment Date</label>
+          <dx-date-box dateSerializationFormat = "yyyy-MM-dd"  formControlName="shipment_date" placeholder="Shipment Date" [showClearButton]="true">
+          </dx-date-box>
+        </div>
+        <div class="col-lg-4">
+          <label>Proposed Inspection Date</label>
+          <dx-date-box dateSerializationFormat = "yyyy-MM-dd" formControlName="proposed_inspection_date" placeholder="Proposed Inspection Date" [showClearButton]="true">
+          </dx-date-box>
+        </div>
+    </fieldset>
+      
+    <div class="col-lg-12">
+      <input type="hidden" value={{module_id}} formControlName="module_id" />
+      
+      <input type="hidden" value={{application_code}} formControlName="application_code" />
+    </div>
+  </div>
+  </form>
+  <!-- pop ups -->
+  
+  
+  

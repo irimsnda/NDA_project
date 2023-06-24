@@ -1,0 +1,456 @@
+<div class="row">
+  <div class="col-xl-12">
+    <div class="breadcrumb-holder">
+      <h1 class="main-title float-left">Process: {{process_title}}</h1>
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</div>
+<div style="background: #fff; font-weight: bold;padding:5px;margin-bottom: 5px !important; height: 55px !important;">
+  <div class="row">
+    <div class="col-lg-3">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics; color: green;">
+        Tracking No: <i> {{tracking_no}}</i> </label>
+    </div>
+    <div class="col-lg-2">
+      <label
+        style="font-weight: bold;margin: 5px; font-style:italics;font-size: 15px;font-style: italics;color: green;">Application
+        Status:<i> {{status_name}}</i> </label>
+    </div>
+
+  </div>
+</div>
+<div class="row">
+  
+    <div class="col-lg-12" *ngIf="status_id === 6 || status_id === 8">
+        <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+  
+                <wizard-step stepTitle="request for Additional Information" class="wizardStep-height">
+          
+                    <div class="col-lg-12 wizard-content">
+                         
+                        <dx-data-grid class="table row-border hover row"  [columnHidingEnabled]="false" [dataSource]="applicationPreckingQueriesData" [wordWrapEnabled]="true" 
+                        [showBorders]="true">
+                        <dxo-filter-row [visible]="false"></dxo-filter-row>
+                        <dxo-load-panel [enabled]="true">
+                        </dxo-load-panel>
+                        <dxo-paging [enabled]="true">
+                        </dxo-paging>
+                        <dxo-selection mode="single"></dxo-selection>
+                        <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[10, 20]" [showNavigationButtons]="true" [showInfo]="true"
+                          infoText="Page #{0}. Total: {1} ({2} items)">
+                        </dxo-pager>
+                        <dxo-search-panel  [visible]="true" 
+                          >
+                        </dxo-search-panel>
+                        <dxo-export [enabled]="true" fileName="Query Details" [allowExportSelectedData]="true"></dxo-export>
+                        <dxi-column [width]="150" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false"
+                            cellTemplate="cellTemplate">
+                            <div *dxTemplate="let data of 'cellTemplate'">
+                                <dx-button text="Query Response" (click)="funcInitQueryResponse(data)"
+                                type="success" icon="edit" [elementAttr]="{ class: 'btn btn-primary' }">
+                              </dx-button>
+                              <a (click)="funcDownloadQueryLetter(data)" class="action-btn"><i class="fa fa-download"></i>DownLoad Query Letter</a>&nbsp;
+                          </div>
+                        </dxi-column>
+                        <dxi-column   [width] = 120 caption="Queried On" dataField="added_on"></dxi-column>
+                        
+                        <dxi-column name="command-editing"  caption="Query Details" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate1">
+                            <div *dxTemplate="let data of 'cellTemplate1'">
+                                <div [innerHTML]="data.data.queries_remarks"></div>
+                            </div>
+                        </dxi-column> 
+                        <dxi-column name="command-editing"  caption="Query Response" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate2">
+                            <div *dxTemplate="let data of 'cellTemplate2'">
+                                <div [innerHTML]="data.data.response_txt"></div>
+                            </div>
+                        </dxi-column> 
+                       
+                    </dx-data-grid>
+                      </div>
+                      <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                          <button (click)="onApplicationDashboard()" class="btn btn-primary pull-left" style="margin:5px;" type="button"><i
+                            class="fa fa-dashboard"></i>
+                          &nbsp; Dashboard</button>
+                          <button class="btn btn-primary" type="button" (click)="printAppREquestforAdditionalInformation()"><i class="fa fa-print"></i> Letter for Request of Addition Information</button>
+                        <button type="button" class="btn btn-primary" (click)="funcValidateApplicationQueryresponse(1)" >Next(Documents & Permit Submission) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+                      </div>
+                </wizard-step>
+                <wizard-step stepTitle="Documents" class="wizardStep-height">
+                  <div style="border-top: 1px solid #ccc; ">
+                    <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+                      Products Details</button>
+                    <button type="button" class="btn btn-primary"
+                      (click)="funcValidatePermitDocumentsDetails(3)">Next
+                      Application Submission<i class="fa fa-angle-double-right"></i></button>
+          
+                  </div>
+                  <div class=" wizard-content">
+                    <app-application-documents [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+                  </div>
+                  <div class="wizard-divbottom">
+                    <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Next(Permit Submission) </button>
+                    <button type="button" class="btn btn-primary"
+                      nextStep>Next
+                      Application Submission<i class="fa fa-angle-double-right"></i></button>
+                  </div>
+                </wizard-step>
+                <wizard-step stepTitle="Permit Query Response Submission">
+                    <div class="col-lg-12">
+                      <label>Submission Comments(Optional)</label>
+                      <dx-text-area placeholder="Enter Comments(optional)"></dx-text-area>
+                    </div>
+                    <div class="col-lg-12">
+                            <dx-check-box text="Agree to the Terms & Conditions" [value]="undefined" (onValueChanged)="submissionsTermscheckbox($event)">
+                                </dx-check-box>
+                    </div>
+            
+                    <div class="wizard-divbottom">
+                      <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+                      
+                                    <button class="btn btn-primary" type="button" [disabled]="!termscheckbox" (click)="onPermitsApplicationSubmit()">Submit Application
+                            Application</button>
+                    </div>
+                  </wizard-step>
+    
+          </wizard>
+
+</div>
+  <div class="col-lg-12"  *ngIf="status_id !== 8 && status_id !== 6">
+    <wizard style="background: #fff !important; height: 100% !important;"  navigationMode="strict" navBarLayout ="large-filled-symbols">
+      
+      <wizard-step stepTitle="Application Details"   navigationSymbol="Step 1" class="wizardStep-height">
+        <app-controlleddrugsimppermits-gendetails  [applicationGeneraldetailsfrm]="applicationGeneraldetailsfrm"  
+            [sectionsData] ="sectionsData"  
+            [modeOfTransportData]="modeOfTransportData"
+            [applicationTypeData] ="applicationTypeData"  
+            [sub_module_id] ="sub_module_id"  
+            [applicationTypeCategoryData] ="applicationTypeCategoryData"  
+            [permitReasonData] ="permitReasonData" 
+            [portOfEntryExitData] ="portOfEntryExitData"   
+            [payingCurrencyData] ="payingCurrencyData"  
+            [currencyData]="currencyData"
+            [consigneeOptionsData] ="consigneeOptionsData"  
+            [consignee_options_check] ="consignee_options_check"  
+            [zoneData] ="zoneData"  
+            [module_id] ="module_id"  
+            [importExportPermitTypesData]="importExportPermitTypesData"
+            [importexport_permittype_id]="importexport_permittype_id"
+            [application_code] ="application_code"  
+            [ispremisesSearchWinVisible] ="ispremisesSearchWinVisible"  
+            [registered_premisesData] ="registered_premisesData"  
+            [issenderreceiverSearchWinVisible] ="issenderreceiverSearchWinVisible"  
+            [consignee_sendertitle] ="consignee_sendertitle"  
+            [issenderreceiverAddWinVisible] ="issenderreceiverAddWinVisible"  
+            [permitReceiverSenderFrm] ="permitReceiverSenderFrm"  
+            [countries] ="countries"  
+            [regions] ="regions"  
+            [districts] ="districts"  
+            [section_id] ="section_id"  
+            
+            [deviceTypeData] ="deviceTypeData"
+            [applicationCategoryData] ="applicationCategoryData"  
+            >
+            </app-controlleddrugsimppermits-gendetails>
+          <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            <dx-button
+                text="Dashboard"
+                type="success"
+                icon="fa fa-eraser"
+                [elementAttr]="{  class: 'pull-left' }"
+                (onClick)="onApplicationDashboard()">
+            </dx-button>
+            <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" nextStep
+              type="button">
+              Next Permit Product(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+            <button type="button" (click)="onSaveControlledDrugsImptPermitApplication()"
+             class="btn btn-primary  pull-right"
+              style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+              Application</button>
+          </div>
+      </wizard-step>
+      <wizard-step stepTitle="Permit Product Information "   navigationSymbol="Step 2"  class="wizardStep-height">
+        <div style="border-top: 1px solid #ccc; ">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitProductDetails('Add Permit Product Details to proceed',2)">Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+        <app-controlleddrugsimppermits-prodsdetails  [permitProductsData] ="permitProductsData"  
+            [isPermitproductsPopupVisible] ="isPermitproductsPopupVisible"  
+            [registeredProductsData] ="registeredProductsData"  
+            [isPermitproductsAddPopupVisible] ="isPermitproductsAddPopupVisible"  
+            [confirmDataParam] ="confirmDataParam"  
+            [premisesOtherDetailsRows] ="premisesOtherDetailsRows" 
+            [is_regulatedproducts] ="is_regulatedproducts"   
+            [productCategoryData] ="productCategoryData"  
+            [deviceTypeData] ="deviceTypeData"  
+            [packagingUnitsData] ="packagingUnitsData"  
+            [siUnitsData]="siUnitsData"
+            [weightsUnitData] ="weightsUnitData"  
+            [currencyData] ="currencyData" 
+            [proforma_currency_id] ="proforma_currency_id" 
+            [importexport_permittype_id] ="importexport_permittype_id" 
+
+            [permitProductsFrm] ="permitProductsFrm"  
+            [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+            [classificationData] ="classificationData"  
+            [commonNamesData] ="commonNamesData"   
+            [application_code] ="application_code"   
+            [enabled_newproductadd] ="enabled_newproductadd"   
+            [sub_module_id] ="sub_module_id"   
+            [tracking_no] ="tracking_no"   
+            [module_id] ="module_id"
+            [sectionsData] ="sectionsData" 
+            [section_id] ="section_id" 
+            
+            [controlledDrugsTypesData] ="controlledDrugsTypesData" 
+            [controlDrugsSubstanceData] ="controlDrugsSubstanceData" 
+            [controlledDrugsBaseSaltData] ="controlledDrugsBaseSaltData" 
+            [gramsBaseSiUnitData] ="gramsBaseSiUnitData" 
+            [drugsPackagingTypeData] ="drugsPackagingTypeData" 
+
+            >
+            </app-controlleddrugsimppermits-prodsdetails>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitProductDetails('Add Permit Product Details to proceed',2)">Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step stepTitle="Documents"   navigationSymbol="Step 3"  class="wizardStep-height">
+        <div style="border-top: 1px solid #ccc; ">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+            Controlled Drugs Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitDocumentsDetails(3)">Next
+            Application Submission<i class="fa fa-angle-double-right"></i></button>
+        </div>
+        <div class=" wizard-content">
+          <app-application-documents [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+        </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Controlled Drugs Details</button>
+          <button type="button" class="btn btn-primary"
+            (click)="funcValidatePermitDocumentsDetails(3)">Next
+            Application Submission<i class="fa fa-angle-double-right"></i></button>
+
+        </div>
+
+      </wizard-step>
+
+      <wizard-step stepTitle="Completion & Submission" navigationSymbol="Submit">
+        
+        <form [formGroup]="onApplicationSubmissionFrm" class="col-lg-12 row div-nopadding wizard-content" style="background: #fff;" enctype="multipart/form-data" role="form" (ngSubmit)="onPermitsApplicationSubmit()">
+          
+          <div class="col-lg-12">
+            <b> <label>Submission Comments(Optional)</label></b>
+              <dx-text-area formControlName="submission_comments" placeholder="Enter Comments(optional)"></dx-text-area>
+          </div>
+          <div class="col-lg-12">
+              <b><label>Declaration</label></b>
+              <ul>
+                  <p *ngFor="let guide of terms_conditions;">
+                      {{guide.no}} {{guide.term_conditiondetails}}
+                  </p>
+              </ul>
+          </div>
+          <div class="col-lg-12">
+            <dx-check-box text="Agree to the Declaration" [value]="undefined"
+              (onValueChanged)="submissionsTermscheckbox($event)">
+            </dx-check-box>
+          </div>
+  
+          <div class="wizard-divbottom">
+            <button class="btn btn-primary" type="button" previousStep>Previous Step</button>
+            <app-invoice-appgeneration  [onApplicationSubmissionFrm] ="onApplicationSubmissionFrm" [module_id] ="module_id" [sub_module_id] ="sub_module_id"  [status_id] ="status_id" [application_code]="application_code" ></app-invoice-appgeneration>
+            <button class="btn btn-primary" type="button" (click)="onPermitsApplicationPreview()">Preview Permits Applications
+              Details
+              </button>
+            <button class="btn btn-primary" type="button" [disabled]="!termscheckbox"
+              (click)="onPermitsApplicationSubmit()">Submit Permit
+              Application</button>
+          </div>
+</form>
+      </wizard-step>
+    </wizard>
+  </div>
+</div>
+<!--query  modal structure-->
+
+
+<dx-popup  class="popup" [width]="funcpopWidth(80)" [height]="850" [showTitle]="true" title="Application Registration Query Response"
+    [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isInitalQueryResponseFrmVisible">
+    <div *dxTemplate="let data of 'content'">
+      <dx-scroll-view>
+
+    <wizard [navigationMode]='strict' style="background: #fff !important; height: 100% !important;">
+          
+        <wizard-step stepTitle="Import & Export Application Queries" class="wizardStep-height">
+  
+            <div class="col-lg-12 wizard-content">
+              <app-app-querydetailsfrm [initqueryresponsefrm] ="initqueryresponsefrm">
+              </app-app-querydetailsfrm>
+              </div>
+              <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                
+                  <button type="button"   class="btn btn-primary  pull-right" nextStep>Next(Query Responses/Application Details) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+                  <dx-button text="Save Query Response(s) " [disabled]="!initqueryresponsefrm.valid" (onClick)="onSaveinitqueryresponse()"
+                      type="success" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                    </dx-button>
+
+              </div>
+        </wizard-step>
+
+        <wizard-step stepTitle="Application Details" class="wizardStep-height">
+          <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+              Products Details</button>
+            <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" nextStep
+              type="button">
+              Next Permit Product(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+            <button type="button" (click)="onSaveImportExportApplication()"
+              [disabled]="!applicationGeneraldetailsfrm.valid" class="btn btn-primary  pull-right"
+              style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+              Application</button>
+
+          </div>
+        <app-controlleddrugsimppermits-gendetails  [applicationGeneraldetailsfrm]="applicationGeneraldetailsfrm"  
+            [sectionsData] ="sectionsData"  
+            [modeOfTransportData] ="modeOfTransportData"
+            [applicationTypeData] ="applicationTypeData"  
+            [sub_module_id] ="sub_module_id"  
+            [applicationTypeCategoryData] ="applicationTypeCategoryData"  
+            [permitReasonData] ="permitReasonData" 
+            [portOfEntryExitData] ="portOfEntryExitData"   
+            [payingCurrencyData] ="payingCurrencyData"  
+            [consigneeOptionsData] ="consigneeOptionsData"  
+            [consignee_options_check] ="consignee_options_check"  
+            [zoneData] ="zoneData"  
+            [module_id] ="module_id"  
+            [application_code] ="application_code"  
+            [ispremisesSearchWinVisible] ="ispremisesSearchWinVisible"  
+            [registered_premisesData] ="registered_premisesData"  
+            [issenderreceiverSearchWinVisible] ="issenderreceiverSearchWinVisible"  
+            [consignee_sendertitle] ="consignee_sendertitle"  
+            [issenderreceiverAddWinVisible] ="issenderreceiverAddWinVisible"  
+            [permitReceiverSenderFrm] ="permitReceiverSenderFrm"  
+            [countries] ="countries"  
+            [regions] ="regions"  
+            [districts] ="districts"  
+            [importExportPermitTypesData]="importExportPermitTypesData" 
+            [importexport_permittype_id]="importexport_permittype_id"
+            [applicationCategoryData] ="applicationCategoryData"  
+            
+            >
+            </app-controlleddrugsimppermits-gendetails>
+          <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            
+            <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" nextStep
+              type="button">
+              Next Permit Product(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+            <button type="button" (click)="onSaveImportExportApplication()"
+              [disabled]="!applicationGeneraldetailsfrm.valid" class="btn btn-primary  pull-right"
+              style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+              Application</button>
+
+          </div>
+        
+      </wizard-step>
+      <wizard-step stepTitle="PermitProduct Information " class="wizardStep-height">
+        <div class=" div-footer" style="border-top: 1px solid #ccc; ">
+            
+          <button class="btn btn-primary pull-right" style="margin:5px;" [disabled]="!application_id" nextStep
+            type="button">
+            Next Permit Product(s) &nbsp;<i class="fa fa-angle-double-right"></i></button>
+
+          <button type="button" (click)="onSaveImportExportApplication()"
+            [disabled]="!applicationGeneraldetailsfrm.valid" class="btn btn-primary  pull-right"
+            style="margin:5px;"><i class="fa fa-save"></i>&nbsp;Save
+            Application</button>
+
+        </div>
+        <app-controlleddrugsimppermits-prodsdetails  [permitProductsData] ="permitProductsData"  
+            [isPermitproductsPopupVisible] ="isPermitproductsPopupVisible"  
+            [registeredProductsData] ="registeredProductsData"  
+            [isPermitproductsAddPopupVisible] ="isPermitproductsAddPopupVisible"  
+            [confirmDataParam] ="confirmDataParam"  
+            [premisesOtherDetailsRows] ="premisesOtherDetailsRows" 
+            [is_regulatedproducts] ="is_regulatedproducts"   
+            [productCategoryData] ="productCategoryData"  
+            [deviceTypeData] ="deviceTypeData"  
+            [packagingUnitsData] ="packagingUnitsData"  
+            [weightsUnitData] ="weightsUnitData"  
+            [currencyData] ="currencyData"  
+             [importexport_permittype_id] ="importexport_permittype_id" 
+           
+            [permitProductsFrm] ="permitProductsFrm"  
+            [productGeneraldetailsfrm] ="productGeneraldetailsfrm"  
+            [classificationData] ="classificationData"  
+            [commonNamesData] ="commonNamesData"   
+            [application_code] ="application_code"   
+            [enabled_newproductadd] ="enabled_newproductadd"   
+            [sub_module_id] ="sub_module_id"   
+            [tracking_no] ="tracking_no"   
+            [module_id] ="module_id"   
+            [module_id] ="module_id"   
+            [section_id] ="section_id"   
+            [sectionsData] ="sectionsData" 
+            
+            [controlledDrugsTypesData] ="controlledDrugsTypesData" 
+            [controlDrugsSubstanceData] ="controlDrugsSubstanceData" 
+            [controlledDrugsBaseSaltData] ="controlledDrugsBaseSaltData" 
+            [gramsBaseSiUnitData] ="gramsBaseSiUnitData" 
+            [drugsPackagingTypeData] ="drugsPackagingTypeData" 
+
+            >
+            </app-controlleddrugsimppermits-prodsdetails>
+        <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+          <button type="button" class="btn btn-primary" previousStep>&nbsp;<i
+              class="fa fa-angle-double-left"></i>Previous
+            Application Details</button>
+          <button type="button" class="btn btn-primary"
+            nextStep>Next Documents
+            Upload &nbsp;<i class="fa fa-angle-double-right"></i></button>
+        </div>
+      </wizard-step>
+      <wizard-step stepTitle="Documents" class="wizardStep-height">
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+            Products Details</button>
+          <button type="button" class="btn btn-primary" (click)="onCloseQueryMode()">Close for Submission<i class="fa fa-angle-double-right"></i></button>
+
+        </div>
+        <div class=" wizard-content">
+          <app-application-documents [section_id] ="section_id"  [module_id] ="module_id" [status_id] ="status_id" [sub_module_id] ="sub_module_id" [application_code] ="application_code"></app-application-documents>
+        </div>
+        <div class="wizard-divbottom">
+          <button type="button" class="btn btn-primary" previousStep><i class="fa fa-angle-double-left"></i>Permit
+            Products Details</button>
+          <button type="button" class="btn btn-primary" (click)="onCloseQueryMode()">Close for Submission<i class="fa fa-angle-double-right"></i></button>
+
+        </div>
+      </wizard-step>
+  </wizard>
+</dx-scroll-view>
+
+</div>
+</dx-popup>
+
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+[dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+<div *dxTemplate="let data of 'content'">
+    <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+</div>
+</dx-popup>

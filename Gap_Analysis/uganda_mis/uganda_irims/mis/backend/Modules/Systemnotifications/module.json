@@ -1,0 +1,11 @@
+{
+    "name": "Systemnotifications",
+    "alias": "systemnotifications",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Systemnotifications\\Providers\\SystemnotificationsServiceProvider"
+    ],
+    "files": []
+}

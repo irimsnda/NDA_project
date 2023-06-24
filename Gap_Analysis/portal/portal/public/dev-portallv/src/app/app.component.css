@@ -1,0 +1,17 @@
+.main-container{
+    min-height: 650px;
+    height:auto;
+}
+.btn {
+    border-radius: 0px  !important;
+}.form-control {
+    border-radius: 0px !important;
+  
+}.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+    outline: none  !important;
+}

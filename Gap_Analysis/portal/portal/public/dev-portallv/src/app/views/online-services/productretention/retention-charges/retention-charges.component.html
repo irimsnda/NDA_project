@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-xl-12">
+      <div class="breadcrumb-holder">
+        <h1 class="main-title float-left">Product Retention Invoices</h1>
+        <ol class="breadcrumb float-right">
+  
+          <a href="#"><li class="fa fa-dashboard">Home</li></a> &nbsp;
+  
+        </ol>
+        <div class="clearfix"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+      <form role="form" class="col-lg-12 row  div-nopadding " style="margin-bottom: 5px !important;" enctype="multipart/form-data" role="form" [formGroup]="retetentionFilterDetailsFrm">
+        <div class="col-lg-3">
+            <label>Retention Year From</label>
+            <dx-select-box  [dataSource]="yearData" valueExpr="id" displayExpr="name" 
+            (onSelectionChanged)="onSelectRetentionFilters()"   [searchEnabled]="true" placeholder="Retentio.
+            3n Year From" formControlName="retention_yearfrom">
+            </dx-select-box>
+      </div>
+      <div class="col-lg-3">
+          <label>Retention Year To</label>
+          <dx-select-box  [dataSource]="yearData" valueExpr="id" displayExpr="name" 
+          (onSelectionChanged)="onSelectRetentionFilters()"   [searchEnabled]="true" placeholder="Retention Year From" formControlName="retention_yearto">
+          </dx-select-box>
+        </div>
+      <div class="col-lg-3">
+          <label>Section</label>
+          <dx-select-box  [dataSource]="sectionsData" valueExpr="id" displayExpr="name" 
+          (onSelectionChanged)="onSelectRetentionFilters()"   [searchEnabled]="true" placeholder="Product category/section" formControlName="section_id">
+          </dx-select-box>
+      </div>
+      
+      <div class="col-lg-3 row">
+          <dx-button
+            text="Clear Filter"
+            type="danger"
+            icon="fa fa-eraser"
+            [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+            (onClick)="onClearRetetionApplicaitonFilters()">
+        </dx-button>
+        <dx-button
+            text="Print Retention Invoice Statement"
+            type="default"
+            icon="fa fa-print"
+            [elementAttr]="{ id: 'elementId', class: 'pull-right' }"
+            (onClick)="onPrintRetetionApplicaitonState()">
+        </dx-button>
+      </div>
+    </form>
+    <dx-data-grid class="table row-border hover"  [dataSource]="dtretentionInvsData" keyExpr="id">
+    <dxo-filter-row [visible]="false"></dxo-filter-row>
+    <dxo-search-panel [visible]="true">
+    </dxo-search-panel>
+    <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+
+    <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20]" [showInfo]="true">
+    </dxo-pager>
+    <dxo-export [enabled]="true" fileName="RetentionInvoices" [allowExportSelectedData]="true"></dxo-export>
+
+    <dxo-selection mode="multiple"></dxo-selection>
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+
+    <dxi-column dataField="retention_year" [groupIndex]="0"></dxi-column>
+    <dxi-column dataField="brand_name"></dxi-column>
+    <dxi-column dataField="certificate_no"></dxi-column>
+    <dxi-column dataField="reference_no"></dxi-column>
+    
+    <dxi-column dataField="cost_element"></dxi-column>
+    <dxi-column dataField="invoice_no"></dxi-column>
+    <dxi-column dataField="invoice_amount"></dxi-column>
+    <dxi-column dataField="currency_name"></dxi-column>
+    <dxi-column dataField="totalinvoice_amount" caption="Total Invoice Amount(Tshs)"></dxi-column>
+   
+    <dxo-group-panel [visible]="true"></dxo-group-panel>
+    <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+  </dx-data-grid>
+  </div>
+
+  <dx-popup class="popup" [width]="funcpopWidth(90)" [height]="700" [showTitle]="true" title="{{printReportTitle}}"
+  [dragEnabled]="false" [closeOnOutsideClick]="true" [(visible)]="isPrintReportVisible">
+  <div *dxTemplate="let data of 'content'">
+      <div class="col-lg-12 row" [innerHTML]="printiframeUrl | safe: 'html'"></div>
+  </div>
+</dx-popup>

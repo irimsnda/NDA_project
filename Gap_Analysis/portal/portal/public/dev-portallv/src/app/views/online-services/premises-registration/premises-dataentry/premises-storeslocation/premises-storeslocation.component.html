@@ -1,0 +1,191 @@
+<div class=" wizard-content" *ngIf= "sub_module_id == 1">
+  <dx-data-grid class="table row-border hover" [dataSource]="premisesStoreLocationDetailsData" keyExpr="id" (onToolbarPreparing)="onPremisesStoreLocationToolbar($event,'')">
+
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="premPersonnelDetailsData" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+              <dx-button text="Edit" (click)="funcEditLocationDetails(data)" 
+                  type="danger" icon="edit">
+                  </dx-button> 
+              <dx-button text="Delete" (click)="funcDeleteLocationDetails(data)" 
+                  type="danger" icon="delete">
+              </dx-button> 
+          </div>
+      </dxi-column>
+      <dxi-column dataField="region_name" caption="Province"></dxi-column>
+      <dxi-column dataField="district_name" caption="District Name"></dxi-column>
+      <dxi-column dataField="sector_name" caption="Sector"></dxi-column>
+      <dxi-column dataField="cell_name" caption="Cell"></dxi-column>
+      <dxi-column dataField="physical_address" caption="Physial Address"></dxi-column>
+      
+  </dx-data-grid>
+</div>
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [showTitle]="true" title="Pharmacy Nearest Location" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isStoreLocationPopupVisible" *ngIf ="sub_module_id == 1">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <dx-scroll-view></dx-scroll-view>
+      <div class="col-lg-12">
+          <wizard style="background: #fff !important; height: 100% !important;">
+              <wizard-step stepTitle="Premises Store Location" class="wizardStep-height">
+                  <form role="form" enctype="multipart/form-data" role="form" [formGroup]="premisesStoreslocationFrm" class="col-lg-12" (ngSubmit)="onSavePremisesStoreLocationDetails()">
+                      <div class="row wizard-contentwin">
+                        <fieldset class="col-lg-12 row">
+                          <legend  class="contentfieldset">Physical Location Information</legend>
+                              <div class="col-lg-4">
+                                  <label class="control-label">Country</label>
+                        
+                                  <dx-select-box [readOnly]="is_readonly" [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+                                  </dx-select-box>
+                        
+                              </div>
+                              <div class="col-lg-4">
+                                  <label for="ti" class="control-label">Province</label>
+                        
+                                  <dx-select-box [readOnly]="is_readonly" [dataSource]="regions" valueExpr="id" displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+                                  </dx-select-box>
+                              </div>
+                              <div class="col-lg-4">
+                                  <label for="ti" class="control-label">District</label>
+                        
+                                  <dx-select-box [dataSource]="districts" valueExpr="id" placeholder="Select District" displayExpr="name" [searchEnabled]="true" formControlName="district_id" (onSelectionChanged)="oDistrictsCboSelect($event)" >
+                                  </dx-select-box>
+                              </div>
+                              <div class="col-lg-4">
+                                  <label for="ti" class="control-label">Sector</label>
+                                  <dx-select-box [dataSource]="sectorsData" valueExpr="id" placeholder="Select Sector" displayExpr="name" [searchEnabled]="true" formControlName="sector_id" (onSelectionChanged)="oSectorsCboSelect($event)" >
+                                  </dx-select-box>
+                              </div>
+                              <div class="col-lg-4">
+                                  <label for="ti" class="control-label">Cell</label>
+                                  <dx-select-box [dataSource]="cellsData" valueExpr="id" placeholder="Select Cell" displayExpr="name" [searchEnabled]="true" formControlName="cell_id">
+                                  </dx-select-box>
+                              </div>
+                              <div class="col-lg-4">
+                                <label for="ti" class="control-label">Village</label>
+                                <dx-text-box  formControlName="village" placeholder="Enter Village" [showClearButton]="true">  </dx-text-box>
+                              </div>
+                              
+                              <div class="col-lg-12">
+                                  <label class="control-label">Physical Address</label>
+                        
+                                  <dx-text-area [height]="60" formControlName="physical_address" placeholder="Physical Address">
+                                  </dx-text-area>
+                              </div>
+                              
+                        </fieldset>   
+                          <div class="col-lg-12">
+                              <input type="hidden" formControlName="id" />
+                          </div>
+                         
+                      </div>
+                      <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                         
+                          <dx-button text="Save Premises Location Details" [disabled]="!premisesStoreslocationFrm.valid" (onClick)="onSavePremisesStoreLocationDetails()" type="success" class="btn" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                          </dx-button>
+                      </div>
+                  </form>
+              </wizard-step>
+          </wizard>
+      </div>
+  </div>
+</dx-popup>
+
+<div class=" wizard-content">
+  <dx-data-grid class="table row-border hover" [dataSource]="premisesStoreLocationDetailsData" keyExpr="id" (onToolbarPreparing)="onPremisesStoreLocationToolbar($event,'')">
+
+      <dxo-paging [enabled]="true">
+      </dxo-paging>
+      <dxo-pager [showInfo]="true" infoText="Page #{0}. Total: {1} ({2} items)">
+      </dxo-pager>
+      <dxo-export [enabled]="true" fileName="premPersonnelDetailsData" [allowExportSelectedData]="true"></dxo-export>
+
+      <dxo-selection mode="multiple"></dxo-selection>
+      <dxo-group-panel [visible]="true"></dxo-group-panel>
+      <dxi-column [width]="200" caption="Action" name="command-editing" [allowFiltering]="false" [allowSorting]="false" cellTemplate="cellTemplate">
+          <div *dxTemplate="let data of 'cellTemplate'">
+              <dx-button text="Edit" (click)="funcEditLocationDetails(data)" 
+                  type="danger" icon="edit">
+                  </dx-button> 
+              <dx-button text="Delete" (click)="funcDeleteLocationDetails(data)" 
+                  type="danger" icon="delete">
+              </dx-button> 
+          </div>
+      </dxi-column>
+      <dxi-column dataField="name" caption="Name"></dxi-column>
+      <dxi-column dataField="street" caption="Street"></dxi-column>
+      <dxi-column dataField="distance" caption="Distance"></dxi-column>
+      <dxi-column dataField="country" caption="country"></dxi-column>
+      <dxi-column dataField="region" caption="region"></dxi-column>
+      <dxi-column dataField="file" caption="Location"></dxi-column>
+      
+  </dx-data-grid>
+</div>
+<dx-popup class="popup"  [width]="funcpopWidth(80)" [showTitle]="true" title="Nearest Pharmacy Location" [dragEnabled]="false" [closeOnOutsideClick]="false" [(visible)]="isStoreLocationPopupVisible">
+  <div *dxTemplate="let data of 'content'" class="row">
+      <dx-scroll-view></dx-scroll-view>
+      <div class="col-lg-12">
+          <wizard style="background: #fff !important; height: 100% !important;">
+              <wizard-step stepTitle="Pharmacy Nearest Location" class="wizardStep-height">
+                  <form role="form" enctype="multipart/form-data" role="form" [formGroup]="premisesStoreslocationFrm" class="col-lg-12" (ngSubmit)="onSavePremisesStoreLocationDetails()">
+                      <div class="row wizard-contentwin">
+                        <fieldset class="col-lg-12 row">
+                          <legend  class="contentfieldset">Nearest Pharmacy Location</legend>
+                              <div class="col-lg-4">
+                                  <label class="control-label">Name</label>
+                                  <dx-text-box  formControlName="name" placeholder="Premise Name" [showClearButton]="true">  </dx-text-box>
+                        
+                              </div>
+                              <div class="col-lg-4">
+                                  <label for="ti" class="control-label">Street/Road</label>
+                                  <dx-text-box  formControlName="street" placeholder="Street/Road" [showClearButton]="true">  </dx-text-box>
+                              </div>
+                              <div class="col-lg-4">
+                                  <label for="ti" class="control-label">Distance (Km)</label>
+                                <dx-text-box  formControlName="distance" placeholder="Enter Distance" [showClearButton]="true">  </dx-text-box>
+                              </div>
+                               <div class="col-lg-4">
+                                <label class="control-label">Country</label>
+                                <dx-select-box [dataSource]="countries" valueExpr="id" displayExpr="name" placeholder="Select Country" (onSelectionChanged)="onCoutryCboSelect($event)" [searchEnabled]="true" formControlName="country_id">
+                                 </dx-select-box>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="ti" class="control-label">Region</label>
+                                <dx-select-box  [dataSource]="regions" valueExpr="id" 
+                                    displayExpr="name" (onSelectionChanged)="onRegionsCboSelect($event)" [searchEnabled]="true" formControlName="region_id">
+                                </dx-select-box>
+                            </div>
+                            <div class="col-lg-4">
+                                <label for="ti" class="control-label">District</label>
+                                <dx-select-box [dataSource]="districts" valueExpr="id" 
+                                    placeholder="Select District" displayExpr="name" [searchEnabled]="true" formControlName="district_id" (onSelectionChanged)="oDistrictsCboSelect($event)" >
+                                </dx-select-box>
+                            </div>      
+                              <div class="col-lg-4">
+                                  <label for="ti" class="control-label">Location Sketch Map</label>
+                                     <input type="file" class="form-control col-lg-12" (change)="onDocFileChange($event)" multiple placeholder="Upload Sketch"/>
+                              </div>
+                              
+                        </fieldset>   
+                          <div class="col-lg-12">
+                              <input type="hidden" formControlName="id" />
+                              <input type="hidden" formControlName="node_ref" />
+                          </div>
+                         
+                      </div>
+                      <div style="border-top: 1px solid #ccc; min-height: 100px !important;">
+                         
+                          <dx-button text="Save Premises Location Details" [disabled]="!premisesStoreslocationFrm.valid" (onClick)="onSavePremisesStoreLocationDetails()" type="success" class="btn" icon="save" [elementAttr]="{ class: 'btn btn-primary; pull-right' }">
+                          </dx-button>
+                      </div>
+                  </form>
+              </wizard-step>
+          </wizard>
+      </div>
+  </div>
+</dx-popup>

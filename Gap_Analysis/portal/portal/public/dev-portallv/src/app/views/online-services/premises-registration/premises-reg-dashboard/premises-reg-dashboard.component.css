@@ -1,0 +1,19 @@
+.dx-datagrid-table > .dropdown-menu {
+    left: 0 !important;right: unset !important;
+    top: unset !important;
+    position: fixed !important;
+    
+    z-index: 1 !important;
+  }
+  ::ng-deep .options {
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 260px;
+    top: 0;
+    background-color: rgba(191, 191, 191, 0.15);
+}.WrappedColumnClass {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}

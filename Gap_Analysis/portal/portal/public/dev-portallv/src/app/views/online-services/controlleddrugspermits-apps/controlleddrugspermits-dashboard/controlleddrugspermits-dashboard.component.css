@@ -1,0 +1,9 @@
+.dx-button .dx-icon {  
+  font-size: 8px;  
+  margin-right: 0px;  
+  padding: 0px;  
+}  
+
+.dx-button-has-icon .dx-button-content {  
+  padding: 0px;  
+}  

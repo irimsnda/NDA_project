@@ -1,0 +1,74 @@
+<div class="top-banner ultra-top-bar">
+    <div class="row">
+        <div class="col-lg-2">
+            <img src="{{assets_url}}images/logo.jpg" style="margin: -5px; width: 75px; height: 60px;" alt="Logo">
+        </div>
+        <div class="col-lg-6">
+                <span>{{system_title}}</span>
+        </div>
+        <div class="col-lg-4">
+            <ul class="list-inline float-right mb-0 " style="float:right !important;">
+
+                <li class="list-inline-item dropdown notif row">
+                    <a class="dropdown-toggle arrow-none col-lg-12 cursor-link" data-toggle="dropdown" role="button"
+                        aria-haspopup="false" aria-expanded="false">
+                        Contact us Information
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-arrow-success dropdown-lg">
+
+                        <ul class="contact-details col-lg-12">
+                            <li *ngFor="let contact of contact_details;" class="col-lg-12">
+                                {{contact.section_name}} {{contact.telephone_no}} {{contact.email_address}}
+                            </li>
+                        </ul>
+                        <a href="#" class="btn-link dropdown-item ">
+                            <i class="fa fa-print"></i> Print Details
+                        </a>
+                    </div>
+                </li>
+              <!--  <li style="border-left: 2px solid #ccc;">
+
+                    <a class="dropdown-toggle arrow-none col-lg-12 cursor-link" data-toggle="dropdown"  data-toggle="dropdown"
+                         role="button" aria-haspopup="false" aria-expanded="false">
+                        Agencies Access
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-arrow-success dropdown-lg">
+                        <div class="">
+                            <h6>Agencies Sign-In</h6>
+                            <div class="form-group">
+                                <input type="email" class="form-control" name="email" placeholder="User Name or Email Address"
+                                    required />
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="password" placeholder="Password"
+                                    required />
+                            </div>
+                            <button class="btn btn-sm btn-primary">
+                                Sign-In
+                            </button>
+
+                            <div class="col-lg-12">
+                                <a  class=" btn-margin-5" style="cursor: pointer;font-size: 15px !important;font-weight: bold !important; color: #000 !important;"><i
+                                        class="fa fa-key">
+                                        Lost Password</i></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            -->
+            </ul>
+        </div>
+    </div>
+</div>
+<div class=" header-div">
+    <div class="row">
+        <div class="col-lg-12">
+                <span>RIMS <i> Customer Self Service Portal</i></span>
+        </div>
+        <div class="col-lg-12">
+            <!-- <label>
+                Vision of Rwanda FDA: A world class regulatory Authority effectively protecting and promoting public health.</label> -->
+        </div>
+    </div>
+
+</div>

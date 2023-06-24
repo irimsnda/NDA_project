@@ -1,0 +1,11 @@
+{
+    "name": "Promotionadverts",
+    "alias": "promotionadverts",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Promotionadverts\\Providers\\PromotionadvertsServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,11 @@
+{
+    "name": "ProductRegistration",
+    "alias": "productregistration",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ProductRegistration\\Providers\\ProductRegistrationServiceProvider"
+    ],
+    "files": []
+}
