@@ -15,9 +15,8 @@ Route::prefix('reports')->group(function() {
     Route::get('/', 'ReportsController@index');
 });
 
-Route::group(['middleware' => 'web', 'prefix' => 'reports', 'namespace' => 'Modules\Reports\Http\Controllers'], function()
+Route::group(['middleware' => 'web', 'prefix' => 'reports'], function()
 {
-    Route::get('/', 'ReportsController@index');
     Route::get('generateReport','ReportsController@generateReport');
     Route::get('generateApplicationInvoice','ReportsController@generateApplicationInvoice');
     Route::get('generateApplicationReceipt','ReportsController@generateApplicationReceipt');

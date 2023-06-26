@@ -11,11 +11,11 @@
 |
 */
 
-// Route::prefix('publicaccess')->group(function() {
-//     Route::get('/', 'PublicAccessController@index');
-// });
+Route::prefix('publicaccess')->group(function() {
+    Route::get('/', 'PublicAccessController@index');
+});
 
-Route::group(['middleware' => ['api'], 'prefix' => 'publicaccess', 'namespace' => 'Modules\PublicAccess\Http\Controllers'], function()
+Route::group(['middleware' => ['api'], 'prefix' => 'publicaccess'], function()
 {
     Route::get('onSearchPublicRegisteredpremises', 'PublicAccessController@onSearchPublicRegisteredpremises');
     Route::get('onSearchPublicRegisteredproducts', 'PublicAccessController@onSearchPublicRegisteredproducts');

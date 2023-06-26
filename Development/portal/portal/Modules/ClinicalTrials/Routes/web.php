@@ -14,7 +14,6 @@
 Route::prefix('clinicaltrials')->group(function() {
     Route::get('/', 'ClinicalTrialsController@index');
 
-    Route::get('/', 'ClinicalTrialsController@index');
     Route::post('saveClinicalTrialApplication', 'ClinicalTrialsController@saveClinicalTrialApplication');
 
     Route::post('saveClinicalTrialRegistryApplication', 'ClinicalTrialsController@saveClinicalTrialRegistryApplication');

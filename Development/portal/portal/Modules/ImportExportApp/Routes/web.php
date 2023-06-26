@@ -15,13 +15,13 @@ Route::prefix('importexportapp')->group(function() {
     Route::get('/', 'ImportExportAppController@index');
 });
 
-Route::group(['middleware' => 'web', 'prefix' => 'importexportapp', 'namespace' => 'Modules\ImportExportApp\Http\Controllers'], function()
-{
-    Route::get('/', 'ImportExportAppController@index');
+// Route::group(['middleware' => 'web', 'prefix' => 'importexportapp', 'namespace' => 'Modules\ImportExportApp\Http\Controllers'], function()
+// {
+//     Route::get('/', 'ImportExportAppController@index');
    
     
-});
-Route::group(['middleware' => 'auth:api', 'prefix' => 'importexportapp', 'namespace' => 'Modules\ImportExportApp\Http\Controllers'], function()
+// });
+Route::group(['middleware' => 'auth:api', 'prefix' => 'importexportapp'], function()
 {
     Route::post('saveImportExportApplication', 'ImportExportAppController@saveImportExportApplication');
     

@@ -15,41 +15,60 @@ Route::prefix('gmpinspection')->group(function() {
     Route::get('/', 'GmpinspectionController@index');
 });
 
-Route::group(['middleware' => 'api', 'prefix' => 'documentmanagement', 'namespace' => 'Modules\DocumentManagement\Http\Controllers'], function()
+
+// Route::group(['middleware' => 'web', 'prefix' => 'gmpinspection', 'namespace' => 'Modules\Gmpinspection\Http\Controllers'], function()
+// {
+//     Route::get('/', 'GmpinspectionController@index');
+// });
+
+Route::group(['middleware' => 'auth:api', 'prefix' => 'gmpinspection'], function()
 {
-    Route::get('/', 'DocumentManagementController@index');
+   
+    Route::post('onSaveGmpApplication', 'GmpinspectionController@onSaveGmpApplication');
+    Route::post('onSaveRenewalGmpApplication', 'GmpinspectionController@onSaveRenewalGmpApplication');
     
-    Route::get('getApplicationDocploads', 'DocumentManagementController@getApplicationDocploads');
-    Route::get('getUploadedApplicationDoc', 'DocumentManagementController@getUploadedApplicationDoc');
+    Route::post('onSaveGmpOtherDetails', 'GmpinspectionController@onSaveGmpOtherDetails');
+    Route::post('onSavePremisesPersonnel', 'GmpinspectionController@onSavePremisesPersonnel');
+    Route::post('onDeletePremisesDetails', 'GmpinspectionController@onDeletePremisesDetails');
+    Route::post('onNewGmpApplicationSubmit', 'GmpinspectionController@onNewGmpApplicationSubmit');
+    Route::post('onNewPremisesApplicationArchive', 'GmpinspectionController@onNewPremisesApplicationArchive');
+    
+    Route::post('onSavePersonnelQualification', 'GmpinspectionController@onSavePersonnelQualification');
+    Route::post('onSavePremisesAmmendmentsRequest', 'GmpinspectionController@onSavePremisesAmmendmentsRequest');
+    Route::post('onSaveGmpProductLinedetails', 'GmpinspectionController@onSaveGmpProductLinedetails');
+    Route::post('onSavemanufatcuringSiteBlocks', 'GmpinspectionController@onSavemanufatcuringSiteBlocks');
+    
+    //get 
+    Route::get('getGMPOtherDetails', 'GmpinspectionController@getGMPOtherDetails');
+    Route::get('getGmpProductLinedetails', 'GmpinspectionController@getGmpProductLinedetails');
     
     
-    Route::get('getDocumentRequirements', 'DocumentManagementController@getDocumentRequirements');
-    Route::get('getProcessApplicationDocploads', 'DocumentManagementController@getProcessApplicationDocploads');
+    Route::get('getGmpApplicationLoading', 'GmpinspectionController@getGmpApplicationLoading');
+    Route::get('getPremisesArchivedApplicationLoading', 'GmpinspectionController@getPremisesArchivedApplicationLoading');
+    
+    Route::get('getPersonnelInformations', 'GmpinspectionController@getPersonnelInformations');
+    Route::get('getgmpApplicationDetails', 'GmpinspectionController@getgmpApplicationDetails');
+    Route::get('getPersonnelQualifications', 'GmpinspectionController@getPersonnelQualifications');
+    Route::get('getAppSubmissionGuidelines', 'GmpinspectionController@getAppSubmissionGuidelines');
+    Route::get('getPremisesDocploads', 'GmpinspectionController@getPremisesDocploads');
+    Route::get('getTradersRegisteredPremises', 'GmpinspectionController@getTradersRegisteredPremises');
+    Route::get('getTradersRegisteredGMPApplications', 'GmpinspectionController@getTradersRegisteredGMPApplications');
+    
+    
+    Route::get('checkPendingPremisesRenewal', 'GmpinspectionController@checkPendingPremisesRenewal');
+    Route::get('getPremisesAmmendementsRequest', 'GmpinspectionController@getPremisesAmmendementsRequest');
+    
+    Route::get('getGMPApplicationcounterDetails', 'GmpinspectionController@getGMPApplicationcounterDetails');
+   
+    
+    Route::get('getPremisesPersonnelDetails', 'GmpinspectionController@getPremisesPersonnelDetails');
+    Route::get('getManufacturingSiteInformation', 'GmpinspectionController@getManufacturingSiteInformation');
+    Route::get('onLoadgmpManufacturingBlocksData', 'GmpinspectionController@onLoadgmpManufacturingBlocksData');
 
-    
-    Route::post('uploadApplicationDMSDocument', 'DocumentManagementController@uploadApplicationDMSDocument');
-    Route::post('onApplicationDocumentDelete', 'DocumentManagementController@onApplicationDocumentDelete');
-    Route::post('uploadApplicationDMSUnstructuredDocument', 'DocumentManagementController@uploadApplicationDMSUnstructuredDocument');
-    
-    Route::get('getApplicationDocumentDownloadurl', 'DocumentManagementController@getApplicationDocumentDownloadurl');
 
-    Route::get('getApplicationDocumentPreviousVersions', 'DocumentManagementController@getApplicationDocumentPreviousVersions');
-	Route::get('getUnstructuredApplicationDocploads', 'DocumentManagementController@getUnstructuredApplicationDocploads');
-	Route::get('onLoadOnlineProductImagesUploads', 'DocumentManagementController@onLoadOnlineProductImagesUploads');
-	Route::post('uploadProductImages', 'DocumentManagementController@uploadProductImages');
-    Route::get('onLoadProductImagesRequirements', 'DocumentManagementController@onLoadProductImagesRequirements');
-    
-	Route::post('onDeleteProductImages', 'DocumentManagementController@onDeleteProductImages');
-	Route::get('uploadLargeApplicationDocument', 'DocumentManagementController@uploadLargeApplicationDocument');
-	Route::get('uploadFile', 'DocumentManagementController@resumableUpload');
-	Route::post('uploadFile', 'DocumentManagementController@resumableUpload');
-	
-    Route::post('resumableuploadApplicationDocumentFile', 'DocumentManagementController@resumableuploadApplicationDocumentFile');
-    Route::post('onsaveApplicationVariationsrequests', 'DocumentManagementController@onsaveApplicationVariationsrequests');
-    
-    Route::post('onunfitProductsUpload', 'DocumentManagementController@onunfitProductsUpload');
-    Route::post('onunInvoiceProductsUpload', 'DocumentManagementController@onunInvoiceProductsUpload');
-  
+    Route::get('getManufacturingSiteRegisteredProductsData', 'GmpinspectionController@getManufacturingSiteRegisteredProductsData');
+    Route::get('getgmpproductDetailsInformationData', 'GmpinspectionController@getgmpproductDetailsInformationData');
     
 });
+
 

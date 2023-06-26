@@ -16,9 +16,8 @@ Route::prefix('bloodproductsapps')->group(function() {
     
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'bloodproductsapps', 'namespace' => 'Modules\Bloodproductsapps\Http\Controllers'], function()
+Route::group(['middleware' => 'auth:api', 'prefix' => 'bloodproductsapps'], function()
 {
-    Route::get('/', 'BloodproductsappsController@index');
 
     
     Route::get('getBloodEstabishmentApplicationsLoading', 'BloodproductsappsController@getBloodEstabishmentApplicationsLoading');

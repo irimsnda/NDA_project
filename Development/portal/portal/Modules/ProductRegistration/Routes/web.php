@@ -13,17 +13,17 @@
 
 Route::prefix('productregistration')->group(function() {
     Route::get('/', 'ProductRegistrationController@index');
+    
 });
 
-Route::group(['middleware' => 'api', 'prefix' => 'productregistration', 'namespace' => 'Modules\ProductRegistration\Http\Controllers'], function()
+Route::group(['middleware' => 'api', 'prefix' => 'productregistration'], function()
 {
-    Route::get('/', 'ProductRegistrationController@index');
     Route::get('onSearchPublicRegisteredproducts', 'ProductRegistrationController@getSearchPublicRegisteredproducts');
     Route::get('onValidateProductOtherdetails', 'ProductRegistrationController@onValidateProductOtherdetails');
     
 });
 
-Route::group(['middleware' => 'auth:integration', 'prefix' => 'productregistration', 'namespace' => 'Modules\ProductRegistration\Http\Controllers'], function()
+Route::group(['middleware' => 'auth:integration', 'prefix' => 'productregistration'], function()
 {
     Route::get('getProductApplications', 'ProductRegistrationController@getProductApplications');
     Route::get('getLocaAgentProductApplications', 'ProductRegistrationController@getLocaAgentProductApplications');
@@ -31,7 +31,7 @@ Route::group(['middleware' => 'auth:integration', 'prefix' => 'productregistrati
     
 });
 
-Route::group(['middleware' => 'auth:api', 'prefix' => 'productregistration', 'namespace' => 'Modules\ProductRegistration\Http\Controllers'], function()
+Route::group(['middleware' => 'auth:api', 'prefix' => 'productregistration'], function()
 {
     
     Route::post('onSaveProductApplication', 'ProductRegistrationController@onSaveProductApplication');

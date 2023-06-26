@@ -15,7 +15,7 @@ Route::prefix('premisesregistration')->group(function() {
     Route::get('/', 'PremisesRegistrationController@index');
 });
 
-Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'premisesregistration', 'namespace' => 'Modules\PremisesRegistration\Http\Controllers'], function()
+Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'premisesregistration'], function()
 {
     Route::get('getPremisesOtherDetails', 'PremisesRegistrationController@getPremisesOtherDetails');
     Route::get('getPremisesPersonnelDetails', 'PremisesRegistrationController@getPremisesPersonnelDetails');
@@ -26,9 +26,8 @@ Route::group(['middleware' => ['api', 'cors'], 'prefix' => 'premisesregistration
     Route::get('onSearchPublicRegisteredpremises', 'PremisesRegistrationController@onSearchPublicRegisteredpremises');
 Route::get('getPremisesStoreLocationDetails', 'PremisesRegistrationController@getPremisesStoreLocationDetails');
 });
-Route::group(['middleware' => 'auth:api', 'prefix' => 'premisesregistration', 'namespace' => 'Modules\PremisesRegistration\Http\Controllers'], function()
+Route::group(['middleware' => 'auth:api', 'prefix' => 'premisesregistration'], function()
 {
-    Route::get('/', 'PremisesRegistrationController@index');
     Route::post('onSavePremisesApplication', 'PremisesRegistrationController@onSavePremisesApplication');
      Route::post('onSavePremisesStoreLocationDetails', 'PremisesRegistrationController@onSavePremisesStoreLocationDetails');
     Route::post('onSavePremisesDirectorsDetails', 'PremisesRegistrationController@onSavePremisesDirectorsDetails');

@@ -14,6 +14,11 @@
 Route::prefix('tradermanagement')->group(function() {
     Route::get('/', 'TraderManagementController@index');
     
+});
+
+
+Route::group(['middleware' => 'api', 'prefix' => 'tradermanagement'], function()
+{
     Route::post('onAccountRegistration', 'TraderManagementController@onAccountRegistration');
     Route::post('onSaveTradersApplicationInformation', 'TraderManagementController@onSaveTradersApplicationInformation');
     Route::get('onLoadTradersApplicationInformation', 'TraderManagementController@onLoadTradersApplicationInformation');
@@ -27,12 +32,6 @@ Route::prefix('tradermanagement')->group(function() {
     Route::get('onValidateAdminAccess', 'TraderManagementController@onValidateAdminAccess');
    
     Route::post('onUpdateTraderAccountDetails', 'TraderManagementController@onUpdateTraderAccountDetails');
-});
-
-
-Route::group(['middleware' => 'api', 'prefix' => 'tradermanagement', 'namespace' => 'Modules\TraderManagement\Http\Controllers'], function()
-{
-    //Route::get('/', 'TraderManagementController@index');
     
    
     

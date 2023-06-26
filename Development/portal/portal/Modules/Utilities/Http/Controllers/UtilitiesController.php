@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
  
 use Validator;
@@ -1729,7 +1729,7 @@ $res = array('success'=>false,
     }
     function generateApplicationViewID()
     {
-        $view_id = 'tfda' . str_random(10) . date('s');
+        $view_id = 'tfda' . str::random(10) . date('s');
         return $view_id;
     }
     public function onPermitApplicationSubmit(Request $req){
@@ -4967,7 +4967,7 @@ public function addTraderAccountUsers(){
 					$user_rec = Db::table('wb_traderauthorised_users')->where('trader_id',$trader_id)->count();
 					
 					if($user_rec ==0 && $email_address != ''){
-						$user_passwordData = str_random(8);
+						$user_passwordData = str::random(8);
                    //had code for test
 						$uuid = generateUniqID();//unique user ID
 						$user_password = hashPwd($email_address, $uuid, $user_passwordData);

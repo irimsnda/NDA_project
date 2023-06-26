@@ -15,9 +15,9 @@ Route::prefix('promotionadverts')->group(function() {
     Route::get('/', 'PromotionadvertsController@index');
 });
 
-Route::group(['middleware' => 'auth:api','prefix' => 'promotionadverts', 'namespace' => 'Modules\Promotionadverts\Http\Controllers'], function()
+Route::group(['middleware' => 'auth:api','prefix' => 'promotionadverts'], function()
 {
-    Route::get('/', 'PromotionadvertsController@index');
+    
 
     Route::get('getPromotionalProductParticulars', 'PromotionadvertsController@getPromotionalProductParticulars');
     Route::post('savePromotionalAdvertapplication', 'PromotionadvertsController@savePromotionalAdvertapplication');

@@ -16,9 +16,9 @@ Route::prefix('documentmanagement')->group(function() {
 });
 
 
-Route::group(['middleware' => 'api', 'prefix' => 'documentmanagement', 'namespace' => 'Modules\DocumentManagement\Http\Controllers'], function()
+Route::group(['middleware' => 'api', 'prefix' => 'documentmanagement'], function()
 {
-    Route::get('/', 'DocumentManagementController@index');
+    
     
     Route::get('getApplicationDocploads', 'DocumentManagementController@getApplicationDocploads');
     Route::get('getUploadedApplicationDoc', 'DocumentManagementController@getUploadedApplicationDoc');
